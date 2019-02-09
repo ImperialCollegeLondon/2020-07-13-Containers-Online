@@ -7,11 +7,17 @@ questions:
 objectives:
 - "Explain the notion of virtualisation in computing."
 - "Explain the ways in which virtualisation may be useful."
-- "Explain how containers streamline ."
+- "Explain how containers streamline virtualisation."
 keypoints:
 - "Virtualisation is an old technology that container technology makes more practical."
 - "Docker is just one software platform that can create containers and the resources they use."
 ---
+### The problem: software
+
+Consider combinatoric explosions of possible configurations that need particular versions. One can get close by having every computer have all versions of all tools installed, but sometimes they clash, and there are too many minor versions and software packages anyway.
+
+Containers to the rescue: providing a way to package up software dependencies and resource access (e.g., files and network) in a standard way.
+
 ### Background: virtualisation in computing
 
 Some uses of computers and the software they run should be deterministic, particularly when building reproducible computational environments. The meaning of "deterministic" is: if you feed in the same input, to the same computer, then the same output will appear.
