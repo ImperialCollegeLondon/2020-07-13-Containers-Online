@@ -64,3 +64,7 @@ Docker is software that manages containers and the resources that containers nee
 
 {% include links.md %}
 
+{% comment %}
+<!--  LocalWords:  keypoints links.md endcomment
+ -->
+{% endcomment %}
