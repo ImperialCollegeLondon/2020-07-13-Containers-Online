@@ -17,7 +17,7 @@ keypoints:
     - top-right screen will show your _username_ (mine's dme26)
 - Start Docker app
 - Log in to docker hub using docker.app's menu
-    - successful login should ungrey "repositories" in the docker.app menu
+    - successful login should un-grey "repositories" in the docker.app menu
 - Open terminal window
 - Run the following command in shell to check that Docker is installed:
 
@@ -47,3 +47,7 @@ The `Login Succeeded` message means that your `docker` command line tool is read
 
 {% include links.md %}
 
+{% comment %}
+<!--  LocalWords:  keypoints links.md endcomment
+ -->
+{% endcomment %}
