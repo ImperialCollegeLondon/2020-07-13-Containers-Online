@@ -9,8 +9,12 @@ objectives:
 - "Explain how to list (container) images on your laptop."
 - "Explain how to list running and completed containers.."
 keypoints:
-- "There is lots of great documentation at https://docs.docker.com/"
+- "Containers are usually created using command line invocations."
+- "The `docker run` command creates containers from images."
+- "The `docker image` command lists images that are (now) on your computer."
+- "The `docker container` command lists containers that have been created."
 ---
+
 ### Creating a "hello world" container
 
 > - Recall that a container "image" is the template from which particular instances of containers will be created.
@@ -112,6 +116,10 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 6dd822cf6ca9        hello-world         "/hello"            3 minutes ago       Exited (0) 3 minutes ago                       eager_engelbart
 ~~~
 {: .output}
+
+> ## The Docker official documentation is helpful!
+> There is lots of great documentation at <https://docs.docker.com/>, for example, detailed reference material and tutorials covering the use of the commands mentioned above.
+{: .callout}
 
 {% include links.md %}
 
