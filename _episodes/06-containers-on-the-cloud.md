@@ -27,3 +27,8 @@ Because the ability to use the `git` version management tool is not a prerequisi
 Cloud providers such as Digital Ocean
 
 {% include links.md %}
+
+{% comment %}
+<!--  LocalWords:  keypoints links.md endcomment
+ -->
+{% endcomment %}
