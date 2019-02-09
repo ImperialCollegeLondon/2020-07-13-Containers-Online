@@ -123,3 +123,9 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 {% include links.md %}
 
+{% comment %}
+<!--  LocalWords:  keypoints amd64 fce289e99eb9 zen_dubinsky links.md
+ -->
+<!--  LocalWords:  eager_engelbart endcomment
+ -->
+{% endcomment %}
