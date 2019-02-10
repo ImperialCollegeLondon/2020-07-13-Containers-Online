@@ -3,11 +3,19 @@ title: "Creating your own container images"
 teaching: 30
 exercises: 0
 questions:
-- "Key question (FIXME)"
+- "How can I make my own Docker images?"
 objectives:
-- "First learning objective. (FIXME)"
+- "Explain the purpose of a `Dockerfile` and show some simple examples."
+- "Demonstrate how to build a Docker image from a `Dockerfile`."
+- "Demonstrate how to upload ('push') your container images to the Docker Hub."
+- "Explain how you can include files within Docker images when you build them."
+- "Explain how you can access files on the Docker host from your Docker containers."
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "`Dockerfiles` specify what is within Docker images."
+- "The `docker build` command is used to build an image from a `Dockerfile`"
+- "You can share your Docker images through the Docker Hub so that others can create Docker containers from your images."
+- You can include files from your Docker host into your Docker images by using the `COPY` instruction in your `Dockerfile`.
+- Docker allows containers to read and write files from the Docker host.
 ---
 ### Introduction to Dockerfiles
 
