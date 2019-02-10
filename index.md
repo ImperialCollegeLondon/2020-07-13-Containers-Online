@@ -7,11 +7,10 @@ This session aims to introduce the use of Docker containers with the goal of usi
 
 > ## Prerequisites
 >
-> - Docker client
-> - Docker Hub account
-> - Bitbucket account
->
-> All of the above are available to you without cost.
+> - You should have basic familiarity with using a command shell, and the lesson text will at times request that you "open a shell window", with an assumption that you know what this means.
+>   - Under Linux or macOS it is assumed that you will access a `bash` shell (usually the default), using your Terminal application.
+>   - Under Windows, Powershell and Git Bash should allow you to use the Unix instructions. We will also try to give command variants for Windows `cmd.exe`.
+> - As an item of setup, it is assumed that you have a directory named `container-playground` that you are able to `cd` to using your command shell, *and* are also able to find using your computer's graphical file browser (e.g., Finder on macOS or Windows Explorer). A simple way to achieve this is to create your `container-playground` directory within your computer's `Desktop` folder. (See the Software Carpentry Shell lesson for more details.)
 {: .prereq}
 
 {% include links.md %}
