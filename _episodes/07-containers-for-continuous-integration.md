@@ -11,28 +11,20 @@ keypoints:
 ---
 The website for this lesson is generated mechanically, based on a set of files that specify the configuration of the site, its presentation template, and the content to go on this page. This is far more manageable than editing each webpage of the lesson separately, for example, if the page header needs to change, this change can be made in one place, and all the pages regenerated. The alternative would be needing to edit each page to repeat the change: this is not productive or suitable work for humans to do!
 
-In your terminal, change directory to a place in which you don't mind expanding a ZIP file that you'll likely remove later. In my case, I created a new directory with my usual directory for temporary files and directories:
-
-~~~
-$ cd
-$ cd tmp
-$ mkdir copy-of-docker-intro
-$ cd copy-of-docker-intro
-~~~
-{: .language-bash}
+In your shell window, in your `container-playground` create a new directory `copy-of-docker-intro` and `cd` into it. We will later be expanding a ZIP file into this directory later.
 
 Now open a web browser window and:
 1. Navigate to the GitHub repository that contains the files for this session, at <https://github.com/dme26/docker-introduction/>;
 2. Click the green "Clone or download" button on the right-hand side of the page;
 3. Click "Download ZIP".
-4. Expand the ZIP file: it should contain one directory named "docker-introduction-gh-pages".
-5. Move the "docker-introduction-gh-pages" folder into the temporary folder you created above.
+4. The downloaded ZIP file should contain one directory named `docker-introduction-gh-pages`.
+5. Move the `docker-introduction-gh-pages` folder into the `copy-of-docker-intro` folder you created above.
 
 > ## There are many ways to work with ZIP files
 > Note that the last two steps can be achieved using a Mac or Windows graphical user interface. There are also ways to effect expanding the ZIP archive on the command line, for example, on my Mac I can achieve the effect of those last two steps through running the command `unzip ~/Downloads/docker-introduction-gh-pages.zip`.
 {: .callout}
 
-In your terminal, if you `cd` into the "docker-introduction-gh-pages" folder and list the files, you should see something similar to what I see:
+In your shell window, if you `cd` into the `docker-introduction-gh-pages` folder and list the files, you should see something similar to what I see:
 ~~~
 $ cd docker-introduction-gh-pages
 $ ls
@@ -50,16 +42,24 @@ _config.yml		bin
 ~~~
 {: .output}
 
-You can now request that a container is created that will compile the files in this set into the lesson website, and will run a simple webserver to allow you to view your version of the website locally. Note that this command will be long and fiddly to type, so you probably want to copy-and-paste it into your terminal window. This command will continue to (re-)generate and serve up your version of the lesson website, so you will not get your shell prompt back until you type control-c. This will stop the webserver, since it cleans away the container.
+You can now request that a container is created that will compile the files in this set into the lesson website, and will run a simple webserver to allow you to view your version of the website locally. Note that this command will be long and fiddly to type, so you probably want to copy-and-paste it into your shell window. This command will continue to (re-)generate and serve up your version of the lesson website, so you will not get your shell prompt back until you type control-c. This will stop the webserver, since it cleans away the container.
 
 > ## If you happen to have the `make` tool already installed...
 > We are taking an atypical approach in using the command that follows, since you are not required to have set up the `make` tool on your computer. However you may want to see whether you happen to have `make` installed anyway, by typing `make docker-serve` instead of the command below. At worst, this will fail and you can use the command shown below.
 {: .callout}
 
+For macOS, Linux and PowerShell:
 ~~~
 $ docker run --rm -it -v ${PWD}:/srv/jekyll -p 127.0.0.1:4000:4000 jekyll/jekyll:3.7.3 make serve
 ~~~
 {: .language-bash}
+
+For Windows `cmd.exe`:
+~~~
+> docker run --rm -it -v %PWD%:/srv/jekyll -p 127.0.0.1:4000:4000 jekyll/jekyll:3.7.3 make serve
+~~~
+
+When I ran the macOS command, the output was as follows:
 ~~~
 Unable to find image 'jekyll/jekyll:3.7.3' locally
 3.7.3: Pulling from jekyll/jekyll
@@ -93,13 +93,15 @@ In the preceding output, you see Docker downloading the image for Jekyll, which 
 
 Open a web browser window and visit the address <http://localhost:4000/>. You should see a site that looks very similar to that at <https://dme26.github.io/docker-introduction/>.
 
-Using a new terminal window and shell, or using your laptop's GUI, locate the file "index.md" within the "docker-introduction-gh-pages" directory, and open it in your preferred editor program.
+Using a new shell window, or using your laptop's GUI, locate the file `index.md` within the `docker-introduction-gh-pages` directory, and open it in your preferred editor program.
 
 Near the top of this file you should see the description starting "This session aims to introduce the use of Docker containers with the goal of using them to effect reproducible computational environments." Make a change to this message, and save the file.
 
-If you reload your web browser, the change that you just made should be visible. This is because the Jekyll container saw that you changed the "index.md" file, and regenerated the website.
+If you reload your web browser, the change that you just made should be visible. This is because the Jekyll container saw that you changed the `index.md` file, and regenerated the website.
 
 You can stop the Jekyll container by clicking in its terminal window and typing "control-c".
+
+You have now achieved using a reproducible computational environment to reproduce a lesson about reproducible computing environments.
 
 {% include links.md %}
 
@@ -112,6 +114,6 @@ You can stop the Jekyll container by clicking in its terminal window and typing 
  -->
 <!--  LocalWords:  jekyll x86_64-linux-musl favicons github.io
  -->
-<!--  LocalWords:  links.md
+<!--  LocalWords:  links.md _episodes_rmd _config.yml endcomment
  -->
 {% endcomment %}
