@@ -1,6 +1,6 @@
 ---
 title: "Containers used in generating this lesson"
-teaching: 10
+teaching: 20
 exercises: 0
 questions:
 - "Key question (FIXME)"

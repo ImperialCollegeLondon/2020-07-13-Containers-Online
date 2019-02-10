@@ -1,6 +1,6 @@
 ---
 title: "Creating containers in the cloud"
-teaching: 10
+teaching: 20
 exercises: 0
 questions:
 - "Key question (FIXME)"

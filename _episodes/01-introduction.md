@@ -1,6 +1,6 @@
 ---
 title: "Introducing containers"
-teaching: 10
+teaching: 20
 exercises: 0
 questions:
 - "What are containers, and why might they be useful to me?"
