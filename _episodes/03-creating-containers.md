@@ -7,7 +7,7 @@ questions:
 objectives:
 - "Demonstrate how to create an instance of a container from an image."
 - "Explain how to list (container) images on your laptop."
-- "Explain how to list running and completed containers.."
+- "Explain how to list running and completed containers."
 keypoints:
 - "Containers are usually created using command line invocations."
 - "The `docker run` command creates containers from images."
@@ -17,11 +17,13 @@ keypoints:
 
 ### Creating a "hello world" container
 
+> ## Reminder of terminology: images and containers
 > - Recall that a container "image" is the template from which particular instances of containers will be created.
+{: .callout}
 
 One of the simplest Docker container images just allows you to create containers that print a welcome message.
 
-Try the following command:
+Open a shell window if you do not already have one open and try the following command. Note that it does not matter what your current working directory is.
 ~~~
 $ docker run hello-world
 ~~~
