@@ -3,11 +3,13 @@ title: "Creating containers in the cloud"
 teaching: 20
 exercises: 0
 questions:
-- "Key question (FIXME)"
+- "How can I create Docker containers in the cloud?"
 objectives:
-- "First learning objective. (FIXME)"
+- "Demonstrate how to effect creation of a container from the Docker image in the cloud."
+- "Gain an initial experience of the container functionality provided by the Bitbucket repository storage service."
 keypoints:
-- "First key point. Brief Answer to questions. (FIXME)"
+- "You can create Docker containers on cloud computing resources just using a web browser."
+- "Bitbucket is an online repository storage service that can create Docker containers to perform computation in response to files changing in your repositories."
 ---
 ### Containers can be created on cloud computing platforms
 There are lots of ways containers can be created on cloud computing platforms (a.k.a., "in the cloud"). Most commercial cloud providers now offer a container hosting service that will connect to the Docker Hub in order to fetch the container images that you specify, and charge for the time and resources that the containers use. The container hosting will usually be significantly cheaper than full virtualisation services that might be on offer.
