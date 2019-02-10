@@ -15,9 +15,12 @@ We have seen use of others' Docker container images. Now we move on to describe 
 
 The specification for how Docker should build images that you design is contained within a file named `Dockerfile`.
 
-Create a new directory named "my-container-spec" and `cd` into it in a terminal window.
+In a shell window:
+- `cd` to your `container-playground`;
+- create a new directory named `my-container-spec` within `container-playground`;
+- `cd` into your `my-container-spec` directory.
 
-Within the new "my-container-spec" directory, use your favourite editor to create a file named "Dockerfile" that contains the following:
+Within the new `my-container-spec` directory, use your favourite editor to create a file named `Dockerfile` that contains the following:
 
 ~~~
 FROM alpine
@@ -26,6 +29,7 @@ CMD [ "/bin/echo", "Greetings from my newly minted container." ]
 
 ### Building your Docker image
 
+Run the following command to build your Docker image, noting that the period at the end of the line is important (it means "this directory"), and has a space before it.
 ~~~
 $ docker build -t my-container .
 ~~~
@@ -58,7 +62,7 @@ Greetings from my newly minted container.
 ~~~
 {: .output}
 
-Now use your favourite editor to make a change to the message that's contained within the Dockerfile. As the plan is to share your container online, it's best to ensure that your message is suitable for public viewing, and you may want to avoid including your name, credit card numbers, etc.
+Now use your favourite editor to make a change to the message that's contained within the `Dockerfile`. As the plan is to share your container online, it's best to ensure that your message is suitable for public viewing, and you may want to avoid including your name, credit card numbers, etc.
 
 Rerun the `docker build -t my-container .` and `docker run my-container` commands to ensure that your image builds and that your containers function as expected.
 
@@ -70,7 +74,7 @@ Images that you release publicly can be stored on the Docker Hub for free.
 
 Let's "push" to your account on the Docker Hub the image that you configured to output your chosen message, in the previous section.
 
-Note that so far, the image name "my-container" was used locally to your computer. On the Docker Hub, the name if your container must be prefixed by your user name (otherwise there would be many clashes when different users try to share images with the same name!).
+Note that so far, the image name `my-container` was used locally to your computer. On the Docker Hub, the name if your container must be prefixed by your user name (otherwise there would be many clashes when different users try to share images with the same name!).
 
 You will need to run two commands that are similar to the ones included below, **except** that you need to replace the instance of "dme26" on each line with your Docker Hub username (dme26 is my Docker Hub username!). A potential source of confusion is that you typically use your email address and not your login name to access the Docker Hub, however once authenticated your user ID is shown on the Docker Hub web pages.
 ~~~
@@ -91,16 +95,13 @@ In a web browser, open <https://hub.docker.com>, and on your user page you shoul
 
 Let's rework our container to run some code written in the Python programming language.
 
-Open a second terminal window, and change into an empty scratch directory. I will call this the "working shell" and the other terminal window from above the "image building shell".
+You will need two shell windows. You can continue using the shell you've used so far in this lesson, let's call that the "image building shell". Let's refer to the new shell window that you open as the "testing shell".
 
-Open the Dockerfile you created above with your favourite editor, and change its contents to match the following:
+Open the `Dockerfile` you created above with your favourite editor, and change its contents to match the following:
 ~~~
 FROM python:3
 
 WORKDIR /usr/src/app
-
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
 
 COPY test.py .
 
@@ -114,7 +115,7 @@ $ docker build -t another-greeting .
 {: .language-bash}
 ~~~
 Sending build context to Docker daemon  2.048kB
-Step 1/6 : FROM python:3
+Step 1/4 : FROM python:3
 3: Pulling from library/python
 741437d97401: Pull complete 
 34d8874714d7: Pull complete 
@@ -128,20 +129,18 @@ cbc666ab4a65: Pull complete
 Digest: sha256:d510b850194fab564abc3dfd22e626fa0c4ab3ce81118dab08a084ed3dcd24ac
 Status: Downloaded newer image for python:3
  ---> 338b34a7555c
-Step 2/6 : WORKDIR /usr/src/app
+Step 2/4 : WORKDIR /usr/src/app
  ---> Running in 838063c90080
 Removing intermediate container 838063c90080
  ---> c350d738dec6
-Step 3/6 : COPY requirements.txt ./
-COPY failed: stat /var/lib/docker/tmp/docker-builder409382412/requirements.txt: no such file or directory
+Step 3/4 : COPY requirements.txt ./
+COPY failed: stat /var/lib/docker/tmp/docker-builder409382412/test.py: no such file or directory
 ~~~
 {: .output}
 
-Our Dockerfile made reference to a file "requirements.txt" that should have been in the directory that contained our "Dockerfile". It was not present, so the building of the image failed.
+Our `Dockerfil`e made reference to a file on the host `test.py` that should have been in the directory that contained our `Dockerfile`. It was not present, so the building of the image failed. It is the `COPY test.py .` command in the `Dockerfile` that is trying to copy the file `test.py` into the working directory of the current image building operation.
 
-For now, create an empty file named "requirements.txt" in the same directory as your Dockerfile. That will fix the first error, although an image build would not yet be successful. The "COPY test.py ." command copies the file "test.py" into the working directory of the current image building operation, and will also fail.
-
-Create the file "test.py" in the same directory as your Dockerfile, with the following contents:
+Using your favourite editor, create the file "test.py" in the same directory as your Dockerfile, with the following contents:
 ~~~
 print("Hello world from Python")
 ~~~
@@ -154,30 +153,26 @@ $ docker build -t another-greeting .
 ~~~
 {: .language-bash}
 ~~~
-Sending build context to Docker daemon  3.584kB
-Step 1/6 : FROM python:3
- ---> 338b34a7555c
-Step 2/6 : WORKDIR /usr/src/app
+Sending build context to Docker daemon  3.072kB
+Step 1/4 : FROM python:3
+ ---> 2fbd95050b66
+Step 2/4 : WORKDIR /usr/src/app
  ---> Using cache
- ---> c350d738dec6
-Step 3/6 : COPY requirements.txt ./
- ---> Using cache
- ---> c35d15cb3c4a
-Step 4/6 : RUN pip install --no-cache-dir -r requirements.txt
- ---> Using cache
- ---> aaa54a230e27
-Step 5/6 : COPY test.py .
- ---> 1069b6fcc77c
-Step 6/6 : CMD [ "python", "./test.py" ]
- ---> Running in 97fd77f25808
-Removing intermediate container 97fd77f25808
- ---> fc145d33ea49
-Successfully built fc145d33ea49
+ ---> ff69cfaac5e4
+Step 3/4 : COPY test.py .
+ ---> 515d20c9d5e8
+Step 4/4 : CMD [ "python", "./test.py" ]
+ ---> Running in 5ce48493838d
+Removing intermediate container 5ce48493838d
+ ---> a1d96db7bc5a
+Successfully built a1d96db7bc5a
 Successfully tagged another-greeting:latest
 ~~~
 {: .output}
 
-In your working shell test your container using the following command, which should produce the output shown below.
+In your testing shell, within your `container-playground` directory, create a directory `test` and `cd` into it.
+
+Test your container using the following command, which should produce the output shown below.
 ~~~
 $ docker run another-greeting
 ~~~
@@ -195,7 +190,7 @@ Being able to share files between the host and the container allows you to build
 
 Let's create an image for a container that uses Python to read in a CSV file from the Docker host, and write results back as a file on the Docker host. (As usual, the container itself, will be cleaned away when it finishes.)
 
-In the same directory as your Dockerfile, create a file named "csv-to-scatter-plot.py" containing the following Python code:
+In the same directory as your Dockerfile, use your favourite editor to create a file named `csv-to-scatter-plot.py` containing the following Python code:
 ~~~
 # Libraries to include
 import matplotlib.pyplot as the_plot
@@ -285,7 +280,7 @@ Successfully tagged csv-to-scatter-plot:latest
 ~~~
 {: .output}
 
-Now in your working shell, create a file named "data.csv" that contains, for example:
+Now in your *testing shell*, use your favourite editor to create a file named `data.csv` that contains, for example:
 ~~~
 x-coordinate,y-coordinate,colour,size
 1.76405235,1.8831507,0.96193638,392.67567700
@@ -311,19 +306,24 @@ x-coordinate,y-coordinate,colour,size
 -2.55298982,0.37642553,0.63044794,458.13882700
 ~~~
 
-In your working shell, create an instance of your "csv-to-scatter-plot" container.
+The `-v` switch to the `docker run` command allows us to specify a mapping between a directory on the host, followed by a colon, then the place that directory should be mapped to within any container that is created. Note that the default if for the container to both be able to read from and write to the mapped directory on the host. (This is a potential security risk: you should only run containers from images for which you trust the provenance.)
+
+In your testing shell, create an instance of your "csv-to-scatter-plot" container.
+
+For macOS, Linux or Windows PowerShell:
 ~~~
-$ docker run -v $PWD:/data csv-to-scatter-plot
+$ docker run -v ${PWD}:/data csv-to-scatter-plot
 ~~~
 {: .language-bash}
 
-If all goes well, you should now see, within the working directory of your working shell, a PNG and a PDF file that plot the data from "data.csv".
+For Windows cmd.exe:
+~~~
+> docker run -v %PWD%:/data csv-to-scatter-plot
+~~~
 
-Change your "data.csv" file, and rerun:
-~~~
-$ docker run -v $PWD:/data csv-to-scatter-plot
-~~~
-{: .language-bash}
+If all goes well, you should now see, within the working directory of your testing shell, a PNG and a PDF file that plot the data from `data.csv`.
+
+Change your `data.csv` file, and rerun the appropriate preceding `docker run` invocation.
 
 You should see the PDF and PNG file update appropriately.
 
@@ -345,3 +345,5 @@ You have now successfully implemented an image that creates containers that tran
 <!--  LocalWords:  5377596cb1c035c102396f5934237a046f80da69974026f90bee5db8b7ba
  -->
 {% endcomment %}
+<!--  LocalWords:  PowerShell
+ -->
