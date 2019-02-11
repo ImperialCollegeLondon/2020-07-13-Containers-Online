@@ -1,21 +1,24 @@
-# Contributing
+## Context
 
-[The Carpentries][c-site] ([Software Carpentry][swc-site], [Data Carpentry][dc-site], and [Library Carpentry][lc-site]) are open source projects,
+This contribution guide is derived directly that of [The Carpentries' ][c-site].
+
+## Contributing
+
+This is an open source project,
 and we welcome contributions of all kinds:
 new lessons,
 fixes to existing material,
 bug reports,
-and reviews of proposed changes are all welcome.
+and reviews of proposed changes.
 
 ## Contributor Agreement
 
 By contributing,
 you agree that we may redistribute your work under [our license](LICENSE.md).
 In exchange,
-we will address your issues and/or assess your change proposal as promptly as we can,
-and help you become a member of our community.
-Everyone involved in [The Carpentries][c-site]
-agrees to abide by our [code of conduct](CODE_OF_CONDUCT.md).
+we will address your issues and/or assess your change proposal as promptly as we can.
+Everyone involved should
+agree to abide by our [code of conduct](CODE_OF_CONDUCT.md).
 
 ## How to Contribute
 
@@ -71,10 +74,6 @@ from writing new exercises and improving existing ones
 to updating or filling in the documentation
 and submitting [bug reports][issues]
 about things that don't work, aren't clear, or are missing.
-If you are looking for ideas, please see the 'Issues' tab for
-a list of issues associated with this repository,
-or you may also look at the issues for [Data Carpentry][dc-issues], 
-[Software Carpentry][swc-issues], and [Library Carpentry][lc-issues] projects.
 
 Comments on issues and reviews of pull requests are just as welcome:
 we are smarter together than we are on our own.
@@ -93,11 +92,6 @@ you must (a) estimate how long it will take to teach
 and (b) explain what you would take out to make room for it.
 The first encourages contributors to be honest about requirements;
 the second, to think hard about priorities.
-
-We are also not looking for exercises or other material that only run on one platform.
-Our workshops typically contain a mixture of Windows, macOS, and Linux users;
-in order to be usable,
-our lessons must run equally well on all three.
 
 ## Using GitHub
 
@@ -126,14 +120,7 @@ your clone of the originating `gh-pages` branch.
 Lastly, published copies of all the lessons are available in the `gh-pages` branch of the originating
 repository for reference while revising.
 
-## Other Resources
-
-General discussion of [Software Carpentry][swc-site] and [Data Carpentry][dc-site]
-happens on the [discussion mailing list][discuss-list],
-which everyone is welcome to join.
-You can also [reach us by email][email].
-
-[email]: mailto:admin@software-carpentry.org
+[email]: mailto:dme@cs.otago.ac.nz
 [dc-issues]: https://github.com/issues?q=user%3Adatacarpentry
 [dc-lessons]: http://datacarpentry.org/lessons/
 [dc-site]: http://datacarpentry.org/
