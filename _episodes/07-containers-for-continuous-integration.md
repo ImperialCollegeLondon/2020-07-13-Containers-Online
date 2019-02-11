@@ -3,7 +3,7 @@ title: "Containers used in generating this lesson"
 teaching: 20
 exercises: 0
 questions:
-- "How can containers help construct websites?"
+- "How can containers be useful to me for building websites?"
 objectives:
 - "Demonstrate how to construct a website using containers to transform a specification into a fully-presented website."
 keypoints:
