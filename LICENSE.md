@@ -1,11 +1,14 @@
 ---
 layout: page
-title: "Licenses"
+title: "Licences"
 root: .
 ---
-## Instructional Material
+### Context
+This is not an official lesson of the Carpentries, however the licencing approach that the Carpentries take is ideal, so much of the material below resembles the Carpentries' documentation, where this is appropriate.
 
-All Software Carpentry, Data Carpentry, and Library Carpentry instructional material is
+### Instructional Material
+
+All of the instructional material is
 made available under the [Creative Commons Attribution
 license][cc-by-human]. The following is a human-readable summary of
 (and not a substitute for) the [full legal text of the CC BY 4.0
@@ -45,10 +48,9 @@ Notices:
   rights such as publicity, privacy, or moral rights may limit how you
   use the material.
 
-## Software
+### Software
 
-Except where otherwise noted, the example programs and other software
-provided by Software Carpentry and Data Carpentry are made available under the
+The example programs within this lesson is made available under the
 [OSI][osi]-approved
 [MIT license][mit-license].
 
@@ -70,11 +72,6 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-## Trademark
-
-"Software Carpentry" and "Data Carpentry" and their respective logos
-are registered trademarks of [Community Initiatives][CI].
 
 [cc-by-human]: https://creativecommons.org/licenses/by/4.0/
 [cc-by-legal]: https://creativecommons.org/licenses/by/4.0/legalcode
