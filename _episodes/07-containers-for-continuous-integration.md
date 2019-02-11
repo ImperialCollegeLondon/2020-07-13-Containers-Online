@@ -3,9 +3,9 @@ title: "Containers used in generating this lesson"
 teaching: 20
 exercises: 0
 questions:
-- "Key question (FIXME)"
+- "How can containers help construct websites?"
 objectives:
-- "First learning objective. (FIXME)"
+- "Demonstrate how to construct a website using containers to transform a specification into a fully-presented website."
 keypoints:
 - "The generation of this lesson website can be effected using a container."
 ---
@@ -99,7 +99,7 @@ Near the top of this file you should see the description starting "This session 
 
 If you reload your web browser, the change that you just made should be visible. This is because the Jekyll container saw that you changed the `index.md` file, and regenerated the website.
 
-You can stop the Jekyll container by clicking in its terminal window and typing "control-c".
+You can stop the Jekyll container by clicking in its terminal window and typing <kbd>control</kbd>+<kbd>c</kbd>.
 
 You have now achieved using a reproducible computational environment to reproduce a lesson about reproducible computing environments.
 
