@@ -24,16 +24,14 @@ Let's say you want to copy text off the lesson website and paste it into a file 
 - Microsoft Windows running PowerShell:
   - The `cmd.exe` method probably works, but another is to paste your file contents into a so-called "here-string" between `@'` and `'@` as in this example that follows (the ">" is the prompt indicator):
 
-~~~
-> @'
-Some hypothetical
-file content that is
-
-split over many
-
-lines.
-'@ | Set-Content myfile -encoding ascii
-~~~ 
+        > @'
+        Some hypothetical
+        file content that is
+        
+        split over many
+        
+        lines.
+        '@ | Set-Content myfile -encoding ascii
 
 {% include links.md %}
 
