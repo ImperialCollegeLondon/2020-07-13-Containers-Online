@@ -32,7 +32,8 @@ Within the new `my-container-spec` directory, use your favourite editor to creat
 
 ~~~
 FROM alpine
-CMD [ "/bin/echo", "Greetings from my newly minted container." ]
+RUN /bin/echo "Greetings from my newly minted container." > /root/my_message
+CMD [ "/bin/cat", "/root/my_message" ]
 ~~~
 
 ### Building your Docker image
@@ -44,17 +45,21 @@ $ docker build -t my-container .
 {: .language-bash}
 ~~~
 Sending build context to Docker daemon  2.048kB
-Step 1/2 : FROM alpine
+Step 1/3 : FROM alpine
 latest: Pulling from library/alpine
 6c40cc604d8e: Pull complete 
 Digest: sha256:b3dbf31b77fd99d9c08f780ce6f5282aba076d70a513a8be859d8d3a4d0c92b8
 Status: Downloaded newer image for alpine:latest
  ---> caf27325b298
-Step 2/2 : CMD [ "sh", "echo Greetings from my newly minted container." ]
- ---> Running in 08ba4307df31
-Removing intermediate container 08ba4307df31
- ---> e8737dae339f
-Successfully built e8737dae339f
+Step 2/3 : RUN /bin/echo "Greetings from my newly minted container." > /root/my_message
+ ---> Running in 87417f8733c4
+Removing intermediate container 87417f8733c4
+ ---> bf1b7fab7caa
+Step 3/3 : CMD [ "/bin/cat", "/root/my_message" ]
+ ---> Running in 6c44e5e59d9b
+Removing intermediate container 6c44e5e59d9b
+ ---> a6a95e96d0b8
+Successfully built a6a95e96d0b8
 Successfully tagged my-container:latest
 ~~~
 {: .output}
