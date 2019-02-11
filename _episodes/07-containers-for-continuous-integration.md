@@ -42,7 +42,7 @@ _config.yml		bin
 ~~~
 {: .output}
 
-You can now request that a container is created that will compile the files in this set into the lesson website, and will run a simple webserver to allow you to view your version of the website locally. Note that this command will be long and fiddly to type, so you probably want to copy-and-paste it into your shell window. This command will continue to (re-)generate and serve up your version of the lesson website, so you will not get your shell prompt back until you type control-c. This will stop the webserver, since it cleans away the container.
+You can now request that a container is created that will compile the files in this set into the lesson website, and will run a simple webserver to allow you to view your version of the website locally. Note that this command will be long and fiddly to type, so you probably want to copy-and-paste it into your shell window. This command will continue to (re-)generate and serve up your version of the lesson website, so you will not get your shell prompt back until you type <kbd>control</kbd>+<kbd>c</kbd>. This will stop the webserver, since it cleans away the container.
 
 > ## If you happen to have the `make` tool already installed...
 > We are taking an atypical approach in using the command that follows, since you are not required to have set up the `make` tool on your computer. However you may want to see whether you happen to have `make` installed anyway, by typing `make docker-serve` instead of the command below. At worst, this will fail and you can use the command shown below.
