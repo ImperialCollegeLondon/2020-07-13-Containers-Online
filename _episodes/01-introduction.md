@@ -12,6 +12,7 @@ objectives:
 keypoints:
 - "Almost all software depends on other software components to function, but these components have independent evolutionary paths."
 - "Projects involving many software components can rapidly run into a combinatoric explosion in the number of software version configurations available, yet only a subset of possible configurations actually works as desired."
+- "Containers collect software components together and can help avoid software dependency problems."
 - "Virtualisation is an old technology that container technology makes more practical."
 - "Docker is just one software platform that can create containers and the resources they use."
 ---
@@ -51,24 +52,27 @@ Thankfully there are ways to get underneath (a lot of) this mess: containers to 
 
 Some uses of computers and the software they run should be deterministic, particularly when building reproducible computational environments. The meaning of "deterministic" is: if you feed in the same input, to the same computer, then the same output will appear.
 
-However a computer running deterministic software, let's call it the "guest", should *itself* be able to be simulated as a deterministic computational process running on a computer we will call the "host". The guest computer can be said to have been virtualised: and will often be referred to a "virtual machine" (or VM): it is no longer a physical computer. 
+However a computer running deterministic software, let's call it the "guest", should *itself* be able to be simulated as a deterministic computational process running on a computer we will call the "host". The guest computer can be said to have been virtualised: it is no longer a physical computer. Note that "virtual machine" is frequently referred to using the abbreviation "VM".
 
 We have avoided the software dependency issue by looking for the lowest common factor across all software systems, which is the computer itself, beneath even the operating system software.
 
-> Note that this description elides many details and complexities that are not particularly relevant to this lesson, for example:
-> - Thinking with analogy to movies such as Inception, The Matrix, etc., can the guest computer figure out that it's not actually a physical computer, and that it's running as software inside a host physical computer? Yes, it probably can... but let's not go there.
-> - Can you run a host as a guest itself within another host? Sometimes... but let's not go there, either!
+> ## Omitting details and avoiding complexities...
+> Note that this description omits many details and avoids discussing complexities that are not particularly relevant to this introduction session, for example:
+> - Thinking with analogy to movies such as Inception, The Matrix, etc., can the guest computer figure out that it's not actually a physical computer, and that it's running as software inside a host physical computer? Yes, it probably can... but let's not go there within this episode: we can talk later.
+> - Can you run a host as a guest itself within another host? Sometimes... but let's not go there, either, and again, we can talk later if you are interested in further details.
+{: .callout}
 
 ### Motivation for virtualisation
 
 What features does virtualisation offer?
 - Isolation: the VM is self-contained, so you can create and destroy it without affecting the host computer.
 - Reproducibility: the VM can be "wound-back" to a known-good situation, much as you might revert a document you are editing to the last saved state.
-- Manageability: the VM is software, so can be saved and restored as you might a document file (albeit a *much* larger file than your typical document file!).
-- Migration: the VM is software, so can be transmitted to another physical host and run in the same way from there.
+- Manageability: the VM is software, so can be saved and restored as you might a document file (albeit a *much* larger file than a typical XLSX document!).
+- Migration: the VM is just data, so can be transmitted to another physical host and run in the same way from there.
 
 Downsides of "full" virtualisation:
 - The file describing a VM has to contain its entire simulated hard-disk, so this leads to very large files.
+- The guest computer wastes a lot of time managing "hardware" that's not actually real, e.g., VMs need to boot up in the same way that your laptop does.
 - A host needs *lots* of RAM to run large numbers of virtual machines, as the strong isolation means that the VMs do not share any resources.
 
 ### Containers are a type of lightweight virtualisation
@@ -89,7 +93,7 @@ Docker is software that manages containers and the resources that containers nee
 
 ### Docker's terminology
 
-- **Image**: this is the term that Docker uses to describe the template from which live instances of containers will be created. The term "container image" may sometimes be used to emphasise that the "image" relates to software containers and not, say, cute kitten pictures.
+- **Image**: this is the term that Docker uses to describe the template from which live instances of containers will be created. The term "container image" may sometimes be used to emphasise that the "image" relates to software containers and not, say, the sense of an "image" when discussing cute kitten pictures (without loss of generality).
 - **Container**: this is an instance of a lightweight virtual machine created by Docker from a (container) image.
 - **Hub**: the Docker hub is a storage resource and associated website where a vast collection of preexisting container images are documented, and are made available for your use.
 
