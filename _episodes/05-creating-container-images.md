@@ -318,15 +318,15 @@ The `-v` switch to the `docker run` command allows us to specify a mapping betwe
 
 In your testing shell, create an instance of your "csv-to-scatter-plot" container.
 
-For macOS, Linux or Windows PowerShell:
+For macOS, Linux or PowerShell:
 ~~~
 $ docker run -v ${PWD}:/data csv-to-scatter-plot
 ~~~
 {: .language-bash}
 
-For Windows cmd.exe:
+For `cmd.exe` shells on Microsoft Windows:
 ~~~
-> docker run -v %PWD%:/data csv-to-scatter-plot
+> docker run -v "%CD%":/data csv-to-scatter-plot
 ~~~
 
 If all goes well, you should now see, within the working directory of your testing shell, a PNG and a PDF file that plot the data from `data.csv`.

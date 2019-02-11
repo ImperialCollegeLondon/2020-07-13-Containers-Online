@@ -54,9 +54,9 @@ $ docker run --rm -it -v ${PWD}:/srv/jekyll -p 127.0.0.1:4000:4000 jekyll/jekyll
 ~~~
 {: .language-bash}
 
-For Windows `cmd.exe`:
+For `cmd.exe` shells on Microsoft Windows:
 ~~~
-> docker run --rm -it -v %PWD%:/srv/jekyll -p 127.0.0.1:4000:4000 jekyll/jekyll:3.7.3 make serve
+> docker run --rm -it -v "%CD%":/srv/jekyll -p 127.0.0.1:4000:4000 jekyll/jekyll:3.7.3 make serve
 ~~~
 
 When I ran the macOS command, the output was as follows:
