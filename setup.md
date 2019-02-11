@@ -22,7 +22,7 @@ Let's say you want to copy text off the lesson website and paste it into a file 
   - type <kbd>control</kbd>+<kbd>z</kbd> and then press <kbd>enter</kbd> to finish copying content into `myfile` and return to your shell;
   - you can run the command `type myfile` to check the content of that file, as a double-check.
 - Microsoft Windows running PowerShell:
-  - The `cmd.exe` method probably works, but another is to paste your file contents between `@'` and `'@` as in this example (the ">" is the prompt indicator):
+  - The `cmd.exe` method probably works, but another is to paste your file contents into a so-called "here-string" between `@'` and `'@` as in this example that follows (the ">" is the prompt indicator):
 
 ~~~
 > @'
@@ -32,7 +32,7 @@ file content that is
 split over many
 
 lines.
-'@ | Set-Contents myfile -encoding ascii
+'@ | Set-Content myfile -encoding ascii
 ~~~ 
 
 {% include links.md %}
