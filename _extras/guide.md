@@ -1,6 +1,6 @@
 ---
 title: "Instructor Notes"
 ---
-FIXME
+There are no specific instructor notes yet.
 
 {% include links.md %}
