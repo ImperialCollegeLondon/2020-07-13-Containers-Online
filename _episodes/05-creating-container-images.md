@@ -112,7 +112,7 @@ You will need two shell windows. You can continue using the shell you've used so
 
 Open the `Dockerfile` you created above with your favourite editor, and change its contents to match the following:
 ~~~
-FROM python:3
+FROM python:3-slim
 
 WORKDIR /usr/src/app
 
@@ -128,30 +128,26 @@ $ docker build -t another-greeting .
 {: .language-bash}
 ~~~
 Sending build context to Docker daemon  2.048kB
-Step 1/4 : FROM python:3
-3: Pulling from library/python
-741437d97401: Pull complete 
-34d8874714d7: Pull complete 
-0a108aa26679: Pull complete 
-7f0334c36886: Pull complete 
-65c95cb8b3be: Pull complete 
-9107d7193263: Pull complete 
-dd6f212ec984: Pull complete 
-43288b101abf: Pull complete 
-cbc666ab4a65: Pull complete 
-Digest: sha256:d510b850194fab564abc3dfd22e626fa0c4ab3ce81118dab08a084ed3dcd24ac
-Status: Downloaded newer image for python:3
- ---> 338b34a7555c
+Step 1/4 : FROM python:3-slim
+3-slim: Pulling from library/python
+743f2d6c1f65: Pull complete 
+977e13fc7449: Pull complete 
+de5f9e5af26b: Pull complete 
+0d27ddbe8383: Pull complete 
+228d55eb5a23: Pull complete 
+Digest: sha256:589527a734f2a9e48b23cc4687848cb9503d0f8569fad68c3ad8b2ee9d1c50ff
+Status: Downloaded newer image for python:3-slim
+ ---> ca7f9e245002
 Step 2/4 : WORKDIR /usr/src/app
- ---> Running in 838063c90080
-Removing intermediate container 838063c90080
- ---> c350d738dec6
-Step 3/4 : COPY requirements.txt ./
-COPY failed: stat /var/lib/docker/tmp/docker-builder409382412/test.py: no such file or directory
+ ---> Running in 59d26b86423b
+Removing intermediate container 59d26b86423b
+ ---> c0d009871ab7
+Step 3/4 : COPY test.py .
+COPY failed: stat /var/lib/docker/tmp/docker-builder728731527/test.py: no such file or directory
 ~~~
 {: .output}
 
-Our `Dockerfil`e made reference to a file on the host `test.py` that should have been in the directory that contained our `Dockerfile`. It was not present, so the building of the image failed. It is the `COPY test.py .` command in the `Dockerfile` that is trying to copy the file `test.py` into the working directory of the current image building operation.
+Our `Dockerfile` made reference to a file on the host `test.py` that should have been in the directory that contained our `Dockerfile`. It was not present, so the building of the image failed. It is the `COPY test.py .` command in the `Dockerfile` that is trying to copy the file `test.py` into the working directory of the current image building operation.
 
 Using your favourite editor, create the file "test.py" in the same directory as your Dockerfile, with the following contents:
 ~~~
@@ -167,18 +163,18 @@ $ docker build -t another-greeting .
 {: .language-bash}
 ~~~
 Sending build context to Docker daemon  3.072kB
-Step 1/4 : FROM python:3
- ---> 2fbd95050b66
+Step 1/4 : FROM python:3-slim
+ ---> ca7f9e245002
 Step 2/4 : WORKDIR /usr/src/app
  ---> Using cache
- ---> ff69cfaac5e4
+ ---> c0d009871ab7
 Step 3/4 : COPY test.py .
- ---> 515d20c9d5e8
+ ---> 23b27e9f57a9
 Step 4/4 : CMD [ "python", "./test.py" ]
- ---> Running in 5ce48493838d
-Removing intermediate container 5ce48493838d
- ---> a1d96db7bc5a
-Successfully built a1d96db7bc5a
+ ---> Running in 0d48c16b40c1
+Removing intermediate container 0d48c16b40c1
+ ---> bede6575d987
+Successfully built bede6575d987
 Successfully tagged another-greeting:latest
 ~~~
 {: .output}
@@ -237,7 +233,7 @@ f.savefig("/data/output.png", bbox_inches='tight')
 
 Your Dockerfile will need to be changed to refer to this new script, as follows:
 ~~~
-FROM python:3
+FROM python:3-slim
 
 WORKDIR /usr/src/app
 
@@ -255,40 +251,40 @@ $ docker build -t csv-to-scatter-plot .
 ~~~
 {: .language-bash}
 ~~~
-Sending build context to Docker daemon  28.16kB
-Step 1/5 : FROM python:3
- ---> 2fbd95050b66
+Sending build context to Docker daemon   5.12kB
+Step 1/5 : FROM python:3-slim
+ ---> ca7f9e245002
 Step 2/5 : WORKDIR /usr/src/app
  ---> Using cache
- ---> 8988c231167c
+ ---> c0d009871ab7
 Step 3/5 : RUN pip install --no-cache-dir numpy matplotlib
- ---> Running in a50a7468e3e6
+ ---> Running in a6c85255c679
 Collecting numpy
-  Downloading https://files.pythonhosted.org/packages/61/57/07c49e1a6d2706fb7336b3fb11dd285c1e96535c80833d7524f002f57086/numpy-1.16.1-cp37-cp37m-manylinux1_x86_64.whl (17.3MB)
+  Downloading https://files.pythonhosted.org/packages/bb/76/24e9f32c78e6f6fb26cf2596b428f393bf015b63459468119f282f70a7fd/numpy-1.16.3-cp37-cp37m-manylinux1_x86_64.whl (17.3MB)
 Collecting matplotlib
-  Downloading https://files.pythonhosted.org/packages/e7/f9/5377596cb1c035c102396f5934237a046f80da69974026f90bee5db8b7ba/matplotlib-3.0.2-cp37-cp37m-manylinux1_x86_64.whl (12.9MB)
+  Downloading https://files.pythonhosted.org/packages/dc/cb/a34046e75c9a4ecaf426ae0d0eada97078c8ce4bbe3250940b1a312a1385/matplotlib-3.1.0-cp37-cp37m-manylinux1_x86_64.whl (13.1MB)
 Collecting kiwisolver>=1.0.1 (from matplotlib)
-  Downloading https://files.pythonhosted.org/packages/5c/7e/d6cae2f241ba474a2665f24b480bf4e247036d63939dda2bbc4d2ee5069d/kiwisolver-1.0.1-cp37-cp37m-manylinux1_x86_64.whl (89kB)
+  Downloading https://files.pythonhosted.org/packages/93/f8/518fb0bb89860eea6ff1b96483fbd9236d5ee991485d0f3eceff1770f654/kiwisolver-1.1.0-cp37-cp37m-manylinux1_x86_64.whl (90kB)
 Collecting pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.1 (from matplotlib)
-  Downloading https://files.pythonhosted.org/packages/de/0a/001be530836743d8be6c2d85069f46fecf84ac6c18c7f5fb8125ee11d854/pyparsing-2.3.1-py2.py3-none-any.whl (61kB)
+  Downloading https://files.pythonhosted.org/packages/dd/d9/3ec19e966301a6e25769976999bd7bbe552016f0d32b577dc9d63d2e0c49/pyparsing-2.4.0-py2.py3-none-any.whl (62kB)
 Collecting cycler>=0.10 (from matplotlib)
   Downloading https://files.pythonhosted.org/packages/f7/d2/e07d3ebb2bd7af696440ce7e754c59dd546ffe1bbe732c8ab68b9c834e61/cycler-0.10.0-py2.py3-none-any.whl
 Collecting python-dateutil>=2.1 (from matplotlib)
   Downloading https://files.pythonhosted.org/packages/41/17/c62faccbfbd163c7f57f3844689e3a78bae1f403648a6afb1d0866d87fbb/python_dateutil-2.8.0-py2.py3-none-any.whl (226kB)
-Requirement already satisfied: setuptools in /usr/local/lib/python3.7/site-packages (from kiwisolver>=1.0.1->matplotlib) (40.6.3)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.7/site-packages (from kiwisolver>=1.0.1->matplotlib) (41.0.1)
 Collecting six (from cycler>=0.10->matplotlib)
   Downloading https://files.pythonhosted.org/packages/73/fb/00a976f728d0d1fecfe898238ce23f502a721c0ac0ecfedb80e0d88c64e9/six-1.12.0-py2.py3-none-any.whl
 Installing collected packages: numpy, kiwisolver, pyparsing, six, cycler, python-dateutil, matplotlib
-Successfully installed cycler-0.10.0 kiwisolver-1.0.1 matplotlib-3.0.2 numpy-1.16.1 pyparsing-2.3.1 python-dateutil-2.8.0 six-1.12.0
-Removing intermediate container a50a7468e3e6
- ---> 1c9b9f73d774
+Successfully installed cycler-0.10.0 kiwisolver-1.1.0 matplotlib-3.1.0 numpy-1.16.3 pyparsing-2.4.0 python-dateutil-2.8.0 six-1.12.0
+Removing intermediate container a6c85255c679
+ ---> 57816a2108b7
 Step 4/5 : COPY csv-to-scatter-plot.py .
- ---> 573ed66d57d1
+ ---> 96bef9863250
 Step 5/5 : CMD [ "python", "./csv-to-scatter-plot.py" ]
- ---> Running in 59f899e4197e
-Removing intermediate container 59f899e4197e
- ---> 5647faea67fd
-Successfully built 5647faea67fd
+ ---> Running in 2fb116f99da3
+Removing intermediate container 2fb116f99da3
+ ---> c2eba3ad398a
+Successfully built c2eba3ad398a
 Successfully tagged csv-to-scatter-plot:latest
 ~~~
 {: .output}
