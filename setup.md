@@ -7,9 +7,9 @@ Please seek help at the start of the lesson if you have not been able to establi
 - [Bitbucket](http://bitbucket.org) is a code project repository site, akin to [GitHub](https://github.org). We will use Bitbucket to create a Docker container from a Docker image that you create.
 
 ### Software to install
-Unfortunately, in many common situations installing Docker on your laptop will not straightforward if you do not have a large amount of technical experience. We have helpers on hand that have worked their way through the install process.
+Unfortunately, in many common situations installing Docker on your laptop will not straightforward if you do not have a large amount of technical experience. We try to have workshop helpers on-hand who have worked their way through the install process.
 
-Even if you are unsuccessful in installing Docker on your laptop, you can still complete parts of this Docker lesson, just using a web browser.
+Even if you are unsuccessful in installing Docker on your laptop, you can still complete some parts of this Docker lesson, just using a web browser. At worst you will still see the instructor demonstrate use of the Docker tools.
 
 Please try to install the appropriate software from the list below depending on the operating system that your laptop is running:
 - Microsoft Windows, either:
