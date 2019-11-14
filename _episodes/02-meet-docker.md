@@ -48,6 +48,25 @@ Login Succeeded
 
 The `Login Succeeded` message means that your `docker` command line tool is ready to access the Docker Hub. We will return to discussion of the Docker Hub soon...
 
+The above commands have not actually relied on the part of Docker that runs lightweight virtual machines being operational. Somewhat stretching a physical analogy, you can think of the above Docker commands having been instructions to the cranes on a hypothetical shipping dock, but we haven't actually checked if the container ship we want to interact with is present yet. A command that checks that the virtual machine host is running is the Docker process list command, which we cover in a later episode.
+
+Without explaining the details, output on a newly installed system would likely be:
+~~~
+$ docker ps
+~~~
+{: .language-bash}
+~~~
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+~~~
+{: .output}
+
+However, if you instead get a message similar to the following
+~~~
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+~~~
+{: .output}
+then you need to check that you have started the Docker Desktop, Docker Engine, or however else you worked through the setup instructions.
+
 {% include links.md %}
 
 {% comment %}
