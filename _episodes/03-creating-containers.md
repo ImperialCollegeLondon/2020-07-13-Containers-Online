@@ -11,8 +11,8 @@ objectives:
 keypoints:
 - "Containers are usually created using command line invocations."
 - "The `docker run` command creates containers from images."
-- "The `docker image` command lists images that are (now) on your computer."
-- "The `docker container` command lists containers that have been created."
+- "The `docker image` command can list and manage images that are (now) on your computer."
+- "The `docker container` command can list and manage containers that have been created."
 ---
 
 ### Creating a "hello world" container
