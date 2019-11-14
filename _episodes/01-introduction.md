@@ -20,9 +20,9 @@ keypoints:
 
 This lesson comes with a whole set of disclaimers; my apologies for needing them!
 
-1. You are the first learners to have engaged with this material. Various wheels are likely to fall off during parts of the session. Thankfully we have excellent helpers on hand. There are also separate episodes that do not depend on each other, so if you have to give up on one episode, you should be able to return later in the session.
+1. You are early learners to be engaging with this material. Various wheels are likely to fall off during parts of the session. Our volunteer helpers will try to assist where we can. There are also separate episodes that do not depend on each other, so if you have to give up on one episode, you should be able to return later in the session.
 
-2. This looks like the Carpentries' formatting of lessons because it is using their stylesheet (which is openly available for such purposes). However the similarity is visual-only: so far I have developed this lesson myself, which means that it does not have the quality-assurance or quality of the official Carpentries' lessons.
+2. This looks like the Carpentries' formatting of lessons because it is using their stylesheet (which is openly available for such purposes). However the similarity is visual-only: the lesson is not being developed directly by the Carpentries, which means that it does not have the quality-assurance or quality of the official Carpentries' lessons.
 
 3. Docker is complex software used for many different purposes. We are unlikely to give examples that suit all of your potential ideal use-cases, but would be delighted to at least open up discussion of what those use-cases might be.
 
