@@ -59,6 +59,7 @@ $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 ~~~
 {: .output}
+(The command `docker info` will achieve a similar end. but produces potentially daunting volumes of output.)
 
 However, if you instead get a message similar to the following
 ~~~
@@ -66,6 +67,7 @@ Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docke
 ~~~
 {: .output}
 then you need to check that you have started the Docker Desktop, Docker Engine, or however else you worked through the setup instructions.
+
 
 {% include links.md %}
 
