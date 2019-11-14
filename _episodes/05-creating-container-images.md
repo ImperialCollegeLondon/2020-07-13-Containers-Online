@@ -233,7 +233,7 @@ f.savefig("/data/output.png", bbox_inches='tight')
 
 Your Dockerfile will need to be changed to refer to this new script, as follows:
 ~~~
-FROM python:3-slim
+FROM python:3
 
 WORKDIR /usr/src/app
 
@@ -251,40 +251,59 @@ $ docker build -t csv-to-scatter-plot .
 ~~~
 {: .language-bash}
 ~~~
-Sending build context to Docker daemon   5.12kB
-Step 1/5 : FROM python:3-slim
- ---> ca7f9e245002
+Sending build context to Docker daemon  6.656kB
+Step 1/5 : FROM python:3
+3: Pulling from library/python
+c7b7d16361e0: Pull complete 
+b7a128769df1: Pull complete 
+1128949d0793: Pull complete 
+667692510b70: Pull complete 
+bed4ecf88e6a: Pull complete 
+8a8c75f3996a: Pull complete 
+bfbf6161579f: Pull complete 
+6e3c2947832c: Pull complete 
+5bab73b08276: Pull complete 
+Digest: sha256:514a95a32b86cafafefcecc28673bb647d44c5aadf06203d39c43b9c3f61ed52
+Status: Downloaded newer image for python:3
+ ---> d6a7b0694364
 Step 2/5 : WORKDIR /usr/src/app
- ---> Using cache
- ---> c0d009871ab7
+ ---> Running in 943c9971482f
+Removing intermediate container 943c9971482f
+ ---> 94eedcb5974f
 Step 3/5 : RUN pip install --no-cache-dir numpy matplotlib
- ---> Running in a6c85255c679
+ ---> Running in b914d361ca54
 Collecting numpy
-  Downloading https://files.pythonhosted.org/packages/bb/76/24e9f32c78e6f6fb26cf2596b428f393bf015b63459468119f282f70a7fd/numpy-1.16.3-cp37-cp37m-manylinux1_x86_64.whl (17.3MB)
+  Downloading https://files.pythonhosted.org/packages/d7/6a/3fed132c846d1e47963f30376cc041e9dd586d286d931055ad06ff65c6c7/numpy-1.17.4-cp38-cp38-manylinux1_x86_64.whl (20.5MB)
 Collecting matplotlib
-  Downloading https://files.pythonhosted.org/packages/dc/cb/a34046e75c9a4ecaf426ae0d0eada97078c8ce4bbe3250940b1a312a1385/matplotlib-3.1.0-cp37-cp37m-manylinux1_x86_64.whl (13.1MB)
-Collecting kiwisolver>=1.0.1 (from matplotlib)
-  Downloading https://files.pythonhosted.org/packages/93/f8/518fb0bb89860eea6ff1b96483fbd9236d5ee991485d0f3eceff1770f654/kiwisolver-1.1.0-cp37-cp37m-manylinux1_x86_64.whl (90kB)
-Collecting pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.1 (from matplotlib)
-  Downloading https://files.pythonhosted.org/packages/dd/d9/3ec19e966301a6e25769976999bd7bbe552016f0d32b577dc9d63d2e0c49/pyparsing-2.4.0-py2.py3-none-any.whl (62kB)
-Collecting cycler>=0.10 (from matplotlib)
+  Downloading https://files.pythonhosted.org/packages/12/d1/7b12cd79c791348cb0c78ce6e7d16bd72992f13c9f1e8e43d2725a6d8adf/matplotlib-3.1.1.tar.gz (37.8MB)
+Collecting cycler>=0.10
   Downloading https://files.pythonhosted.org/packages/f7/d2/e07d3ebb2bd7af696440ce7e754c59dd546ffe1bbe732c8ab68b9c834e61/cycler-0.10.0-py2.py3-none-any.whl
-Collecting python-dateutil>=2.1 (from matplotlib)
-  Downloading https://files.pythonhosted.org/packages/41/17/c62faccbfbd163c7f57f3844689e3a78bae1f403648a6afb1d0866d87fbb/python_dateutil-2.8.0-py2.py3-none-any.whl (226kB)
-Requirement already satisfied: setuptools in /usr/local/lib/python3.7/site-packages (from kiwisolver>=1.0.1->matplotlib) (41.0.1)
-Collecting six (from cycler>=0.10->matplotlib)
-  Downloading https://files.pythonhosted.org/packages/73/fb/00a976f728d0d1fecfe898238ce23f502a721c0ac0ecfedb80e0d88c64e9/six-1.12.0-py2.py3-none-any.whl
-Installing collected packages: numpy, kiwisolver, pyparsing, six, cycler, python-dateutil, matplotlib
-Successfully installed cycler-0.10.0 kiwisolver-1.1.0 matplotlib-3.1.0 numpy-1.16.3 pyparsing-2.4.0 python-dateutil-2.8.0 six-1.12.0
-Removing intermediate container a6c85255c679
- ---> 57816a2108b7
+Collecting kiwisolver>=1.0.1
+  Downloading https://files.pythonhosted.org/packages/64/8b/a70681c9a471f8187fed80d0aa9c9bb55ec3bf9daa50bd1cdc0c73d4910c/kiwisolver-1.1.0-cp38-cp38-manylinux1_x86_64.whl (91kB)
+Collecting pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.1
+  Downloading https://files.pythonhosted.org/packages/c0/0c/fc2e007d9a992d997f04a80125b0f183da7fb554f1de701bbb70a8e7d479/pyparsing-2.4.5-py2.py3-none-any.whl (67kB)
+Collecting python-dateutil>=2.1
+  Downloading https://files.pythonhosted.org/packages/d4/70/d60450c3dd48ef87586924207ae8907090de0b306af2bce5d134d78615cb/python_dateutil-2.8.1-py2.py3-none-any.whl (227kB)
+Collecting six
+  Downloading https://files.pythonhosted.org/packages/65/26/32b8464df2a97e6dd1b656ed26b2c194606c16fe163c695a992b36c11cdf/six-1.13.0-py2.py3-none-any.whl
+Requirement already satisfied: setuptools in /usr/local/lib/python3.8/site-packages (from kiwisolver>=1.0.1->matplotlib) (41.4.0)
+Building wheels for collected packages: matplotlib
+  Building wheel for matplotlib (setup.py): started
+  Building wheel for matplotlib (setup.py): finished with status 'done'
+  Created wheel for matplotlib: filename=matplotlib-3.1.1-cp38-cp38-linux_x86_64.whl size=12082224 sha256=3976d32ec6d07bf529098a04b35cf48b78100cfd649de2f12db681ce585101eb
+  Stored in directory: /tmp/pip-ephem-wheel-cache-fw_w3oqq/wheels/81/57/49/68fef5840978e7448303bdc78a6b892024463bdff1bcf5d924
+Successfully built matplotlib
+Installing collected packages: numpy, six, cycler, kiwisolver, pyparsing, python-dateutil, matplotlib
+Successfully installed cycler-0.10.0 kiwisolver-1.1.0 matplotlib-3.1.1 numpy-1.17.4 pyparsing-2.4.5 python-dateutil-2.8.1 six-1.13.0
+Removing intermediate container b914d361ca54
+ ---> 17fac72b2c55
 Step 4/5 : COPY csv-to-scatter-plot.py .
- ---> 96bef9863250
+ ---> 0f158873ebde
 Step 5/5 : CMD [ "python", "./csv-to-scatter-plot.py" ]
- ---> Running in 2fb116f99da3
-Removing intermediate container 2fb116f99da3
- ---> c2eba3ad398a
-Successfully built c2eba3ad398a
+ ---> Running in 9759422dc4a8
+Removing intermediate container 9759422dc4a8
+ ---> 2b429f3f532b
+Successfully built 2b429f3f532b
 Successfully tagged csv-to-scatter-plot:latest
 ~~~
 {: .output}
