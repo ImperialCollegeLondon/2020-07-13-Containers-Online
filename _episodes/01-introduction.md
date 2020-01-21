@@ -1,7 +1,7 @@
 ---
 title: "Introducing containers"
-teaching: 20
-exercises: 0
+teaching: 30
+exercises: 10
 questions:
 - "What are containers, and why might they be useful to me?"
 objectives:
@@ -86,6 +86,13 @@ Hopefully this lesson will demonstrate the portability aspect of containers, sho
 - Microsoft Windows;
 - (any Linux users out there?); and
 - in the cloud.
+
+> ## And what do you do?
+> 
+> Talk to your neighbour, office mate or [rubber duck](https://rubberduckdebugging.com/) about your
+> research. How does computing help you do your research? 
+> How do you think containers (or virtualisation) could help you do more or better research?
+{: .challenge }
 
 ### Docker is a popular container platform
 
