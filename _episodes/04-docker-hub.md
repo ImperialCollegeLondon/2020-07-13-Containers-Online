@@ -1,7 +1,7 @@
 ---
 title: "Visiting the Docker Hub"
-teaching: 10
-exercises: 0
+teaching: 15
+exercises: 5
 questions:
 - "What is the Docker Hub, and why is it useful?"
 objectives:
@@ -13,7 +13,9 @@ keypoints:
 - "Each Docker Hub page about an image provides structured information and subheadings"
 - "Most Docker Hub pages about images contain sections that provide examples of how to use those images."
 ---
-### Introducing the Docker Hub
+
+## Introducing the Docker Hub
+
 The Docker Hub is an online repository of container images, a vast number of which are publicly available. A large number of the images are curated by the developers of the software that they package. Also, many commonly used pieces of software that have been containerised into images are specifically endorsed, which means that you can trust the containers to have been checked for functionality, stability, and that they don't contain malware.
 
 > ## Docker can be used without connecting to the Docker Hub
@@ -35,6 +37,12 @@ The main body of the page contains many used headings, such as:
 - The licence that applies.
 
 At least in my experience, the "Examples of how to use the image" section of most images' pages will provide examples that are likely to adequately cover your intended use of the image.
+
+> ## What is useful to you?
+> 
+> Can you use the Docker Hub to find an image that might be of use to you in your research?
+> Why would the image be useful to you? Do you think there might be any problems using it in your research?
+{: .challenge }
 
 {% include links.md %}
 

@@ -212,6 +212,12 @@ Now the result of `docker images` should no longer include the `hello-world` ima
 
 Often, you will want to use containers to run specific commands, analyses or tasks (as we have seen with the "hello, world" example above). Sometimes, however, you would prefer to have a container running and have the ability to issue commands to run within the container or to get interactive access so you can run commands in the container yourself. You could, for example, be undertaking some data analysis using tools in the container but do not yet know the exact steps you want the analysis to take yet - you are exploring the data.
 
+~~~
+$ docker run -t -d ubuntu    # Image has to run a shell by default for this to work, otherwise might need to add `--entrypoint "/bin/sh"`
+$ docker exec -i -t ubuntu bash   # Note prompt change to indicate you are in the container
+~~~
+
+
 > ## The Docker official documentation is helpful!
 > There is lots of great documentation at <https://docs.docker.com/>, for example, detailed reference material and tutorials covering the use of the commands mentioned above.
 {: .callout}
