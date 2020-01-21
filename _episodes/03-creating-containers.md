@@ -1,18 +1,21 @@
 ---
 title: "Creating containers"
-teaching: 10
-exercises: 0
+teaching: 25
+exercises: 15
 questions:
 - "How do I get Docker to perform computation?"
 objectives:
 - "Demonstrate how to create an instance of a container from an image."
 - "Explain how to list (container) images on your laptop."
 - "Explain how to list running and completed containers."
+- "Explain how to create a docker container and get interactive access."
 keypoints:
 - "Containers are usually created using command line invocations."
 - "The `docker run` command creates containers from images."
 - "The `docker image` command can list and manage images that are (now) on your computer."
 - "The `docker container` command can list and manage containers that have been created."
+- "The `-d -t` options to `docker run` allow you to create a container running in the background."
+- "The `docker exec` command allows you to execute commands in a running container, including getting interactive access."
 ---
 
 ### Creating a "hello world" container
@@ -203,6 +206,11 @@ Deleted: sha256:af0b15c8625bb1938f1d7b17081031f649fd14e6b233688eea3c5483994a66a3
 The reason that there are a few lines of output, is that a given image may have been formed by merging multiple underlying layers.
 Any layers that are used by multiple Docker images will only be stored once.
 Now the result of `docker images` should no longer include the `hello-world` image.
+
+
+### Running containers in the background and interactive access
+
+Often, you will want to use containers to run specific commands, analyses or tasks (as we have seen with the "hello, world" example above). Sometimes, however, you would prefer to have a container running and have the ability to issue commands to run within the container or to get interactive access so you can run commands in the container yourself. You could, for example, be undertaking some data analysis using tools in the container but do not yet know the exact steps you want the analysis to take yet - you are exploring the data.
 
 > ## The Docker official documentation is helpful!
 > There is lots of great documentation at <https://docs.docker.com/>, for example, detailed reference material and tutorials covering the use of the commands mentioned above.
