@@ -1,13 +1,13 @@
 ---
-title: "Containers used in generating this lesson"
+title: "Example: Containers used in generating this lesson"
 teaching: 20
 exercises: 0
 questions:
-- "How can containers be useful to me for building websites?"
+- "WHat is a specific example of a container used in practice?"
 objectives:
-- "Demonstrate how to construct a website using containers to transform a specification into a fully-presented website."
+- "Demonstrate how this lesson website is made from files using the Jekyll software in a container."
 keypoints:
-- "The generation of this lesson website can be effected using a container."
+- "By using the container we avoid all the difficult installation issues of installing Jekyll."
 ---
 The website for this lesson is generated mechanically, based on a set of files that specify the configuration of the site, its presentation template, and the content to go on this page. This is far more manageable than editing each webpage of the lesson separately, for example, if the page header needs to change, this change can be made in one place, and all the pages regenerated. The alternative would be needing to edit each page to repeat the change: this is not productive or suitable work for humans to do!
 
