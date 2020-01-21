@@ -3,7 +3,7 @@ title: "Example: Containers used in generating this lesson"
 teaching: 20
 exercises: 0
 questions:
-- "WHat is a specific example of a container used in practice?"
+- "What is a specific example of a container used in practice?"
 objectives:
 - "Demonstrate how this lesson website is made from files using the Jekyll software in a container."
 keypoints:
