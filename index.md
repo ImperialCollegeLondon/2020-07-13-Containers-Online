@@ -2,7 +2,7 @@
 layout: lesson
 carpentry: "swc"
 venue: "Collingwood College, University of Durham"
-address: "Collingwood College, University of Durham, South Road, DH1 3LT"
+address: "Collingwood College, University of Durham, South Road, DH1 3LT (training room on 1st floor above reception)"
 country: "UK"
 language: "English"
 latlng: "54.762968,-1.576440"
