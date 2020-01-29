@@ -300,7 +300,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ### Conclusion
 
 You have now successfully acquired a Docker image file to your computer, and have created a Docker container from it.
-While this already effects a reproducible computational environment,the image contents are not under your control, so we look at this topic, after a quick discussion about the Docker Hub.
+While this already effects a reproducible computational environment,the image contents are not under your control, so we look at this topic next.
 
 {% include links.md %}
 

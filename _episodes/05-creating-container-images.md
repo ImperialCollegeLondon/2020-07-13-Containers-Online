@@ -10,12 +10,14 @@ objectives:
 - "Demonstrate how to upload ('push') your container images to the Docker Hub."
 - "Explain how you can include files within Docker images when you build them."
 - "Explain how you can access files on the Docker host from your Docker containers."
+- "How can I export images to a file and import images from a file."
 keypoints:
 - "`Dockerfiles` specify what is within Docker images."
 - "The `docker build` command is used to build an image from a `Dockerfile`"
 - "You can share your Docker images through the Docker Hub so that others can create Docker containers from your images."
-- You can include files from your Docker host into your Docker images by using the `COPY` instruction in your `Dockerfile`.
-- Docker allows containers to read and write files from the Docker host.
+- "You can include files from your Docker host into your Docker images by using the `COPY` instruction in your `Dockerfile`."
+- "Docker allows containers to read and write files from the Docker host."
+- "You can export and import images from files."
 ---
 ### Introduction to Dockerfiles
 
@@ -89,14 +91,14 @@ Let's "push" to your account on the Docker Hub the image that you configured to 
 
 Note that so far, the image name `my-container` was used locally to your computer. On the Docker Hub, the name if your container must be prefixed by your user name (otherwise there would be many clashes when different users try to share images with the same name!).
 
-You will need to run two commands that are similar to the ones included below, **except** that you need to replace the instance of "dme26" on each line with your Docker Hub username (dme26 is my Docker Hub username!). A potential source of confusion is that you typically use your email address and not your login name to access the Docker Hub, however once authenticated your user ID is shown on the Docker Hub web pages.
+You will need to run two commands that are similar to the ones included below, **except** that you need to replace the instance of "aturnerepcc" on each line with your Docker Hub username ("aturnerepcc" is my Docker Hub username!). A potential source of confusion is that you typically use your email address and not your login name to access the Docker Hub, however once authenticated your user ID is shown on the Docker Hub web pages.
 ~~~
-$ docker tag my-container:latest dme26/my-container
-$ docker push dme26/my-container
+$ docker tag my-container:latest aturnerepcc/my-container
+$ docker push aturnerepcc/my-container
 ~~~
 {: .language-bash}
 ~~~
-The push refers to repository [docker.io/dme26/my-container]
+The push refers to repository [docker.io/aturnerepcc/my-container]
 503e53e365f3: Mounted from library/alpine 
 latest: digest: sha256:1d599b3e195e282648a30719f159422165656781de420ccb6173465ac29d2b7a size: 528
 ~~~
@@ -149,7 +151,7 @@ COPY failed: stat /var/lib/docker/tmp/docker-builder728731527/test.py: no such f
 
 Our `Dockerfile` made reference to a file on the host `test.py` that should have been in the directory that contained our `Dockerfile`. It was not present, so the building of the image failed. It is the `COPY test.py .` command in the `Dockerfile` that is trying to copy the file `test.py` into the working directory of the current image building operation.
 
-Using your favourite editor, create the file "test.py" in the same directory as your Dockerfile, with the following contents:
+Using your favourite editor, create the file `test.py` in the same directory as your Dockerfile, with the following contents:
 ~~~
 print("Hello world from Python")
 ~~~
@@ -199,7 +201,8 @@ Being able to share files between the host and the container allows you to build
 
 Let's create an image for a container that uses Python to read in a CSV file from the Docker host, and write results back as a file on the Docker host. (As usual, the container itself, will be cleaned away when it finishes.)
 
-In the same directory as your Dockerfile, use your favourite editor to create a file named `csv-to-scatter-plot.py` containing the following Python code:
+In the same directory as your Dockerfile, use your favourite editor to create a file named `csv-to-scatter-plot.py` containing the Python code below. You can also [download this code]({{site.url}}{{site.baseurl}}/files/csv-to-scatter-plot.py).
+
 ~~~
 # Libraries to include
 import matplotlib.pyplot as the_plot
@@ -308,7 +311,7 @@ Successfully tagged csv-to-scatter-plot:latest
 ~~~
 {: .output}
 
-Now in your *testing shell*, use your favourite editor to create a file named `data.csv` that contains, for example:
+Now in your *testing shell*, use your favourite editor to create a file named `data.csv` that contains the data below. You can also [download this file]({{site.url}}{{site.baseurl}}/files/data.csv).
 ~~~
 x-coordinate,y-coordinate,colour,size
 1.76405235,1.8831507,0.96193638,392.67567700
@@ -356,6 +359,66 @@ Change your `data.csv` file, and rerun the appropriate preceding `docker run` in
 You should see the PDF and PNG file update appropriately.
 
 You have now successfully implemented an image that creates containers that transform input data through a stable, reproducible computational environment into output, in the form of plot images.
+
+### Saving images to files
+
+Rather than upload images to Docker Hub, you can also save images to local binary (tar archive) files (for example, to share with particular people, to archive for future use, to associate with a published paper). To save a docker image you use the `docker save` command with the image ID:
+
+~~~
+$ docker save b6434dd4b33d -o my-container.tar
+$ ls -lh
+~~~
+{: .language-bash}
+~~~
+total 11480
+-rw-r--r--  1 user  group   128B 05 Jan 11:23 Dockerfile
+-rw-------  1 user  group   5.6M 05 Jan 11:27 my-container.tar
+~~~
+{: .output}
+
+### Importing images from files
+
+Once you have images saved in files, you can import images from a (tar archive) file using the `docker load` command with the tar file name (I deleted the container and image before importing again):
+
+~~~
+$ docker load -i my-container.tar
+~~~
+{: .language-bash}
+~~~
+c38b281d1a62: Loading layer [==================================================>]   2.56kB/2.56kB
+Loaded image ID: sha256:b6434dd4b33dd4cfd666f1f54d00ba4bd68ce1fa0a60ba737f23b52e90e8bec6
+~~~
+{: .output}
+
+The image is now available and visible using `docker image ls`:
+
+~~~
+$ docker image ls
+~~~
+{: .language-bash}
+~~~
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+<none>              <none>              b6434dd4b33d        15 minutes ago      5.59MB
+alpine              latest              e7d92cdc71fe        11 days ago         5.59MB
+hello-world         latest              fce289e99eb9        13 months ago       1.84kB
+~~~
+{: .output}
+
+> ## No repo/tag
+> When importing from a tar binary archive there is no information on repository and tags as this information is not contained in the file. You can add these with the `docker-tag` command:
+> ~~~
+> docker tag b6434dd4b33d aturnerepcc/my-container
+> docker image ls
+> ~~~
+> {: .language-bash}
+> ~~~
+> REPOSITORY                 TAG                 IMAGE ID            CREATED             SIZE
+> aturnerepcc/my-container   latest              b6434dd4b33d        23 minutes ago      5.59MB
+> alpine                     latest              e7d92cdc71fe        11 days ago         5.59MB
+> hello-world                latest              fce289e99eb9        13 months ago       1.84kB
+> ~~~
+> {: .output}
+{: .callout}
 
 {% include links.md %}
 
