@@ -9,24 +9,22 @@ objectives:
 keypoints:
 - "By using the container we avoid all the difficult installation issues of installing Jekyll."
 ---
+
 The website for this lesson is generated mechanically, based on a set of files that specify the configuration of the site, its presentation template, and the content to go on this page. This is far more manageable than editing each webpage of the lesson separately, for example, if the page header needs to change, this change can be made in one place, and all the pages regenerated. The alternative would be needing to edit each page to repeat the change: this is not productive or suitable work for humans to do!
 
-In your shell window, in your `container-playground` create a new directory `copy-of-docker-intro` and `cd` into it. We will later be expanding a ZIP file into this directory later.
-
 Now open a web browser window and:
-1. Navigate to the GitHub repository that contains the files for this session, at <https://github.com/dme26/docker-introduction/>;
+1. Navigate to the GitHub repository that contains the files for this session, at <https://github.com/ARCHER-CSE/2020-02-03-durham-docker>;
 2. Click the green "Clone or download" button on the right-hand side of the page;
 3. Click "Download ZIP".
-4. The downloaded ZIP file should contain one directory named `docker-introduction-gh-pages`.
-5. Move the `docker-introduction-gh-pages` folder into the `copy-of-docker-intro` folder you created above.
+4. The downloaded ZIP file should contain one directory named `2020-02-03-durham-docker-gh-pages`.
 
 > ## There are many ways to work with ZIP files
-> Note that the last two steps can be achieved using a Mac or Windows graphical user interface. There are also ways to effect expanding the ZIP archive on the command line, for example, on my Mac I can achieve the effect of those last two steps through running the command `unzip ~/Downloads/docker-introduction-gh-pages.zip`.
+> Note that the last two steps can be achieved using a Mac or Windows graphical user interface. There are also ways to effect expanding the ZIP archive on the command line, for example, on my Mac I can achieve the effect of those last two steps through running the command `unzip 2020-02-03-durham-docker-gh-pages.zip`.
 {: .callout}
 
-In your shell window, if you `cd` into the `docker-introduction-gh-pages` folder and list the files, you should see something similar to what I see:
+In your shell window, if you `cd` into the `2020-02-03-durham-docker-gh-pages` folder and list the files, you should see something similar to what I see:
 ~~~
-$ cd docker-introduction-gh-pages
+$ cd 2020-02-03-durham-docker-gh-pages
 $ ls
 ~~~
 {: .language-bash}
@@ -81,19 +79,14 @@ Configuration file: /srv/jekyll/_config.yml
  Auto-regeneration: enabled for '/srv/jekyll'
     Server address: http://0.0.0.0:4000
   Server running... press ctrl-c to stop.
-[2019-02-07 15:37:35] ERROR `/assets/favicons/favicon-96x96.png' not found.
-[2019-02-07 15:37:35] ERROR `/assets/favicons/favicon-196x196.png' not found.
-[2019-02-07 15:37:35] ERROR `/assets/favicons/favicon-16x16.png' not found.
-[2019-02-07 15:37:35] ERROR `/assets/favicons/favicon-128.png' not found.
-[2019-02-07 15:37:35] ERROR `/assets/favicons/favicon-32x32.png' not found.
 ~~~
 {: .output}
 
 In the preceding output, you see Docker downloading the image for Jekyll, which is a tool for building websites from specification files such as those used for this lesson. The line `jekyll serve` indicates a command that runs within the Docker container instance. The output below that is from the Jekyll tool itself, highlighting that the website has been built, and indicating that there is a server running.
 
-Open a web browser window and visit the address <http://localhost:4000/>. You should see a site that looks very similar to that at <https://dme26.github.io/docker-introduction/>.
+Open a web browser window and visit the address <http://localhost:4000/>. You should see a site that looks very similar to that at <https://archer-cse.github.io/2020-02-03-durham-docker/>.
 
-Using a new shell window, or using your laptop's GUI, locate the file `index.md` within the `docker-introduction-gh-pages` directory, and open it in your preferred editor program.
+Using a new shell window, or using your laptop's GUI, locate the file `index.md` within the `2020-02-03-durham-docker-gh-pages` directory, and open it in your preferred editor program.
 
 Near the top of this file you should see the description starting "This session aims to introduce the use of Docker containers with the goal of using them to effect reproducible computational environments." Make a change to this message, and save the file.
 
