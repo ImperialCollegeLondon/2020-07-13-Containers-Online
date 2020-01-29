@@ -96,7 +96,6 @@ REPOSITORY             TAG                 IMAGE ID            CREATED          
 hello-world            latest              fce289e99eb9        4 weeks ago         1.84kB
 ~~~
 {: .output}
-(Actually, I had some additional images on my laptop that I've removed from the above, and in live demo I'm likely to end up displaying a great many more lines!)
 
 ### Removing images
 
@@ -131,7 +130,7 @@ We get this error because there are containers created that depend on this image
 As indicated by the error above there is still an existing container from this image.
 We can list the running containers by typing.
 ~~~
-$ docker container ls
+$ docker ps
 ~~~
 {: .language-bash}
 ~~~
@@ -139,14 +138,12 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ~~~
 {: .output}
 
-The first version of the command is orthogonal to what we know from the Unix shell but we might want to use the shorter version. For reference, "ps" stands for “Process Status”.
-We should also notice that this command didn't return any containers because our containers all exited and thus stopped running after they completed their work.
-
+The first version of the command is orthogonal to what we know from the Unix shell but we might want to use the shorter version. For reference, "ps" stands for “Process Status”. We should also notice that this command didn't return any containers because our containers all exited and thus stopped running after they completed their work.
 
 ### What containers have run recently?
-There is also a way to list running containers, and those that have completed recently, which is to add the `--all`/`-a` flag to the `docker container ls`/`docker ps` command as shown below.
+There is also a way to list running containers, and those that have completed recently, which is to add the `--all`/`-a` flag to the `docker ps` command as shown below.
 ~~~
-$ docker container ls --all
+$ docker ps --all
 ~~~
 {: .language-bash}
 ~~~
@@ -160,8 +157,7 @@ We will talk more about how you might use these exited containers and how to res
 
 
 ### How do I remove an exited container?
-To delete an exited container you can run the following command, inserting the `CONTAINER ID` for the container you wish to remove.
-It will repeat the `CONTAINER ID` back to you, if successful.
+To delete an exited container you can run the following command, inserting the `CONTAINER ID` for the container you wish to remove. It will repeat the `CONTAINER ID` back to you, if successful.
 ~~~
 $ docker container rm 9c698655416a
 ~~~
@@ -172,10 +168,11 @@ $ docker container rm 9c698655416a
 {: .output}
 
 If you want to remove all exited containers at once you can use the `docker containers prune` command.
-**Be careful** with this command.
-If you have containers you may want to reconnect to, you should not use this command.
+
+**Be careful** with this command. If you have containers you may want to reconnect to, you should not use this command.
 It will ask you if to confirm you want to remove these containers, see output below.
-If successfull it will print the full `CONTAINER ID` back to you.
+If successful it will print the full `CONTAINER ID` back to you.
+
 ~~~
 $ docker container prune
 ~~~
@@ -203,19 +200,97 @@ Deleted: sha256:af0b15c8625bb1938f1d7b17081031f649fd14e6b233688eea3c5483994a66a3
 ~~~
 {: .output}
 
-The reason that there are a few lines of output, is that a given image may have been formed by merging multiple underlying layers.
-Any layers that are used by multiple Docker images will only be stored once.
+The reason that there are a few lines of output, is that a given image may have been formed by merging multiple underlying layers. Any layers that are used by multiple Docker images will only be stored once.
 Now the result of `docker images` should no longer include the `hello-world` image.
-
 
 ### Running containers in the background and interactive access
 
-Often, you will want to use containers to run specific commands, analyses or tasks (as we have seen with the "hello, world" example above). Sometimes, however, you would prefer to have a container running and have the ability to issue commands to run within the container or to get interactive access so you can run commands in the container yourself. You could, for example, be undertaking some data analysis using tools in the container but do not yet know the exact steps you want the analysis to take yet - you are exploring the data.
+Often, you will want to use containers to run specific commands, analyses or tasks (as we have seen with the "hello, world" example above). Sometimes, however, you would prefer to have a container running and to get interactive access so you can run commands in the container yourself. You could, for example, be undertaking some data analysis using tools in the container but do not yet know the exact steps you want the analysis to take yet - you are exploring the data.
+
+For this to work, the container image has to have the software installed to support interactive access. Almost all of the images tht are based on Linux distributions will come with this software installed so of you pick, for example, an Ubuntu image then this will work.
+
+First, we need to run the container as we did for `hello-world` with a couple of additional flags to do two things:
+
+   - `-t` flag: Allocate a psuedo-tty to allow us to access the container interactively
+   - `-d` flag: Detach the container and run in the background
 
 ~~~
-$ docker run -t -d ubuntu    # Image has to run a shell by default for this to work, otherwise might need to add `--entrypoint "/bin/sh"`
-$ docker exec -i -t ubuntu bash   # Note prompt change to indicate you are in the container
+$ docker run -t -d ubuntu
 ~~~
+{: .language-bash}
+~~~
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+5c939e3a4d10: Pull complete 
+c63719cdbe7a: Pull complete 
+19a861ea6baf: Pull complete 
+651c9d2d6c4f: Pull complete 
+Digest: sha256:8d31dad0c58f552e890d68bbfb735588b6b820a46e459672d96e585871acc110
+Status: Downloaded newer image for ubuntu:latest
+dc5fae49118e449662ebdf6ab7790c98b828d2b8def3fca09491bc48c9063580
+~~~
+{: .output}
+
+> ## Some images may also need to define an entry point
+> For the above appraoch to work the image has to run a shell by default (most Linux OS images do this) for this to work, some minimal OS images may also need to also add the `--entrypoint "/bin/sh"` option to `docker run`.
+{: .callout}
+
+We can get the image ID and see the image is running in the background with `docker ps`:
+
+~~~
+$ docker ps
+~~~
+{: .language-bash}
+~~~
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+dc5fae49118e        ubuntu              "/bin/bash"         33 seconds ago      Up 31 seconds                           exciting_keller
+~~~
+{: .output}
+
+Now we can start an interactive shell directly in the container image using the `docker exec` command with the container image ID:
+
+~~~
+$ docker exec -i -t dc5fae49118e bash
+~~~
+{: .language-bash}
+~~~
+root@dc5fae49118e:/# 
+~~~
+{: .output}
+
+Note that the prompt changed to show we are now in the container image. You can now run commands interactively in the container image.
+
+To get out of the container image, we use the `exit` command:
+
+~~~
+root@dc5fae49118e:/# exit
+~~~
+{: .language-bash}
+~~~
+exit
+$
+~~~
+{: .output}
+
+Which takes us back to our original command prompt.
+
+Finally, we need to stop the container (it is still running in the background). We use the `docker stop` command with the container iamge ID to do this:
+
+~~~
+$ docker ps
+$ docker stop dc5fae49118e
+$ docker ps
+~~~
+{: .language-bash}
+~~~
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+dc5fae49118e        ubuntu              "/bin/bash"         8 minutes ago       Up 8 minutes                            exciting_keller
+
+dc5fae49118e
+
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+~~~
+{: .output}
 
 
 > ## The Docker official documentation is helpful!
@@ -224,12 +299,8 @@ $ docker exec -i -t ubuntu bash   # Note prompt change to indicate you are in th
 
 ### Conclusion
 
-You have now successfully acquired a Docker image file to your computer,
-and have created a Docker container from it.
-While this already effects a reproducible computational environment,
-the image contents are not under your control, so we look at this topic,
-after a quick discussion about the Docker Hub.
-
+You have now successfully acquired a Docker image file to your computer, and have created a Docker container from it.
+While this already effects a reproducible computational environment,the image contents are not under your control, so we look at this topic, after a quick discussion about the Docker Hub.
 
 {% include links.md %}
 

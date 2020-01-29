@@ -16,17 +16,9 @@ keypoints:
 - "Virtualisation is an old technology that container technology makes more practical."
 - "Docker is just one software platform that can create containers and the resources they use."
 ---
-### Disclaimers / apologies
+### Disclaimer
 
-This lesson comes with a whole set of disclaimers; my apologies for needing them!
-
-1. You are early learners to be engaging with this material. Various wheels are likely to fall off during parts of the session. Our volunteer helpers will try to assist where we can. There are also separate episodes that do not depend on each other, so if you have to give up on one episode, you should be able to return later in the session.
-
-2. This looks like the Carpentries' formatting of lessons because it is using their stylesheet (which is openly available for such purposes). However the similarity is visual-only: the lesson is not being developed directly by the Carpentries, which means that it does not have the quality-assurance or quality of the official Carpentries' lessons.
-
-3. Docker is complex software used for many different purposes. We are unlikely to give examples that suit all of your potential ideal use-cases, but would be delighted to at least open up discussion of what those use-cases might be.
-
-4. Containers are a topic that requires significant amounts of technical background to understand in detail. Most of the time containers, particularly as wrapped up by Docker, do not require you to have a deep technical understanding of container technology, but when things go wrong, the diagnostic messages may turn opaque rather quickly.
+This looks like the Carpentries' formatting of lessons because it is using their stylesheet (which is openly available for such purposes). However the similarity is visual-only: the lesson is not being developed by the Carpentries and has no association with the Carpentries.
 
 ### The fundamental problem: software has dependencies that are difficult to manage
 
@@ -38,7 +30,7 @@ Consider Microsoft Excel: a typical workplace productivity tool. Most Excel user
 
 All of the above discussion is *just* about one piece of software: Microsoft Excel. Excel mostly just depends on the version of the operating system you're running. However the situation gets far worse when building software in programming environments like R or Python. Those languages change over time, and depend on an enormous set of software libraries written by unrelated software development teams.
 
-What if you wanted to distribute a software tool that automated interaction between R and Python. *Both* of these language environments have independent version and software dependency lineages. As the number of software components such as R and Python increases, this can rapidly lead to a combinatoric explosion in the number of possible configurations, only some of which will work as intended. This situation is sometimes informally termed "dependency hell".
+What if you wanted to distribute a software tool that automated interaction between R and Python. *Both* of these language environments have independent version and software dependency lineages. As the number of software components such as R and Python increases, this can rapidly lead to a combinatorial explosion in the number of possible configurations, only some of which will work as intended. This situation is sometimes informally termed "dependency hell".
 
 The situation is often mitigated in part by factors such as:
 - an acceptance of inherent software and hardware obsolesce (let's destroy the planet faster) so it's not expected that *all* versions of software need to be supported forever;
@@ -77,14 +69,16 @@ Downsides of "full" virtualisation:
 
 ### Containers are a type of lightweight virtualisation
 
-Containers are cut-down virtual machines. Containers sacrifice the strong isolation that full virtualisation provides in order to vastly reduce the resource requirements on the virtualisation host.
+Containers are similar to virtual machines but offer a more lightweight solution. Containers sacrifice the strong isolation that full virtualisation provides in order to vastly reduce the resource requirements on the virtualisation host.
+
+{% include figure.html url="" max-width="70%" file="/fig/vm_containers.png" alt="VM vs Container" caption="" %}
 
 The term "container" can be usefully considered with reference to shipping containers. Before shipping containers were developed, packing and unpacking cargo ships was time consuming, and error prone, with high potential for different clients' goods to become mixed up. Software containers standardise the packaging of a complete software system (the lightweight virtual machine): you can drop a container into a container host, and it should "just work".
 
 Hopefully this lesson will demonstrate the portability aspect of containers, showing the *same* containers running on:
 - macOS;
 - Microsoft Windows;
-- (any Linux users out there?); and
+- Linux; and
 - in the cloud.
 
 > ## And what do you do?
