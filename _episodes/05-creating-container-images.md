@@ -19,7 +19,7 @@ keypoints:
 - "Docker allows containers to read and write files from the Docker host."
 - "You can export and import images from files."
 ---
-### Introduction to Dockerfiles
+## Introduction to Dockerfiles
 
 We have seen use of others' Docker container images. Now we move on to describe how you can create your own images.
 
@@ -38,7 +38,15 @@ RUN /bin/echo "Greetings from my newly minted container." > /root/my_message
 CMD [ "/bin/cat", "/root/my_message" ]
 ~~~
 
-### Building your Docker image
+A Dockerfile contains a set of instructions with options to the instructions. There are many different instructions available, we only cover a few here. See <https://docs.docker.com/engine/reference/builder/> for a full description.
+
+In our simple Dockerfile, we have three instructions:
+
+   - `FROM`: Initialises the build and specifies the base image for subsequent instructions - all Dockerfiles start with this instruction.
+   - `RUN`: Runs a command (using /bin/sh on Linux).
+   - `CMD`: The default computational work that will be preformed when the container is executed using `docker run`. There can be only one `CMD` instruction in a Dockerfile.
+
+## Building your Docker image
 
 Run the following command to build your Docker image, noting that the period at the end of the line is important (it means "this directory"), and has a space before it.
 ~~~
@@ -83,7 +91,7 @@ Rerun the `docker build -t my-container .` and `docker run my-container` command
 
 While it may not look like you have achieved much, you have already effected the combination of a lightweight Linux operating system with your specification to run a given command that can operate reliably on macOS, Microsoft Windows, Linux and on the cloud!
 
-### Pushing your container images to the Docker Hub
+## Pushing your container images to the Docker Hub
 
 Images that you release publicly can be stored on the Docker Hub for free.
 
@@ -106,7 +114,7 @@ latest: digest: sha256:1d599b3e195e282648a30719f159422165656781de420ccb6173465ac
 
 In a web browser, open <https://hub.docker.com>, and on your user page you should now see your container listed, for anyone to use or build on.
 
-### Copying files into your containers at build time
+## Copying files into your containers at build time
 
 Let's rework our container to run some code written in the Python programming language.
 
@@ -122,6 +130,11 @@ COPY test.py .
 
 CMD [ "python", "./test.py" ]
 ~~~
+
+Compared to our original Dockerfile, we see two new instructions:
+
+   - `WORKDIR`: Set the working directory for subsequent instructions
+   - `COPY`: Copy a file/directories from the host into the container
 
 In your image building shell run the command to try to build your image (this will fail!):
 ~~~
@@ -193,7 +206,7 @@ Hello world from Python
 ~~~
 {: .output}
 
-### Sharing files with your containers at run time
+## Sharing files with your containers at run time
 
 Having shown how to include files of your choice into your image as it was built, we now move to another important form of sharing: allowing your container instances to read and write files on the host computer.
 
@@ -360,7 +373,7 @@ You should see the PDF and PNG file update appropriately.
 
 You have now successfully implemented an image that creates containers that transform input data through a stable, reproducible computational environment into output, in the form of plot images.
 
-### Saving images to files
+## Saving images to files
 
 Rather than upload images to Docker Hub, you can also save images to local binary (tar archive) files (for example, to share with particular people, to archive for future use, to associate with a published paper). To save a docker image you use the `docker save` command with the image ID:
 
@@ -376,7 +389,7 @@ total 11480
 ~~~
 {: .output}
 
-### Importing images from files
+## Importing images from files
 
 Once you have images saved in files, you can import images from a (tar archive) file using the `docker load` command with the tar file name (I deleted the container and image before importing again):
 
@@ -398,27 +411,11 @@ $ docker image ls
 {: .language-bash}
 ~~~
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-<none>              <none>              b6434dd4b33d        15 minutes ago      5.59MB
+my-container        latest              b6434dd4b33d        15 minutes ago      5.59MB
 alpine              latest              e7d92cdc71fe        11 days ago         5.59MB
 hello-world         latest              fce289e99eb9        13 months ago       1.84kB
 ~~~
 {: .output}
-
-> ## No repo/tag
-> When importing from a tar binary archive there is no information on repository and tags as this information is not contained in the file. You can add these with the `docker-tag` command:
-> ~~~
-> docker tag b6434dd4b33d aturnerepcc/my-container
-> docker image ls
-> ~~~
-> {: .language-bash}
-> ~~~
-> REPOSITORY                 TAG                 IMAGE ID            CREATED             SIZE
-> aturnerepcc/my-container   latest              b6434dd4b33d        23 minutes ago      5.59MB
-> alpine                     latest              e7d92cdc71fe        11 days ago         5.59MB
-> hello-world                latest              fce289e99eb9        13 months ago       1.84kB
-> ~~~
-> {: .output}
-{: .callout}
 
 {% include links.md %}
 

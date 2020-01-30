@@ -12,11 +12,13 @@ keypoints:
 
 The website for this lesson is generated mechanically, based on a set of files that specify the configuration of the site, its presentation template, and the content to go on this page. This is far more manageable than editing each webpage of the lesson separately, for example, if the page header needs to change, this change can be made in one place, and all the pages regenerated. The alternative would be needing to edit each page to repeat the change: this is not productive or suitable work for humans to do!
 
+However, these advantages come with a major disadvantage: we need to install the Jekyll framework to build the website and preview what effect our changes have. Jekyll is written in Ruby, has a large list of dependencies and can be complex to install and maintain. Containers to the rescue!
+
 Now open a web browser window and:
 1. Navigate to the GitHub repository that contains the files for this session, at <https://github.com/ARCHER-CSE/2020-02-03-durham-docker>;
 2. Click the green "Clone or download" button on the right-hand side of the page;
 3. Click "Download ZIP".
-4. The downloaded ZIP file should contain one directory named `2020-02-03-durham-docker-gh-pages`.
+4. Expand the downloaded ZIP file. It should contain one directory named `2020-02-03-durham-docker-gh-pages`.
 
 > ## There are many ways to work with ZIP files
 > Note that the last two steps can be achieved using a Mac or Windows graphical user interface. There are also ways to effect expanding the ZIP archive on the command line, for example, on my Mac I can achieve the effect of those last two steps through running the command `unzip 2020-02-03-durham-docker-gh-pages.zip`.
@@ -40,11 +42,7 @@ _config.yml		bin
 ~~~
 {: .output}
 
-You can now request that a container is created that will compile the files in this set into the lesson website, and will run a simple webserver to allow you to view your version of the website locally. Note that this command will be long and fiddly to type, so you probably want to copy-and-paste it into your shell window. This command will continue to (re-)generate and serve up your version of the lesson website, so you will not get your shell prompt back until you type <kbd>control</kbd>+<kbd>c</kbd>. This will stop the webserver, since it cleans away the container.
-
-> ## If you happen to have the `make` tool already installed...
-> We are taking an atypical approach in using the command that follows, since you are not required to have set up the `make` tool on your computer. However you may want to see whether you happen to have `make` installed anyway, by typing `make docker-serve` instead of the command below. At worst, this will fail and you can use the command shown below.
-{: .callout}
+You can now request that a container is created that will compile the files in this set into the lesson website and then run a simple webserver to allow you to view your version of the website locally. Note that this command will be long and fiddly to type, so you probably want to copy-and-paste it into your shell window. This command will continue to (re-)generate and serve up your version of the lesson website, so you will not get your shell prompt back until you type <kbd>control</kbd>+<kbd>c</kbd>. This will stop the webserver, since it cleans away the container.
 
 For macOS, Linux and PowerShell:
 ~~~
@@ -57,7 +55,17 @@ For `cmd.exe` shells on Microsoft Windows:
 > docker run --rm -it -v "%CD%":/srv/jekyll -p 127.0.0.1:4000:4000 jekyll/jekyll:3.7.3 make serve
 ~~~
 
+A quick note on what the different options did here:
+
+   - `--rm` automatically deletes the container once it exits
+   - `-it` make the container interactive
+   - `-v ${PWD}:/srv/jekyll` mount the current directory in the container at `/srv/jekyll`
+   - `-p 127.0.0.1:4000:4000` publish the container port 4000 to port 4000 on the host
+   - `jekyll/jekyll:3.7.3` the image to generate the container from 
+   - `make serve` the command to run in the container
+
 When I ran the macOS command, the output was as follows:
+
 ~~~
 Unable to find image 'jekyll/jekyll:3.7.3' locally
 3.7.3: Pulling from jekyll/jekyll

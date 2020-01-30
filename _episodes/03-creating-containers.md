@@ -18,10 +18,10 @@ keypoints:
 - "The `docker exec` command allows you to execute commands in a running container, including getting interactive access."
 ---
 
-### Creating a "hello world" container
+## Creating a "hello world" container
 
 > ## Reminder of terminology: images and containers
-> - Recall that a container "image" is the template from which particular instances of containers will be created.
+> - Recall that a container *image* is the template from which particular instances of *containers* will be created.
 {: .callout}
 
 One of the simplest Docker container images just allows you to create containers that print a welcome message.
@@ -75,7 +75,7 @@ Status: Downloaded newer image for hello-world:latest
 ~~~
 {: .output}
 
-What this says is that your laptop didn't have its own local copy of the hello-world container's image.
+What this says is that your host (laptop) didn't have its own local copy of the hello-world container's image.
 
 Docker then connected to the Docker Hub to find and download the (container) image with that name.
 
@@ -83,7 +83,7 @@ The message notes information about the Docker Hub website, but we'll return to 
 
 The "digest" is a secure fingerprint (a "hash") of the particular version of the container image that you now have... (Although of course the usefulness of that hash is minimal if you don't know what to compare it to!)
 
-### Where did that "hello-world" container image get stored?
+## Where did that "hello-world" container image get stored?
 
 The `docker image` command is used to list and modify Docker images.
 You can find out what container images you have local copies of using the following command ("ls" is short for "list"):
@@ -97,13 +97,11 @@ hello-world            latest              fce289e99eb9        4 weeks ago      
 ~~~
 {: .output}
 
-### Removing images
+## Removing images
 
-If you need to reclaim disk space, you can remove image files.
-The images and their corresponding containers can start to take up a lot of disk space if you don't clean them up occasionally.
-On macOS and Windows, when you uninstall the overall Docker software, it should have the effect of removing all of your image files, although we have not explicitly tested this.
+If you need to reclaim disk space, you can remove image files. The images and their corresponding containers can start to take up a lot of disk space if you don't clean them up occasionally. On macOS and Windows, when you uninstall the overall Docker software, it should have the effect of removing all of your image files (although I have not explicitly tested this!).
 
-If you want to explicitly remove a container image, you will need to find out details such as the "image ID" or name of the repository. For example say my laptop contained the following image.
+If you want to remove an image, you will need to find out details such as the image ID or name of the repository. For example say my laptop contained the following image.
 ~~~
 $ docker image ls
 ~~~
@@ -116,6 +114,7 @@ hello-world            latest              fce289e99eb9        4 months ago     
 {: .output}
 
 We can try to remove remove the `hello-world` image with a `docker image rm` command that includes the repository name, like so but...:
+
 ~~~
 $ docker image rm hello-world
 ~~~
@@ -124,13 +123,16 @@ $ docker image rm hello-world
 Error response from daemon: conflict: unable to remove repository reference "hello-world" (must force) - container e7d3b76b00f4 is using its referenced image fce289e99eb9
 ~~~
 {: .output}
-We get this error because there are containers created that depend on this image.
 
-### What containers are running?
+We get this error because there are containers created that depend on this image. (Remember that a *container* is an instance of a particular *image*).)
+
+## What containers are running?
+
 As indicated by the error above there is still an existing container from this image.
-We can list the running containers by typing.
+We can list the running containers with the `docker container ls` command:
+
 ~~~
-$ docker ps
+$ docker container ls
 ~~~
 {: .language-bash}
 ~~~
@@ -138,40 +140,45 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ~~~
 {: .output}
 
-The first version of the command is orthogonal to what we know from the Unix shell but we might want to use the shorter version. For reference, "ps" stands for “Process Status”. We should also notice that this command didn't return any containers because our containers all exited and thus stopped running after they completed their work.
+This command did not return any containers because our containers all exited and thus stopped running after they completed their work.
 
-### What containers have run recently?
-There is also a way to list running containers, and those that have completed recently, which is to add the `--all`/`-a` flag to the `docker ps` command as shown below.
+## What containers exist but are not running?
+
+There is also a way to list all known containers, including those that are not currently running, which is to add the `--all`/`-a` flag to the `docker container ls` command as shown below.
+
 ~~~
-$ docker ps --all
+$ docker container ls --all
 ~~~
 {: .language-bash}
 ~~~
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                     PORTS               NAMES
 9c698655416a        hello-world         "/hello"            2 minutes ago       Exited (0) 2 minutes ago                       zen_dubinsky
-6dd822cf6ca9        hello-world         "/hello"            3 minutes ago       Exited (0) 3 minutes ago                       eager_engelbart
 ~~~
 {: .output}
 
 We will talk more about how you might use these exited containers and how to restart a container later in this lesson.
 
+## How do I remove an exited container?
 
-### How do I remove an exited container?
-To delete an exited container you can run the following command, inserting the `CONTAINER ID` for the container you wish to remove. It will repeat the `CONTAINER ID` back to you, if successful.
+To delete an exited container you can run the following command, inserting the `NAME` for the container you wish to remove. It will repeat the `NAME` back to you, if successful.
 ~~~
-$ docker container rm 9c698655416a
+$ docker container rm zen_dubinsky
 ~~~
 {: .language-bash}
 ~~~
-9c698655416a
+zen_dubinsky
 ~~~
 {: .output}
+
+> ## Names and IDs
+> You can use either the `NAME` or `CONTAINER ID` with the `docker container rm` command, whichever you find easier. The names and IDs are randomly generated by Docker to be unique among your list of exisiting containers.
+{: .callout}
 
 If you want to remove all exited containers at once you can use the `docker containers prune` command.
 
 **Be careful** with this command. If you have containers you may want to reconnect to, you should not use this command.
 It will ask you if to confirm you want to remove these containers, see output below.
-If successful it will print the full `CONTAINER ID` back to you.
+If successful it will print the full `CONTAINER ID`s back to you.
 
 ~~~
 $ docker container prune
@@ -186,7 +193,7 @@ Deleted Containers:
 ~~~
 {: .output}
 
-### Removing images, for real this time
+## Removing images, for real this time
 
 ~~~
 $ docker image rm hello-world
@@ -201,13 +208,13 @@ Deleted: sha256:af0b15c8625bb1938f1d7b17081031f649fd14e6b233688eea3c5483994a66a3
 {: .output}
 
 The reason that there are a few lines of output, is that a given image may have been formed by merging multiple underlying layers. Any layers that are used by multiple Docker images will only be stored once.
-Now the result of `docker images` should no longer include the `hello-world` image.
+Now the result of `docker image ls` should no longer include the `hello-world` image.
 
-### Running containers in the background and interactive access
+## Running containers in the background and interactive access
 
-Often, you will want to use containers to run specific commands, analyses or tasks (as we have seen with the "hello, world" example above). Sometimes, however, you would prefer to have a container running and to get interactive access so you can run commands in the container yourself. You could, for example, be undertaking some data analysis using tools in the container but do not yet know the exact steps you want the analysis to take yet - you are exploring the data.
+Often, you will want to use containers to run specific commands, analyses or tasks (as we have seen with the "hello-world" example above). Sometimes, however, you would prefer to have a container running and to get interactive access so you can run commands in the container yourself. You could, for example, be undertaking some data analysis using tools in the container but do not yet know the exact steps you want the analysis to take yet - you are exploring the data.
 
-For this to work, the container image has to have the software installed to support interactive access. Almost all of the images tht are based on Linux distributions will come with this software installed so of you pick, for example, an Ubuntu image then this will work.
+For this to work, the container image has to have the software installed to support interactive access. Almost all of the images tht are based on Linux distributions will come with this software installed so if you pick, for example, an Ubuntu image then this will work.
 
 First, we need to run the container as we did for `hello-world` with a couple of additional flags to do two things:
 
@@ -238,7 +245,7 @@ dc5fae49118e449662ebdf6ab7790c98b828d2b8def3fca09491bc48c9063580
 We can get the image ID and see the image is running in the background with `docker ps`:
 
 ~~~
-$ docker ps
+$ docker container ls
 ~~~
 {: .language-bash}
 ~~~
@@ -250,7 +257,7 @@ dc5fae49118e        ubuntu              "/bin/bash"         33 seconds ago      
 Now we can start an interactive shell directly in the container image using the `docker exec` command with the container image ID:
 
 ~~~
-$ docker exec -i -t dc5fae49118e bash
+$ docker exec -i -t exciting_keller bash
 ~~~
 {: .language-bash}
 ~~~
@@ -277,9 +284,9 @@ Which takes us back to our original command prompt.
 Finally, we need to stop the container (it is still running in the background). We use the `docker stop` command with the container iamge ID to do this:
 
 ~~~
-$ docker ps
+$ docker container ls
 $ docker stop dc5fae49118e
-$ docker ps
+$ docker container ls
 ~~~
 {: .language-bash}
 ~~~
@@ -292,6 +299,13 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ~~~
 {: .output}
 
+> ## YOu will usually want to mount a local directory in the container
+> We will discuss making local directories available in containers in more detail later in the lesson but you will often want to do this with interactive access to containers. As a quick example, to modify the command above so that the container will have the current directory mounts at /data in the container, we would modify the `docker run` command to be:
+> ~~~
+> docker run -t -d -v ${PWD}:/data ubuntu
+> ~~~
+> {: .language-bash}
+{: .container}
 
 > ## The Docker official documentation is helpful!
 > There is lots of great documentation at <https://docs.docker.com/>, for example, detailed reference material and tutorials covering the use of the commands mentioned above.
@@ -300,7 +314,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ### Conclusion
 
 You have now successfully acquired a Docker image file to your computer, and have created a Docker container from it.
-While this already effects a reproducible computational environment,the image contents are not under your control, so we look at this topic next.
+While this already effects a reproducible computational environment, the image contents are not under your control, so we look at this topic after a quick detour to the Docker Hub.
 
 {% include links.md %}
 

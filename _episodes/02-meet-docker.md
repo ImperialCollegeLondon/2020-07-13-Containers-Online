@@ -8,12 +8,12 @@ objectives:
 - "Explain how to check that Docker is installed and is ready to use."
 - "Demonstrate some initial Docker command line interactions."
 keypoints:
-- "A toolbar icon indicates that Docker is ready to use containers."
+- "A toolbar icon indicates that Docker is ready to use."
 - "You will typically interact with Docker using the command line."
 ---
 ### Docker command line
 
-Start the Docker application that you installed in working through the setup instructions for this session. Note that this might not be necessary if your laptop is running Linux. 
+Start the Docker application that you installed in working through the setup instructions for this session. Note that this might not be necessary if your laptop is running Linux or if the installation added the Docker application to your startup process. 
 
 The Docker application will usually provide a way for you to log in using the application's menu (macOS) or systray icon (Windows). This will require you to use your Docker Hub username and your password.
 
@@ -24,13 +24,13 @@ The Docker application will usually provide a way for you to log in using the ap
 > - In the top-right of the screen you will see your username. Mine's `dme26`.
 {: .callout}
 
-Now open a shell window, and run the following command in your shell to check that Docker is installed. I have appended the output that I see on my Mac, but the specific version is unlikely to matter much: it certainly does not have to precisely match mine.
+Now open a shell (terminal) window, and run the following command to check that Docker is installed and the command line tools are working correctly. I have appended the output that I see on my Mac, but the specific version is unlikely to matter much: it certainly does not have to precisely match mine.
 ~~~
 $ docker --version
 ~~~
 {: .language-bash}
 ~~~
-Docker version 18.09.1, build 4c52b90
+Docker version 19.03.5, build 633a0ea
 ~~~
 {: .output}
 
@@ -48,11 +48,11 @@ Login Succeeded
 
 The `Login Succeeded` message means that your `docker` command line tool is ready to access the Docker Hub. We will return to discussion of the Docker Hub soon...
 
-The above commands have not actually relied on the part of Docker that runs lightweight virtual machines being operational. Somewhat stretching a physical analogy, you can think of the above Docker commands having been instructions to the cranes on a hypothetical shipping dock, but we haven't actually checked if the container ship we want to interact with is present yet. A command that checks that the virtual machine host is running is the Docker process list command, which we cover in a later episode.
+The above commands have not actually relied on the part of Docker that runs lightweight virtual machines being operational. Somewhat stretching a physical analogy, you can think of the above Docker commands having been instructions to the cranes on a hypothetical shipping dock, but we haven't actually checked if the container ship we want to interact with is present yet. A command that checks that the virtual machine host is running is the Docker container list command, which we cover in a later episode.
 
 Without explaining the details, output on a newly installed system would likely be:
 ~~~
-$ docker ps
+$ docker container ls
 ~~~
 {: .language-bash}
 ~~~

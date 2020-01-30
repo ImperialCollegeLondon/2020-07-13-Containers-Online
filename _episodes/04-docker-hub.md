@@ -16,7 +16,7 @@ keypoints:
 
 ## Introducing the Docker Hub
 
-The Docker Hub is an online repository of container images, a vast number of which are publicly available. A large number of the images are curated by the developers of the software that they package. Also, many commonly used pieces of software that have been containerised into images are specifically endorsed, which means that you can trust the containers to have been checked for functionality, stability, and that they don't contain malware.
+The Docker Hub is an online repository of container images, a vast number of which are publicly available. A large number of the images are curated by the developers of the software that they package. Also, many commonly used pieces of software that have been containerised into images are specifically endorsed, which means that you can trust the images to have been checked for functionality, stability, and that they don't contain malware.
 
 > ## Docker can be used without connecting to the Docker Hub
 > Note that while the Docker Hub is well integrated into Docker functionality, the Docker Hub is certainly not required for all types of use of Docker containers. For example, some organisations may run container infrastructure that is entirely disconnected from the Internet.
