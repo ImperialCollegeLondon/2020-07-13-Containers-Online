@@ -207,8 +207,14 @@ Deleted: sha256:af0b15c8625bb1938f1d7b17081031f649fd14e6b233688eea3c5483994a66a3
 ~~~
 {: .output}
 
-The reason that there are a few lines of output, is that a given image may have been formed by merging multiple underlying layers. Any layers that are used by multiple Docker images will only be stored once.
-Now the result of `docker image ls` should no longer include the `hello-world` image.
+The reason that there are a few lines of output, is that a given image may have been formed by merging multiple underlying layers. Any layers that are used by multiple Docker images will only be stored once. Now the result of `docker image ls` should no longer include the `hello-world` image.
+
+> ## Removing all images
+> Removing all images is a little more tricky than removing all containers, you need to combine to commands. The `docker image ls -q` command returns a list of all image IDs. You can use this to delete all images in one command:
+> ~~~
+> docker image rm $(docker image ls -q)
+> ~~~
+> {: .language-bash}
 
 ## Running containers in the background and interactive access
 
