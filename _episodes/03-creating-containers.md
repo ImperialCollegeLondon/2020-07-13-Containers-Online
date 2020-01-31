@@ -285,7 +285,7 @@ Finally, we need to stop the container (it is still running in the background). 
 
 ~~~
 $ docker container ls
-$ docker stop dc5fae49118e
+$ docker stop exciting_keller
 $ docker container ls
 ~~~
 {: .language-bash}
@@ -293,7 +293,7 @@ $ docker container ls
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 dc5fae49118e        ubuntu              "/bin/bash"         8 minutes ago       Up 8 minutes                            exciting_keller
 
-dc5fae49118e
+exciting_keller
 
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
 ~~~
