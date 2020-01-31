@@ -378,7 +378,7 @@ You have now successfully implemented an image that creates containers that tran
 Rather than upload images to Docker Hub, you can also save images to local binary (tar archive) files (for example, to share with particular people, to archive for future use, to associate with a published paper). To save a docker image you use the `docker save` command with the image ID:
 
 ~~~
-$ docker save b6434dd4b33d -o my-container.tar
+$ docker save -o my-container.tar my-container
 $ ls -lh
 ~~~
 {: .language-bash}
