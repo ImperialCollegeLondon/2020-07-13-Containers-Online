@@ -365,6 +365,13 @@ For `cmd.exe` shells on Microsoft Windows:
 > docker run -v "%CD%":/data csv-to-scatter-plot
 ~~~
 
+> ## You may need the full path...
+> Sometimes, on Windows, the command to include the current directory will fail with an error about setting the neccessary access permissions. You can work around this by specifying the full path, e.g.:
+> ~~~
+> docker run -v /c/User/auser/container-playground/test:/data csv-to-scatter-plot
+> ~~~
+> {: .language-bash}
+
 If all goes well, you should now see, within the working directory of your testing shell, a PNG and a PDF file that plot the data from `data.csv`.
 
 Change your `data.csv` file, and rerun the appropriate preceding `docker run` invocation.
