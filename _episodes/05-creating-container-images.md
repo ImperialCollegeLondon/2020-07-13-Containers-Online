@@ -371,6 +371,7 @@ For `cmd.exe` shells on Microsoft Windows:
 > docker run -v /c/User/auser/container-playground/test:/data csv-to-scatter-plot
 > ~~~
 > {: .language-bash}
+{: .callout}
 
 If all goes well, you should now see, within the working directory of your testing shell, a PNG and a PDF file that plot the data from `data.csv`.
 
