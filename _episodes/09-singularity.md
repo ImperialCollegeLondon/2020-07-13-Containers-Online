@@ -13,7 +13,7 @@ keypoints:
 - "Singularity has a different security model to other container platforms, one of the key reasons that it is well suited to HPC and cluster environments."
 ---
 
-This section of the course will build on the experience you've gained with Docker and introduce you to another container platform - [Singularity](https://sylabs.io/singularity/) - demonstrating how to set up, use and work Singularity.
+This section of the course will build on the experience you've gained with Docker and introduce you to another container platform - [Singularity](https://sylabs.io/singularity/) - demonstrating how to set up, use and work with Singularity.
 
 > ## Work in progress...
 > This section of the course is new material that is under ongoing development. We will introduce singularity and demonstrate how to work with it. As the tools and best practices continue to develop, elements of this material are likely to evolve. We will also aim to add further content to this section of the course and welcome comments/suggestions on how the material can be improved or extended.
@@ -26,91 +26,227 @@ This section of the course will build on the experience you've gained with Docke
 System administrators will not, generally, install Docker on shared computing platforms such as lab desktops, research clusters or HPC platforms because the design of Docker presents potential security issues for shared platforms with multiple users. Singularity, on the other hand, can be run by end-users entirely within "user space", that is, no special administrative privileges need to be assigned to a user in order for them to run and interact with containers on a platform where Singularity has been installed.
 
 ## Getting started with Singularity
+[EDIT]*
+Initially developed within the research community, Singularity is now made available through [Sylabs.io](https://sylabs.io/). We'll be working with Singularity directly on a High Performance Computing (HPC) cluster that has the software pre-installed. You will have been provided with details to access the cluster. 
 
-Initially developed within the research community, Singularity is now made available through [Sylabs.io](https://sylabs.io/). We'll be working with the free, open source [Singularity Community Edition](https://sylabs.io/singularity/). Singularity supports Linux platforms. For the purpose of this session, we'll be leveraging the Docker skills that you've already learnt and running Singularity within a Docker container. This ensures that you can follow this session on a Linux, Mac or Windows platform.
-
-
-> ## Installing Singularity from source code (optional) \[Advanced task\]
+> ## Installing Singularity on your local system (optional) \[Advanced task\]
 >
-> If you are running on a Linux system and would like to run Singularity natively on your system (i.e. not within a Docker container), you can build a [SingularityCE release](https://www.github.com/sylabs/singularity/releases) from source code.
+> If you are running Linux and would like to run Singularity locally on your system, Singularity provide the free, open source [Singularity Community Edition](https://sylabs.io/singularity/). You will need to install various dependencies on your system and then build Singularity from source code.
 >
 > _This is an advanced task that is beyond the scope of this session, and is not required to participate in the session._
 > _However, if you have Linux systems knowledge and would like to attempt a local install of Singularity, you can find details in the [INSTALL.md file](https://github.com/sylabs/singularity/blob/master/INSTALL.md) within the Singularity source that explain how to install the prerequisites and build and install the software._
 > 
+> Singularity also provide a Docker container which enables you to use Docker to run Singularity on other platforms that support Docker. The Singularity Docker container can be pulled from [https://quay.io/repository/singularity/singularity](https://quay.io/repository/singularity/singularity). Use of this container is, again, beyond the scope of this course but once you understand the basics of working with Singularity, this is something you may choose to explore if you wish to experiment with Singularity on your local system.
 {: .callout}
 
-Singularity containers are stored in a Docker container repository. Instead of using Docker Hub, Singularity containers are distributed through [Quay.io](https://quay.io), an alternative container repository. We can see the list of tags/containers on the [Singularity - Repository Tags](https://quay.io/repository/singularity/singularity?tab=tags) on Quay.io.
-
-We'll begin by pulling the Docker container for the latest version of Singularity. _At the time of writing, this is v3.5.3._
+Sign in to the HPC cluster, with Singularity installed, that you've been provided with access to. Check that the `singularity` command is available in your terminal:
 
 ~~~
-$ docker pull quay.io/singularity/singularity:v3.5.3
+$ singularity --version
 ~~~
 {: .language-bash}
 
 ~~~
-v3.5.3: Pulling from singularity/singularity
-4167d3e14976: Pull complete 
-... (additional lines truncated)
-6c16b46e7b9f: Pull complete 
-Digest: sha256:14c0705bda549b28ea604c7de17f2dc063c35d82be850f0b508a39a07912a3bf
-Status: Downloaded newer image for quay.io/singularity/singularity:v3.5.3
-quay.io/singularity/singularity:v3.5.3
+singularity version 3.5.3
 ~~~
 {: .output}
 
-If you recall from learning about Docker, the above output says that Docker has pulled the various _layers_ that make up the Docker image containing Singularity v3.5.3 into the local container repository on your system. You can see that the image is available by looking at the list of docker images on your system:
+Depending on the version of Singularity installed on your system, you may see a different version. At the time of writing, `v3.5.3` is the latest release of Singularity.
+
+## Accessing and running a Singularity image
+
+If you recall from learning about Docker, Docker images are formed of a set of _layers_ that make up the complete image. When you pull a Docker image from Docker Hub, you see the different layers being downloaded to your system. They are stored in your local repository on your system and you can see details of the available images using the docker command.
+
+Handling of images is a little different in Singularity. Singularity uses the [Signularity Image Format (SIF)](https://github.com/sylabs/sif) and images are provided as single `SIF` files. Singularity images can be pulled from [Singularity Hub](https://singularity-hub.org/). Singularity is also capable of running containers based on images pulled from [Docker Hub](https://hub.docker.com/), we'll look at this later in the lesson.
+
+> ## Singularity Hub
+> Note that in addition to providing a repository that you can pull images from, [Singularity Hub](https://singularity-hub.org/) can also build Singularity images for you from a `recipe` - a configuration file defining the steps to build an image. We'll look at recipes and building images later in this lesson.
+{: .callout}
+
+Let's begin by creating a `test` directory, changing into it and pulling a test _Hello World_ image from Singularity Hub:
 
 ~~~
-$ docker image ls
+$ mkdir test
+$ cd test
+$ singularity pull hello-world.sif shub://vsoch/hello-world
 ~~~
 {: .language-bash}
+
 ~~~
-REPOSITORY                           TAG                      IMAGE ID            CREATED             SIZE
-quay.io/singularity/singularity      v3.5.3                   fb8d1bd5b4e7        5 weeks ago         966MB
+INFO:    Downloading shub image
+ 59.75 MiB / 59.75 MiB [===============================================================================================================] 100.00% 52.03 MiB/s 1s
 ~~~
 {: .output}
 
-Using the same approach demonstrated in the _[Creating containers](/03-creating-containers/index.html)_ section of the course, we'll now run a container based on the Singularity image and open a shell within the container so we can proceed with learning about Singularity. Note that in addition to the two flags used previously, we add a couple of additional flags:
-
-   - `-t` flag:           Allocate a psuedo-tty to allow us to access the container interactively
-   - `-d` flag:           Detach the container and run in the background
-   - `--privileged` flag: Allow the container to have enhanced system access privileges
-   - `--entrypoint` flag: Override the default entrypoint for the container to instead run a shell
-   - `--name` flag:       Assign a name to the container to make it easier to reference in subsequent commands
+What just happened?! We pulled a SIF image from Singularity Hub and asked the `singularity pull` command to store the image file using the name `hello-world.sif`. If you run the `ls` command, you should see this file in your current directory. This is our image and we can now run a container based on this image:
 
 ~~~
-$ docker run -t -d --privileged --entrypoint /bin/bash --name singularity quay.io/singularity/singularity:v3.5.3
+$ singularity run hello-world.sif
 ~~~
 {: .language-bash}
 
-Note that the use of the `--name` flag in the `docker run` command above means that our running container has the name _"singularity"_ rather than a container name autogenerated by Docker. The `--privileged` flag is required to ensure that Singularity has sufficient privileges to run within the Docker container.
-
-Also note the `--entrypoint` flag that was used when starting the container. This flag overrides any pre-configured container entrypoint. The entrypoint is the executable that the container is configured to run by default. For this container, it is `/usr/local/bin/singularity`. Therefore, if we don't override the entry point, when the `docker run` command is issued, the container starts, runs the `singularity` command and, without any additional parameters, the command exits straight away, causing the container to exit. We override the original entrypoint, directing the container to start a bash shell on startup instead. This ensures that the container remains in a running state and we can interact with it.
-
-We can verify that the container has started successfully and is running with the `docker ps -a` command (or `docker container ls`):
-
 ~~~
-$ docker container ls
-~~~
-{: .language-bash}
-~~~
-CONTAINER ID        IMAGE                                    COMMAND                  CREATED             STATUS              PORTS                                                                                 NAMES
-2e373f5e7050        quay.io/singularity/singularity:v3.5.3   "/bin/bash"              3 minutes ago       Up 3 minutes                                                                                              singularity
+RaawwWWWWWRRRR!! Avocado!
 ~~~
 {: .output}
 
-For the purposes of this lesson, we'll use the `docker exec` command to start another bash shell within the container that we can connect to and interact with to work with singularity in the subsequent parts of this lesson. To do this, run the following command:
+The above command ran the _hello-world_ container from the image we downloaded from Singularity Hub and the resulting output was shown. 
+
+
+How do we know what command was initiated when we ran the container resulting in this output? We can inspect the image's run script using the `singularity inspect` command:
 
 ~~~
-$ docker exec -i -t singularity /bin/bash
+$ singularity inspect -r hello-world.sif
 ~~~
 {: .language-bash}
+
 ~~~
-bash-5.0# 
+#!/bin/sh 
+
+exec /bin/bash /rawr.sh
+
 ~~~
 {: .output}
 
+This shows us the script within the `hello-world.sif` image configured to run by default when we use the `singularity run` command. 
+
+## Singularity's image cache
+
+While singularity doesn't have a local image repository in the same way as Docker, it does cache downloaded image files. Images are simply `.sif` files stored on your local disk. 
+
+If you delete a local `.sif` image that you have pulled from a remote image repository and then pull it again, if the image is unchanged from the version you previously pulled, you will be given a copy of the image file from your local cache rather than the image being downloaded again from the remote source. This removes unnecessary network transfers and is particularly useful for large images which may take some time to transfer over the network. To demonstrate this, remove the `hello-world.sif` file stored in your `test` directory and then issue the `pull` command again:
+
+~~~
+$ rm hello-world.sif
+$ singularity pull hello-world.sif shub://vsoch/hello-world
+~~~
+{: .language-bash}
+
+~~~
+INFO:    Use image from cache
+~~~
+{: .output}
+
+As we can see in the above output, the image has been returned from the cache and we don't see the output that we saw previously showing the image being downloaded from Singularity Hub.
+
+How do we know what is stored in the local cache? We can find out using the `singularity cache` command:
+
+~~~
+$ singularity cache list
+~~~
+{: .language-bash}
+
+~~~
+There are 1 container file(s) using 62.65 MB and 0 oci blob file(s) using 0.00 kB of space
+Total space used: 62.65 MB
+~~~
+{: .output}
+
+This tells us how many container files are stored in the cache and how much disk space the cache is using but it doesn't tell us _what_ is actually being stored. To find out more information we can add the `-v` verbose flag to the `list` command:
+
+~~~
+$ singularity cache list -v
+~~~
+{: .language-bash}
+
+~~~
+NAME                     DATE CREATED           SIZE             TYPE
+hello-world_latest.sif   2020-04-03 13:20:44    62.65 MB         shub
+
+There are 1 container file(s) using 62.65 MB and 0 oci blob file(s) using 0.00 kB of space
+Total space used: 62.65 MB
+~~~
+{: .output}
+
+This provides us with some more useful information about the actual images stored in the cache. In the `TYPE` column we can see that our image type is `shub` because it's a `SIF` image that has been pulled from Singularity Hub. 
+
+> ## Cleaning the Singularity image cache
+> We can remove images from the cache using the `singularity cache clean` command. Running the command without any options will display a warning and ask you to confirm that you want to remove everything from your cache.
+>
+> You can also remove specific images or all images of a particular type. Look at the output of `singularity cache clean --help` for more information.
+{: .callout}
+
+## Running specific commands within a container
+
+We saw earlier that we can use the `singularity inspect` command to see the run script that a container is configured to run by default. What if we want to run a different command within a container, or we want to open a shell within a container that we can interact with?
+
+If we know the path of an executable that we want to run within a container, we can use the `singularity exec` command. For example, using the `hello-world.sif` container that we've already pulled from Singularity Hub, we can run the following within the `test` directory where the `hello-world.sif` file is located:
+
+~~~
+$ singularity exec hello-world.sif /bin/echo Hello World!
+~~~
+{: .language-bash}
+
+~~~
+Hello World!
+~~~
+{: .output}
+
+Here we see that a container has been started from the `hello-world.sif` image and the `/bin/echo` command has been run within the container, passing the input `Hello World!`. The command has echoed the provided input to the console and the container has terminated.
+
+## Running a shell within a container
+
+If you want to open an interactive shell within a container, Singularity provides the `singularity shell` command. Again, using the `hello-world.sif` image, and within our `test` directory, we can run a shell within a container from the hello-world image:
+
+~~~
+$ singularity shell hello-world.sif
+~~~
+{: .language-bash}
+
+~~~
+Singularity> whoami
+[<your username>]
+Singularity> ls
+hello-world.sif
+Singularity> 
+~~~
+{: .output}
+
+As shown above, we have opened a shell in a new container started from the `hello-world.sif` image.
+
+> ## Running a shell inside a Singularity container
+>
+> Q: What do you notice about the output of the above commands entered within the Singularity container shell?
+> 
+>
+> Q: Does this differ from what you might see within a Docker container?
+{: .discussion}
+
+## Users, files and directories within a Singularity container
+
+When you run a Singularity container, Singularity _binds_ some directories from the host system where you are running the `singularity` command into the container that you're starting. There is a default configuration but ultimate control of how things are set up on the system where you're running Singularity is determined by the system administrator. As a result, this section provides an overview but you may find that things are a little different on the system that you're running on.
+
+The first thing to note is that we run `whoami` within the container we should see our own username. For example, if my username is `jc1000`:
+
+~~~
+$ singularity shell hello-world.sif
+Singularity> whoami
+jc1000
+~~~
+{: .language-bash}
+
+But hang on! We downloaded the `hello-world.sif` image from Singularity Hub. How is configured with my user details?!
+
+If you have any familiarity with Linux system administration, you may be aware that in Linux, users and their Unix groups are configured in the `/etc/passwd` and `/etc/group` files respectively. In order for the shell within the container to know of my user, the relevant user information needs to be available within these files within the container.
+
+Assuming this feature is enabled on your system, when the container is started, Singularity appends the relevant user and group lines from the host system to the `/etc/passwd` and `/etc/group` files within the container [\[1\]](https://www.intel.com/content/dam/www/public/us/en/documents/presentation/hpc-containers-singularity-advanced.pdf   ).
+
+## Using Docker images with Singularity
+
+Some information on using Docker images with Singularity.
+
+## Building Singularity images
+
+Info on singularity recipes and building images.
+
+## Running MPI parallel codes with Singularity containers
+
+Info about running MPI parallel codes from Singularity containers. 
 
 More about singularity!
 
+* Paragraphs marked "[EDIT]" contain generic text that may benefit from being edited to provide course participants with specific information related to your course environment.
+
+## References
+
+\[1\] Gregory M. Kurzer, Containers for Science, Reproducibility and Mobility: Singularity P2. Intel HPC Developer Conference, 2017. Available at: https://www.intel.com/content/dam/www/public/us/en/documents/presentation/hpc-containers-singularity-advanced.pdf
