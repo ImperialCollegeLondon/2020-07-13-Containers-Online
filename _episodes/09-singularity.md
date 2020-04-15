@@ -225,15 +225,118 @@ jc1000
 ~~~
 {: .language-bash}
 
-But hang on! We downloaded the `hello-world.sif` image from Singularity Hub. How is configured with my user details?!
+But hang on! We downloaded the `hello-world.sif` image from Singularity Hub. How is it configured with my user details?!
 
 If you have any familiarity with Linux system administration, you may be aware that in Linux, users and their Unix groups are configured in the `/etc/passwd` and `/etc/group` files respectively. In order for the shell within the container to know of my user, the relevant user information needs to be available within these files within the container.
 
-Assuming this feature is enabled on your system, when the container is started, Singularity appends the relevant user and group lines from the host system to the `/etc/passwd` and `/etc/group` files within the container [\[1\]](https://www.intel.com/content/dam/www/public/us/en/documents/presentation/hpc-containers-singularity-advanced.pdf   ).
+Assuming this feature is enabled on your system, when the container is started, Singularity appends the relevant user and group lines from the host system to the `/etc/passwd` and `/etc/group` files within the container [\[1\]](https://www.intel.com/content/dam/www/public/us/en/documents/presentation/hpc-containers-singularity-advanced.pdf).
+
+Other files and directories are likely to be made available within containers that you start. For example, your _home directory_ is likely to be accessible in the container.
 
 ## Using Docker images with Singularity
 
-Some information on using Docker images with Singularity.
+Singularity can also start containers from Docker images, opening up access to a huge number of existing container images available on [Docker Hub](https://hub.docker.com/) and other registries.
+
+While Singularity doesn't directly support Docker images, it can pull them from Docker Hub and convert them into a suitable format for running via Singularity. When you pull a Docker image, Singularity pulls the slices or _layers_ that make up the Docker image and converts them into a single-file Singularity SIF image.
+
+For example, moving on from the simple _Hello World_ examples that we've looked at so far, let's pull one of the official Docker Python images. We'll use Python 3.8.2 installed on Debian's Buster (v10) Linux distribution:
+
+~~~
+$ singularity pull python-3.8.2.sif docker://python:3.8.2-buster
+~~~
+{: .language-bash}
+
+~~~
+INFO:    Converting OCI blobs to SIF format
+INFO:    Starting build...
+Getting image source signatures
+Copying blob f15005b0235f done
+Copying blob 41ebfd3d2fd0 done
+Copying blob b998346ba308 done
+Copying blob f01ec562c947 done
+Copying blob 2447a2c11907 done
+Copying blob fdd2d569da3e done
+Copying blob ac3886b74a9f done
+Copying blob 3c783a9b35dd done
+Copying blob ce16dda809f6 done
+Copying config 983a7273bc done
+Writing manifest to image destination
+Storing signatures
+2020/04/15 16:52:42  info unpack layer: sha256:f15005b0235fa8bd31cc6988c4f2758016fe412d696e81aecf73e52be079f19e
+2020/04/15 16:52:45  info unpack layer: sha256:41ebfd3d2fd0de99b1c63aa36a507bf5555481d06e571d84ed84440d30671494
+2020/04/15 16:52:45  info unpack layer: sha256:b998346ba308e3362a85c7bf7faed28d0277c68203696134192fe812f809abb2
+2020/04/15 16:52:45  info unpack layer: sha256:f01ec562c947a8ca1b168415da6a4a8f8920808f9b5d6f420ef8fa9af249b1f1
+2020/04/15 16:52:47  info unpack layer: sha256:2447a2c119076510a07d71cfcec029fceac2e59eea21fc7b39cf0eb234d3798e
+2020/04/15 16:52:55  info unpack layer: sha256:fdd2d569da3eb90bae8b2b7b097b369818974f8a4eff48bc06263ea61d44d9f7
+2020/04/15 16:52:55  info unpack layer: sha256:ac3886b74a9ff0d174f2a1e6c27cb492d43b3d2b97a5e0ed4c1ae12a82f584da
+2020/04/15 16:52:56  info unpack layer: sha256:3c783a9b35ddbae49d3ed42c93ab9710f82ee5633caaca6bedd1074ced380e56
+2020/04/15 16:52:56  info unpack layer: sha256:ce16dda809f69733b41448cfc947ab4485da9c1f7481332ad1da436e636891ab
+INFO:    Creating SIF file...
+INFO:    Build complete: python-3.8.2.sif
+~~~
+{: .output}
+
+Note how we see singularity saying that it's "_Converting OCI blobs to SIF format_". We then see the layers of the Docker image being downloaded and unpacked and written into a single SIF file. Once the process is complete, we should see the python-3.8.2.sif image file in the current directory.
+
+We can now run a container from this image as we would with any other singularity image:
+
+~~~
+$ singularity run python-3.8.2.sif
+~~~
+{: .language-bash}
+
+~~~
+Python 3.8.2 (default, Mar 31 2020, 15:23:55) 
+[GCC 8.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import math
+>>> math.pi
+3.141592653589793
+>>> 
+~~~
+{: .language-python}
+
+Running a container from this image has put us straight into a Python prompt where we can run Python code interactively.
+
+> ## Open a shell within the Python container
+>
+> Try to run a shell within a singularity container based on the `python-3.8.2.sif` image. That is, run a container that opens a shell rather than the default Python console as we saw above.
+> See if you can find more than one way to achieve this.
+> 
+> > ## Solution
+> >
+> > Recall from the earlier material that we can use the `singularity shell` command to open a shell within a container. To open a regular shell within a container based on the `python-3.8.2.sif` image, we can therefore simply run:
+> > ~~~
+> > $ singularity shell python-3.8.2.sif
+> > ~~~
+> > {: .language-bash}
+> > 
+> > ~~~
+> > Singularity> echo $SHELL
+> > /bin/bash
+> > Singularity> cat /etc/issue
+> > Debian GNU/Linux 10 \n \l
+> > 
+> > Singularity> exit
+> > $ 
+> > ~~~
+> > {: .output}
+> > 
+> > It is also possible to use the `singularity exec` command to run an executable within a container. We could, therefore, use the `exec` command to run `/bin/bash`:
+> > 
+> > ~~~
+> > $ singularity exec python-3.8.2.sif /bin/bash
+> > ~~~
+> > {: .language-bash}
+> > 
+> > ~~~
+> > Singularity> echo $SHELL
+> > /bin/bash
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
+
 
 ## Building Singularity images
 
