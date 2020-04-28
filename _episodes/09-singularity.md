@@ -353,6 +353,16 @@ This section of the course will then conclude with a look at running more advanc
 
 So far you've been able to work with Singularity from your own user account as a non-privileged user. Building Singularity containers requires that you have administrative (root) access on the system where you're building the containers. Bear in mind that this doesn't have to be the system where you intend to run the containers. If, for example, you are intending to build a container that you can subsequently run on a Linux-based cluster, you could build the container on your own Linux-based dekstop or laptop computer. You could then transfer the built image directly to the target platform or upload it to an image repository and pull it onto the target platform from this repository.
 
+> ## Note
+> In order undertake the practical aspects of this section of the course you'll need a Linux system where you have administrative privileges and you are able to install Singularity.
+>
+> If you have administrative privileges on a non-Linux system, you could look at installing a virtualisation tool such as [VirtualBox](https://www.virtualbox.org/) on which you can run a Linux Virtual Machine (VM) image. Within the Linux VM image, you will be able to install Singularity.
+>
+> If you are not able to access/run Singularity yourself on a system where you have administrative privileges, you can still follow through this material as it is being taught (or read through it in your own time if you're not participating in a taught version of this course) since it will be helpful to have an understanding of how Singularity containers can be built.
+{: .callout}
+
+As a platform that is widely used in the scientific/research software and HPC communities, Singularity provides great support for reproducibility. If you build a Singularity container for some scientific software, it's likely that you and/or others will want to be able to reproduce exactly the same environment again. Maybe you want to verify the results of the code or provide a means that others can use to verify the results to support a paper or report. Maybe you're making a tool available to others and want to ensure that they have exactly the right version/configuration of the code. ******
+
 ## Running MPI parallel codes with Singularity containers
 
 Info about running MPI parallel codes from Singularity containers. 
