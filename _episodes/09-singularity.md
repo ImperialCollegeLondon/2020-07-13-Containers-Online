@@ -337,10 +337,21 @@ Running a container from this image has put us straight into a Python prompt whe
 > {: .solution}
 {: .challenge}
 
+## Singularity recap
+
+So far we've seen how Singularity can be used without any administrative privileges on a computing platform, such as a cluster or remote server, where the software has been pre-installed for you and existing images are available. These existing images may be Singularity image files that are already on the platform you're using or they may be images you obtain from a remote image repository such as Singularity Hub or Docker Hub.
+
+What if you want to create your own images or customise existing images?
+
+In this next section we'll look at building Singularity images.
+
+This section of the course will then conclude with a look at running more advanced, parallel applications from Singularity container.
 
 ## Building Singularity images
 
-Info on singularity recipes and building images.
+*** Comment to remove: Info on singularity recipes and building images. ***
+
+So far you've been able to work with Singularity from your own user account as a non-privileged user. Building Singularity containers requires that you have administrative (root) access on the system where you're building the containers. Bear in mind that this doesn't have to be the system where you intend to run the containers. If, for example, you are intending to build a container that you can subsequently run on a Linux-based cluster, you could build the container on your own Linux-based dekstop or laptop computer. You could then transfer the built image directly to the target platform or upload it to an image repository and pull it onto the target platform from this repository.
 
 ## Running MPI parallel codes with Singularity containers
 
