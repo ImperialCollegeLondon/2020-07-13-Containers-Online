@@ -15,11 +15,30 @@ keypoints:
 
 This section of the course will build on the experience you've gained with Docker and introduce you to another container platform - [Singularity](https://sylabs.io/singularity/) - demonstrating how to set up, use and work with Singularity.
 
+> ## Prerequisites _(to be added to the main course setup information??)_
+> There are two sections to this part of the course, both have slightly different requirements:
+>
+> **Part I:**
+> - Access a local or remote platform with Singularity pre-installed and accessible to you as a user
+>   - If you are attending a taught version of this material, it is expected that the course organisers will provide access to a platform (e.g. an institutional HPC cluster) that you can use for the first section of this material.
+>
+> **Part II:**
+> - Access to a local or remote Linux-based system on which you have administrator (root) access and can install the Singularity software.
+>
+>      OR
+>
+> - Access to a non-Linux system on which you have administrator (root) access and can install the the VirtualBox virtualisation software under which you can run a Linux virtual machine and install Singularity.
+>
+> If you have a suitable environment set up for Part II, this could also be used for Part I.
+{: .prereq}
+
 > ## Work in progress...
 > This section of the course is new material that is under ongoing development. We will introduce singularity and demonstrate how to work with it. As the tools and best practices continue to develop, elements of this material are likely to evolve. We will also aim to add further content to this section of the course and welcome comments/suggestions on how the material can be improved or extended.
 {: .callout}
 
-## Singularity
+# Singularity - Part I
+
+## What is Singularity?
 
 [Singularity](https://sylabs.io/singularity/) is another container platform. In some ways it appears similar to docker from a user perspective, but in others, particularly in the system's architecture, it is fundamentally different. These differences mean that Singularity is particularly well-suited to running on distributed, High Performance Computing (HPC) infrastructure, as well as your laptop or desktop! 
 
@@ -337,19 +356,19 @@ Running a container from this image has put us straight into a Python prompt whe
 > {: .solution}
 {: .challenge}
 
-## Singularity recap
+# Singularity - Part II
+
+## Brief recap
 
 So far we've seen how Singularity can be used without any administrative privileges on a computing platform, such as a cluster or remote server, where the software has been pre-installed for you and existing images are available. These existing images may be Singularity image files that are already on the platform you're using or they may be images you obtain from a remote image repository such as Singularity Hub or Docker Hub.
 
 What if you want to create your own images or customise existing images?
 
-In this next section we'll look at building Singularity images.
+In this second part of the lesson we'll look at building Singularity images.
 
-This section of the course will then conclude with a look at running more advanced, parallel applications from Singularity container.
+This section of the lesson will then conclude with a look at running more advanced, parallel applications from Singularity container.
 
-## Building Singularity images
-
-*** Comment to remove: Info on singularity recipes and building images. ***
+## Building Singularity images: Introduction
 
 So far you've been able to work with Singularity from your own user account as a non-privileged user. Building Singularity containers requires that you have administrative (root) access on the system where you're building the containers. Bear in mind that this doesn't have to be the system where you intend to run the containers. If, for example, you are intending to build a container that you can subsequently run on a Linux-based cluster, you could build the container on your own Linux-based dekstop or laptop computer. You could then transfer the built image directly to the target platform or upload it to an image repository and pull it onto the target platform from this repository.
 
@@ -361,7 +380,142 @@ So far you've been able to work with Singularity from your own user account as a
 > If you are not able to access/run Singularity yourself on a system where you have administrative privileges, you can still follow through this material as it is being taught (or read through it in your own time if you're not participating in a taught version of this course) since it will be helpful to have an understanding of how Singularity containers can be built.
 {: .callout}
 
-As a platform that is widely used in the scientific/research software and HPC communities, Singularity provides great support for reproducibility. If you build a Singularity container for some scientific software, it's likely that you and/or others will want to be able to reproduce exactly the same environment again. Maybe you want to verify the results of the code or provide a means that others can use to verify the results to support a paper or report. Maybe you're making a tool available to others and want to ensure that they have exactly the right version/configuration of the code. ******
+As a platform that is widely used in the scientific/research software and HPC communities, Singularity provides great support for reproducibility. If you build a Singularity container for some scientific software, it's likely that you and/or others will want to be able to reproduce exactly the same environment again. Maybe you want to verify the results of the code or provide a means that others can use to verify the results to support a paper or report. Maybe you're making a tool available to others and want to ensure that they have exactly the right version/configuration of the code.
+
+Similarly to Docker and many other modern software tools, Singularity follows the "Configuration as code" approach where a container configuration can be stored in a file which can then be committed to your version control system alongside other code. Assuming it is suitably configured, this file can then be used by you or other individuals (or by automated build tools) to reproduce a container with the same configuration at some point in the future.
+
+## Building Singularity images: Different approaches
+
+There are various approaches to building Singularity containers. We will highlight two different approaches here and focus on one of them:
+
+ - _Building within a sandbox:_ You can build a container interactively within a sandbox environment. This means you get a shell within the container environment and install and configure packages and code as you wish before exiting the sandbox and converting it into a container image.
+- _Building from a [Singularity Definition File](https://sylabs.io/guides/3.5/user-guide/build_a_container.html#creating-writable-sandbox-directories)_: This is Singularity's equivalent to building a Docker container from a Dockerfile and we'll discuss this approach in this section.
+
+You can take a look at Singularity's "[Build a Container](https://sylabs.io/guides/3.5/user-guide/build_a_container.html#creating-writable-sandbox-directories)" documentation for more details on different approaches to building containers.
+
+> ## Why look at Singularity Definition Files?
+> Why do you think we might be looking at the _definition file approach_ here rather than the _sandbox approach_?
+>
+> > ## Discussion
+> > The sandbox approach is great for prototyping and testing out an image configuration but it doesn't provide our ultimate goal of reproducibility. If you spend time sitting at your terminal in front of a shell typing different commands to add configuration, maybe you realise you made a mistake so you undo one piece of configuration and change it. This goes on until you have your completed configuration but there's no explicit record of exactly what you did to create that configuration. 
+> > 
+> > Say your container image file gets deleted by accident, or someone else wants to create an equivalent image to test something. How will they do this and know for sure that they have the same configuration that you had?
+> > With a definition file, the configuration steps are explicitly defined and can be easily stored - definition files are small text files, container files may be very large, multi-gigabyte files that are difficult and time consuming to move around.
+> {: .solution}
+{: .challenge}
+
+## Creating a Singularity Definition File
+
+We'll start with a very simple example:
+
+~~~
+Bootstrap: docker
+From: ubuntu:20.04
+
+%post
+    apt-get -y update && apt-get install -y python
+
+%runscript
+    python -c 'print("Hello World! Hello from our custom Singularity image!")'
+~~~
+{: .language-bash}
+
+The definiton file has a number of sections, specified using the `%` prefix, that are used to define or undertake different configuration during different stages of the build process. You can find full details in Singularity's [Definition Files documentation](https://sylabs.io/guides/3.5/user-guide/definition_files.html). In our very simple example here, we only use the `post` and `runscript` sections.
+
+Let's step through what this definition file does:
+
+~~~
+Bootstrap: docker
+From: ubuntu:20.04
+~~~
+{: .language-bash}
+
+These first two lines define where to bootstrap our image from. In this case, we're going to start from a minimal Ubuntu 20.04 docker image. The `Bootstrap: docker` line is similar to prefixing an image path with `docker://` when using, for example, the `singularity pull` command. A range of [different bootstrap options](https://sylabs.io/guides/3.5/user-guide/definition_files.html#preferred-bootstrap-agents) are supported. `From: ubuntu:20.04` says that we want to use the `ubuntu` image with the tag `20.04`.
+
+Next we have the `%post` section of the definition file:
+
+~~~
+%post
+    apt-get -y update && apt-get install -y python3
+~~~
+{: .language-bash}
+
+In this section of the file we can do tasks such as package installation, pulling data files from remote locations and undertaking local configuration within the image. Here we use Ubuntu's package manager to update our package indexes and then install the python3 package along with any required dependencies. The `-y` switches are used to accept, by default, interactive prompts that might appear asking you to confirm package updates or installation. This is required because our definition file should be able to run in an unattended, non-interactive environment.
+
+Finally we have the `%runscript` section:
+
+~~~
+%runscript
+    python3 -c 'print("Hello World! Hello from our custom Singularity image!")'
+~~~
+{: .language-bash}
+
+This section is used to define a script that should be run when a container is started based on this image using the `singularity run` command. In this simple example we use python3 to print out some text to the console.
+
+We can now save the contents of the simple defintion file shown above to a file and build an image based on it. In the case of this example, the definition file has been named `my_test_image.def`:
+
+~~~
+$ sudo singularity build my_test_image.sif my_test_image.def
+~~~
+{: .language-bash}
+
+The above command requests the building of an image based on the `my_test_image.def` file with the resulting image saved to the `my_test_image.sif` file. Note that we prefix the command with `sudo` because it is necessary to have administrative privileges to build the image. You should see output similar to the following:
+
+~~~
+INFO:    Starting build...
+Getting image source signatures
+Copying blob d51af753c3d3 skipped: already exists
+Copying blob fc878cd0a91c skipped: already exists
+Copying blob 6154df8ff988 skipped: already exists
+Copying blob fee5db0ff82f skipped: already exists
+Copying config 95c3f3755f done
+Writing manifest to image destination
+Storing signatures
+2020/04/29 13:36:35  info unpack layer: sha256:d51af753c3d3a984351448ec0f85ddafc580680fd6dfce9f4b09fdb367ee1e3e
+2020/04/29 13:36:36  info unpack layer: sha256:fc878cd0a91c7bece56f668b2c79a19d94dd5471dae41fe5a7e14b4ae65251f6
+2020/04/29 13:36:36  info unpack layer: sha256:6154df8ff9882934dc5bf265b8b85a3aeadba06387447ffa440f7af7f32b0e1d
+2020/04/29 13:36:36  info unpack layer: sha256:fee5db0ff82f7aa5ace63497df4802bbadf8f2779ed3e1858605b791dc449425
+INFO:    Running post scriptlet
++ apt-get -y update
+Get:1 http://archive.ubuntu.com/ubuntu focal InRelease [265 kB]
+...
+  [Package update output truncated]
+...
+Fetched 13.4 MB in 2s (5575 kB/s)                            
+Reading package lists... Done
++ apt-get install -y python3
+Reading package lists... Done
+...
+  [Package install output truncated]
+...Processing triggers for libc-bin (2.31-0ubuntu9) ...
+INFO:    Adding runscript
+INFO:    Creating SIF file...
+INFO:    Build complete: my_test_image.sif
+$ 
+~~~
+{: .output}
+
+You should now have a `my_test_image.sif` file in the current directory. Note that in the above output, where it says `INFO:  Starting build...` you then see a series of `skipped: already exists` messages for the `Copying blob` lines. This is because the Docker image slices for the Ubuntu 20.04 image have previously been downloaded and are cached on the system where this example is being run. On your system, if the image is not already cached, you will see the slices being downloaded from Docker Hub when these lines of output appear.
+
+We've now built an image and we can attempt to run it:
+
+~~~
+$ singularity run my_test_image.sif
+~~~
+{: .language-bash}
+
+If everything worked successfully, you should see the message printed by Python:
+
+~~~
+Hello World! Hello from our custom Singularity image!
+~~~
+{: .output}
+
+Here we've looked at a very simple example of how to create an image. At this stage, you might want to have a go at creating your own definition file for some code of your own or an application that you work with regularly. If you'd like an more advanced example, take a look at the supplementary material at the end of this lesson where a more advanced example is given that generates a singularity container for running [c-ray](https://github.com/VKoskiv/c-ray), an open source ray-tracing application.
+
+**_Add a note about remote builder capabilities_**
+
+**_Add a note about signing containers_**
 
 ## Running MPI parallel codes with Singularity containers
 
@@ -374,3 +528,14 @@ More about singularity!
 ## References
 
 \[1\] Gregory M. Kurzer, Containers for Science, Reproducibility and Mobility: Singularity P2. Intel HPC Developer Conference, 2017. Available at: https://www.intel.com/content/dam/www/public/us/en/documents/presentation/hpc-containers-singularity-advanced.pdf
+
+# Singularity: Supplementary Materials
+
+## Writing a more advanced defintion file
+
+Here we provide a more advanced example of a singularity definition file. This example clones the code for the [c-ray](https://github.com/VKoskiv/c-ray) open source ray-tracing application from GitHub and builds it within the container.
+
+> ## Why [c-ray](https://github.com/VKoskiv/c-ray)?
+> We could have chosen any one of a vast number of applications to use for this example but c-ray was selected because it is a lightweight tool that builds quickly while still demonstrating the process of installing multiple dependencies and building the code using CMake. The output of the code also generates something visual that shows you that the code is running correctly within the container.
+{: .callout}
+
