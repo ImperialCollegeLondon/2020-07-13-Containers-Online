@@ -19,7 +19,7 @@ This section of the course will build on the experience you've gained with Docke
 > There are two sections to this part of the course, both have slightly different requirements:
 >
 > **Part I:**
-> - Access a local or remote platform with Singularity pre-installed and accessible to you as a user
+> - Access a local or remote platform with Singularity pre-installed and accessible to you as a user (i.e. no administrator/root access required).
 >   - If you are attending a taught version of this material, it is expected that the course organisers will provide access to a platform (e.g. an institutional HPC cluster) that you can use for the first section of this material.
 >
 > **Part II:**
@@ -46,14 +46,14 @@ System administrators will not, generally, install Docker on shared computing pl
 
 ## Getting started with Singularity
 [EDIT]*
-Initially developed within the research community, Singularity is now made available through [Sylabs.io](https://sylabs.io/). We'll be working with Singularity directly on a High Performance Computing (HPC) cluster that has the software pre-installed. You will have been provided with details to access the cluster. 
+Initially developed within the research community, Singularity is now made available through [Sylabs.io](https://sylabs.io/). For Part I of this lesson we'll be working with Singularity directly on a High Performance Computing (HPC) cluster that has the software pre-installed. You will have been provided with details to access the cluster. 
 
 > ## Installing Singularity on your local system (optional) \[Advanced task\]
 >
 > If you are running Linux and would like to run Singularity locally on your system, Singularity provide the free, open source [Singularity Community Edition](https://sylabs.io/singularity/). You will need to install various dependencies on your system and then build Singularity from source code.
 >
-> _This is an advanced task that is beyond the scope of this session, and is not required to participate in the session._
-> _However, if you have Linux systems knowledge and would like to attempt a local install of Singularity, you can find details in the [INSTALL.md file](https://github.com/sylabs/singularity/blob/master/INSTALL.md) within the Singularity source that explain how to install the prerequisites and build and install the software._
+> _A local installation of Singularity will be useful for Part II of the session. However, you can still learn from the material in Part II without having a local Singularity installation on your system. The installation process is an advanced task that is beyond the scope of this session.
+> However, if you have Linux systems knowledge and would like to attempt a local install of Singularity, you can find details in the [INSTALL.md file](https://github.com/sylabs/singularity/blob/master/INSTALL.md) within the Singularity source that explain how to install the prerequisites and build and install the software._
 > 
 > Singularity also provide a Docker container which enables you to use Docker to run Singularity on other platforms that support Docker. The Singularity Docker container can be pulled from [https://quay.io/repository/singularity/singularity](https://quay.io/repository/singularity/singularity). Use of this container is, again, beyond the scope of this course but once you understand the basics of working with Singularity, this is something you may choose to explore if you wish to experiment with Singularity on your local system.
 {: .callout}
@@ -74,7 +74,7 @@ Depending on the version of Singularity installed on your system, you may see a 
 
 ## Accessing and running a Singularity image
 
-If you recall from learning about Docker, Docker images are formed of a set of _layers_ that make up the complete image. When you pull a Docker image from Docker Hub, you see the different layers being downloaded to your system. They are stored in your local repository on your system and you can see details of the available images using the docker command.
+If you recall from learning about Docker, Docker images are formed of a set of _layers_ that make up the complete image. When you pull a Docker image from Docker Hub, you see the different layers being downloaded to your system. They are stored in your local Docker repository on your system and you can see details of the available images using the docker command.
 
 Handling of images is a little different in Singularity. Singularity uses the [Signularity Image Format (SIF)](https://github.com/sylabs/sif) and images are provided as single `SIF` files. Singularity images can be pulled from [Singularity Hub](https://singularity-hub.org/). Singularity is also capable of running containers based on images pulled from [Docker Hub](https://hub.docker.com/), we'll look at this later in the lesson.
 
@@ -82,7 +82,7 @@ Handling of images is a little different in Singularity. Singularity uses the [S
 > Note that in addition to providing a repository that you can pull images from, [Singularity Hub](https://singularity-hub.org/) can also build Singularity images for you from a `recipe` - a configuration file defining the steps to build an image. We'll look at recipes and building images later in this lesson.
 {: .callout}
 
-Let's begin by creating a `test` directory, changing into it and pulling a test _Hello World_ image from Singularity Hub:
+Let's begin by creating a `test` directory, changing into it and _pulling_ a test _Hello World_ image from Singularity Hub:
 
 ~~~
 $ mkdir test
@@ -244,21 +244,39 @@ jc1000
 ~~~
 {: .language-bash}
 
-But hang on! We downloaded the `hello-world.sif` image from Singularity Hub. How is it configured with my user details?!
+But hang on! I downloaded the `hello-world.sif` image from Singularity Hub. How is it configured with my own user details?!
 
 If you have any familiarity with Linux system administration, you may be aware that in Linux, users and their Unix groups are configured in the `/etc/passwd` and `/etc/group` files respectively. In order for the shell within the container to know of my user, the relevant user information needs to be available within these files within the container.
 
-Assuming this feature is enabled on your system, when the container is started, Singularity appends the relevant user and group lines from the host system to the `/etc/passwd` and `/etc/group` files within the container [\[1\]](https://www.intel.com/content/dam/www/public/us/en/documents/presentation/hpc-containers-singularity-advanced.pdf).
+Assuming this feature is enabled on your system, when the container is started, Singularity appends the relevant user and group lines from the host system to the `/etc/passwd` and `/etc/group` files within the container [\[1\]](https://www.intel.com/content/dam/www/public/us/en/documents/presentation/hpc-containers-singularity-advanced.pdf). 
 
-Other files and directories are likely to be made available within containers that you start. For example, your _home directory_ is likely to be accessible in the container.
+Other files and directories are likely to be made available within containers that you start. For example, your _home directory_ is likely to be accessible in the container. This is illustrated in the example below showing a subset of the directories on the host Linux system and in a Singularity container.
+
+~~~
+Host system:                                                      Singularity container:
+-------------                                                     ----------------------
+/                                                                 /
+├── bin                                                           ├── bin
+├── etc                                                           ├── etc
+│   ├── ...                                                       │   ├── ...
+│   ├── group  ─> user's group added to group file in container ─>│   ├── group
+│   └── passwd ──> user info added to passwd file in container ──>│   └── passwd
+├── home                                                          ├── usr
+│   └── jc1000 ───> user home directory made available ──> ─┐     ├── sbin
+├── usr                 in container via bind mount         │     ├── home
+├── sbin                                                    └────────>└── jc1000
+└── ...                                                           └── ...
+
+~~~
+{: .output}
 
 ## Using Docker images with Singularity
 
 Singularity can also start containers from Docker images, opening up access to a huge number of existing container images available on [Docker Hub](https://hub.docker.com/) and other registries.
 
-While Singularity doesn't directly support Docker images, it can pull them from Docker Hub and convert them into a suitable format for running via Singularity. When you pull a Docker image, Singularity pulls the slices or _layers_ that make up the Docker image and converts them into a single-file Singularity SIF image.
+While Singularity doesn't support running Docker images directly, it can pull them from Docker Hub and convert them into a suitable format for running via Singularity. When you pull a Docker image, Singularity pulls the slices or _layers_ that make up the Docker image and converts them into a single-file Singularity SIF image.
 
-For example, moving on from the simple _Hello World_ examples that we've looked at so far, let's pull one of the official Docker Python images. We'll use Python 3.8.2 installed on Debian's Buster (v10) Linux distribution:
+For example, moving on from the simple _Hello World_ examples that we've looked at so far, let's pull one of the [official Docker Python images](https://hub.docker.com/_/python). We'll use the image with the tag `3.8.2-buster` which has Python 3.8.2 installed on Debian's [Buster](https://www.debian.org/releases/buster/) (v10) Linux distribution:
 
 ~~~
 $ singularity pull python-3.8.2.sif docker://python:3.8.2-buster
@@ -297,25 +315,41 @@ INFO:    Build complete: python-3.8.2.sif
 
 Note how we see singularity saying that it's "_Converting OCI blobs to SIF format_". We then see the layers of the Docker image being downloaded and unpacked and written into a single SIF file. Once the process is complete, we should see the python-3.8.2.sif image file in the current directory.
 
-We can now run a container from this image as we would with any other singularity image:
+We can now run a container from this image as we would with any other singularity image.
 
-~~~
-$ singularity run python-3.8.2.sif
-~~~
-{: .language-bash}
+> ## Running the Python 3.8.2 image that we just pulled from Docker Hub
+>
+> Try running the Python 3.8.2 image. What happens?
+> 
+> Try running some simple Pyton commands...
+> 
+> > ## Running the Python 3.8.2 image
+> >
+> > ~~~
+> > $ singularity run python-3.8.2.sif
+> > ~~~
+> > {: .language-bash}
+> > 
+> > This should put you straight into a Python interactive shell within the running container:
+> > 
+> > ~~~
+> > Python 3.8.2 (default, Mar 31 2020, 15:23:55) 
+> > [GCC 8.3.0] on linux
+> > Type "help", "copyright", "credits" or "license" for more information.
+> > >>> 
+> > ~~~
+> > Now try running some simple Python commands:
+> > ~~~
+> > >>> import math
+> > >>> math.pi
+> > 3.141592653589793
+> > >>> 
+> > ~~~
+> > {: .language-python}
+> {: .solution}
+{: .challenge}
 
-~~~
-Python 3.8.2 (default, Mar 31 2020, 15:23:55) 
-[GCC 8.3.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
->>> import math
->>> math.pi
-3.141592653589793
->>> 
-~~~
-{: .language-python}
-
-Running a container from this image has put us straight into a Python prompt where we can run Python code interactively.
+In addition to running a container and having it run the default run script, you could also start a container running a shell in case you want to undertake any configuration prior to running Python. This is covered in the following exercise:
 
 > ## Open a shell within the Python container
 >
@@ -356,6 +390,8 @@ Running a container from this image has put us straight into a Python prompt whe
 > {: .solution}
 {: .challenge}
 
+This concludes the first part of the Singularity lesson.
+
 # Singularity - Part II
 
 ## Brief recap
@@ -366,27 +402,29 @@ What if you want to create your own images or customise existing images?
 
 In this second part of the lesson we'll look at building Singularity images.
 
-This section of the lesson will then conclude with a look at running more advanced, parallel applications from Singularity container.
+This section of the lesson will then conclude with a look at running more advanced, parallel applications from a Singularity container.
 
 ## Building Singularity images: Introduction
 
-So far you've been able to work with Singularity from your own user account as a non-privileged user. Building Singularity containers requires that you have administrative (root) access on the system where you're building the containers. Bear in mind that this doesn't have to be the system where you intend to run the containers. If, for example, you are intending to build a container that you can subsequently run on a Linux-based cluster, you could build the container on your own Linux-based dekstop or laptop computer. You could then transfer the built image directly to the target platform or upload it to an image repository and pull it onto the target platform from this repository.
+So far you've been able to work with Singularity from your own user account as a non-privileged user. This section of the lesson requires that you have administrative (root) access on the system where you'll be building containers. While it is possible to build Singularity containers without root access, it is highly recommended that you use root, as highlighted in [this section](https://sylabs.io/guides/3.5/user-guide/build_a_container.html#creating-writable-sandbox-directories) of the Singularity documentation. Bear in mind that the system that you use doesn't have to be the system where you intend to run the containers. If, for example, you are intending to build a container that you can subsequently run on a Linux-based cluster, you could build the container on your own Linux-based dekstop or laptop computer. You could then transfer the built image directly to the target platform or upload it to an image repository and pull it onto the target platform from this repository.
 
 > ## Note
-> In order undertake the practical aspects of this section of the course you'll need a Linux system where you have administrative privileges and you are able to install Singularity.
+> In order undertake the practical aspects of this section of the lesson you'll need a Linux system where you have administrative privileges and you are able to install Singularity.
 >
 > If you have administrative privileges on a non-Linux system, you could look at installing a virtualisation tool such as [VirtualBox](https://www.virtualbox.org/) on which you can run a Linux Virtual Machine (VM) image. Within the Linux VM image, you will be able to install Singularity.
 >
 > If you are not able to access/run Singularity yourself on a system where you have administrative privileges, you can still follow through this material as it is being taught (or read through it in your own time if you're not participating in a taught version of this course) since it will be helpful to have an understanding of how Singularity containers can be built.
+> 
+> You could also attempt to follow this section of the lesson without using root and instead using the `singularity` command's [`--fakeroot`](https://sylabs.io/guides/3.5/user-guide/fakeroot.html) option. However, you may encounter issues with permissions when trying to build and run your containers and this is why running the commands as root is strongly recommended and is the approach described in this lesson.
 {: .callout}
 
 As a platform that is widely used in the scientific/research software and HPC communities, Singularity provides great support for reproducibility. If you build a Singularity container for some scientific software, it's likely that you and/or others will want to be able to reproduce exactly the same environment again. Maybe you want to verify the results of the code or provide a means that others can use to verify the results to support a paper or report. Maybe you're making a tool available to others and want to ensure that they have exactly the right version/configuration of the code.
 
-Similarly to Docker and many other modern software tools, Singularity follows the "Configuration as code" approach where a container configuration can be stored in a file which can then be committed to your version control system alongside other code. Assuming it is suitably configured, this file can then be used by you or other individuals (or by automated build tools) to reproduce a container with the same configuration at some point in the future.
+Similarly to Docker and many other modern software tools, Singularity follows the "Configuration as code" approach and a container configuration can be stored in a file which can then be committed to your version control system alongside other code. Assuming it is suitably configured, this file can then be used by you or other individuals (or by automated build tools) to reproduce a container with the same configuration at some point in the future.
 
 ## Building Singularity images: Different approaches
 
-There are various approaches to building Singularity containers. We will highlight two different approaches here and focus on one of them:
+There are various approaches to building Singularity containers. We highlight two different approaches here and focus on one of them:
 
  - _Building within a sandbox:_ You can build a container interactively within a sandbox environment. This means you get a shell within the container environment and install and configure packages and code as you wish before exiting the sandbox and converting it into a container image.
 - _Building from a [Singularity Definition File](https://sylabs.io/guides/3.5/user-guide/build_a_container.html#creating-writable-sandbox-directories)_: This is Singularity's equivalent to building a Docker container from a Dockerfile and we'll discuss this approach in this section.
@@ -397,10 +435,12 @@ You can take a look at Singularity's "[Build a Container](https://sylabs.io/guid
 > Why do you think we might be looking at the _definition file approach_ here rather than the _sandbox approach_?
 >
 > > ## Discussion
-> > The sandbox approach is great for prototyping and testing out an image configuration but it doesn't provide our ultimate goal of reproducibility. If you spend time sitting at your terminal in front of a shell typing different commands to add configuration, maybe you realise you made a mistake so you undo one piece of configuration and change it. This goes on until you have your completed configuration but there's no explicit record of exactly what you did to create that configuration. 
+> > The sandbox approach is great for prototyping and testing out an image configuration but it doesn't provide the best support for our ultimate goal of reproducibility. If you spend time sitting at your terminal in front of a shell typing different commands to add configuration, maybe you realise you made a mistake so you undo one piece of configuration and change it. This goes on until you have your completed configuration but there's no explicit record of exactly what you did to create that configuration. 
 > > 
 > > Say your container image file gets deleted by accident, or someone else wants to create an equivalent image to test something. How will they do this and know for sure that they have the same configuration that you had?
-> > With a definition file, the configuration steps are explicitly defined and can be easily stored - definition files are small text files, container files may be very large, multi-gigabyte files that are difficult and time consuming to move around.
+> > With a definition file, the configuration steps are explicitly defined and can be easily stored.
+> > 
+> > Definition files are small text files while container files may be very large, multi-gigabyte files that are difficult and time consuming to move around. This makes definition files ideal for storing in a version control system along with their revisions.
 > {: .solution}
 {: .challenge}
 
