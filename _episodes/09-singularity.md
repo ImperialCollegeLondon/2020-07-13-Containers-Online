@@ -185,7 +185,9 @@ This provides us with some more useful information about the actual images store
 > You can also remove specific images or all images of a particular type. Look at the output of `singularity cache clean --help` for more information.
 {: .callout}
 
-## Running specific commands within a container
+## Working with containers
+
+### Running specific commands within a container
 
 We saw earlier that we can use the `singularity inspect` command to see the run script that a container is configured to run by default. What if we want to run a different command within a container, or we want to open a shell within a container that we can interact with?
 
@@ -203,7 +205,7 @@ Hello World!
 
 Here we see that a container has been started from the `hello-world.sif` image and the `/bin/echo` command has been run within the container, passing the input `Hello World!`. The command has echoed the provided input to the console and the container has terminated.
 
-## Running a shell within a container
+### Running a shell within a container
 
 If you want to open an interactive shell within a container, Singularity provides the `singularity shell` command. Again, using the `hello-world.sif` image, and within our `test` directory, we can run a shell within a container from the hello-world image:
 
@@ -231,7 +233,7 @@ As shown above, we have opened a shell in a new container started from the `hell
 > Q: Does this differ from what you might see within a Docker container?
 {: .discussion}
 
-## Users, files and directories within a Singularity container
+### Users, files and directories within a Singularity container
 
 When you run a Singularity container, Singularity _binds_ some directories from the host system where you are running the `singularity` command into the container that you're starting. There is a default configuration but ultimate control of how things are set up on the system where you're running Singularity is determined by the system administrator. As a result, this section provides an overview but you may find that things are a little different on the system that you're running on.
 
@@ -404,7 +406,9 @@ In this second part of the lesson we'll look at building Singularity images.
 
 This section of the lesson will then conclude with a look at running more advanced, parallel applications from a Singularity container.
 
-## Building Singularity images: Introduction
+## Building Singularity images
+
+### Introduction
 
 So far you've been able to work with Singularity from your own user account as a non-privileged user. This section of the lesson requires that you have administrative (root) access on the system where you'll be building containers. While it is possible to build Singularity containers without root access, it is highly recommended that you use root, as highlighted in [this section](https://sylabs.io/guides/3.5/user-guide/build_a_container.html#creating-writable-sandbox-directories) of the Singularity documentation. Bear in mind that the system that you use doesn't have to be the system where you intend to run the containers. If, for example, you are intending to build a container that you can subsequently run on a Linux-based cluster, you could build the container on your own Linux-based dekstop or laptop computer. You could then transfer the built image directly to the target platform or upload it to an image repository and pull it onto the target platform from this repository.
 
@@ -422,7 +426,7 @@ As a platform that is widely used in the scientific/research software and HPC co
 
 Similarly to Docker and many other modern software tools, Singularity follows the "Configuration as code" approach and a container configuration can be stored in a file which can then be committed to your version control system alongside other code. Assuming it is suitably configured, this file can then be used by you or other individuals (or by automated build tools) to reproduce a container with the same configuration at some point in the future.
 
-## Building Singularity images: Different approaches
+### Different approaches to building images
 
 There are various approaches to building Singularity containers. We highlight two different approaches here and focus on one of them:
 
@@ -444,9 +448,11 @@ You can take a look at Singularity's "[Build a Container](https://sylabs.io/guid
 > {: .solution}
 {: .challenge}
 
-## Creating a Singularity Definition File
+### Creating a Singularity Definition File
 
-We'll start with a very simple example:
+As highlighted above, a Singularity Definition File is a text file that contains a series of statements that are used to create a container image. The definition file can be stored in your code repository as part of your code and used to create a reproducible image. For a given commit in your repository, the definition file present at that commit can be used to reproduce a container with a known state. It was pointed out earlier in the course, when covering Docker, that this property also applies for Dockerfiles.
+
+We'll know look at a very simple example of a definition file:
 
 ~~~
 Bootstrap: docker
@@ -462,7 +468,7 @@ From: ubuntu:20.04
 
 The definiton file has a number of sections, specified using the `%` prefix, that are used to define or undertake different configuration during different stages of the build process. You can find full details in Singularity's [Definition Files documentation](https://sylabs.io/guides/3.5/user-guide/definition_files.html). In our very simple example here, we only use the `post` and `runscript` sections.
 
-Let's step through what this definition file does:
+Let's step through this definition file and look at the lines in more detail:
 
 ~~~
 Bootstrap: docker
@@ -470,7 +476,7 @@ From: ubuntu:20.04
 ~~~
 {: .language-bash}
 
-These first two lines define where to bootstrap our image from. In this case, we're going to start from a minimal Ubuntu 20.04 docker image. The `Bootstrap: docker` line is similar to prefixing an image path with `docker://` when using, for example, the `singularity pull` command. A range of [different bootstrap options](https://sylabs.io/guides/3.5/user-guide/definition_files.html#preferred-bootstrap-agents) are supported. `From: ubuntu:20.04` says that we want to use the `ubuntu` image with the tag `20.04`.
+These first two lines define where to bootstrap our image from. Rather than starting completely from scratch and having to install our operating system into an empty image, it's much easier to start from some existing base image. In this case, we're going to start from a minimal Ubuntu 20.04 docker image. The `Bootstrap: docker` line is similar to prefixing an image path with `docker://` when using, for example, the `singularity pull` command. A range of [different bootstrap options](https://sylabs.io/guides/3.5/user-guide/definition_files.html#preferred-bootstrap-agents) are supported. `From: ubuntu:20.04` says that we want to use the `ubuntu` image with the tag `20.04`.
 
 Next we have the `%post` section of the definition file:
 
@@ -499,7 +505,7 @@ $ sudo singularity build my_test_image.sif my_test_image.def
 ~~~
 {: .language-bash}
 
-The above command requests the building of an image based on the `my_test_image.def` file with the resulting image saved to the `my_test_image.sif` file. Note that we prefix the command with `sudo` because it is necessary to have administrative privileges to build the image. You should see output similar to the following:
+The above command requests the building of an image based on the `my_test_image.def` file with the resulting image saved to the `my_test_image.sif` file. Note that we prefix the command with `sudo` because it is necessary to have administrative privileges to build the image - you may be asked to enter your password when running this command in order to gain administrator privileges. You should see output similar to the following:
 
 ~~~
 INFO:    Starting build...
@@ -551,31 +557,148 @@ Hello World! Hello from our custom Singularity image!
 ~~~
 {: .output}
 
-Here we've looked at a very simple example of how to create an image. At this stage, you might want to have a go at creating your own definition file for some code of your own or an application that you work with regularly. If you'd like an more advanced example, take a look at the supplementary material at the end of this lesson where a more advanced example is given that generates a singularity container for running [c-ray](https://github.com/VKoskiv/c-ray), an open source ray-tracing application.
+### More advanced definition files
 
-**_Add a note about remote builder capabilities_**
+Here we've looked at a very simple example of how to create an image. At this stage, you might want to have a go at creating your own definition file for some code of your own or an application that you work with regularly. There are several definition file sections that were _not_ used in the above example, these are:
 
-**_Add a note about signing containers_**
+ - `%setup`
+ - `%files`
+ - `%environment`
+ - `%startscript`
+ - `%test`
+ - `%labels`
+ - `%help`
+
+The [`Sections` part of the definition file documentation](https://sylabs.io/guides/3.5/user-guide/definition_files.html#sections) details all the sections and provides an example definition file that makes use of all the sections.
+
+### Additional Singularity features
+
+Singularity has a wide range of features. You can find full details in the [Singularity User Guide](https://sylabs.io/guides/3.5/user-guide/index.html) and we highlight a couple of key features here that may be of use/interest:
+
+**Remote Builder Capabilities:** If you have access to a platform with Singularity installed but you don't have root access to create containers, you may be able to use the [Remote Builder](https://cloud.sylabs.io/builder) functionality to offload the process of building an image to remote cloud resources. You'll need to register for a _cloud token_ via the link on the [Remote Builder](https://cloud.sylabs.io/builder) page.
+
+**Signing containers:** If you do want to share container image (`.sif`) files directly with colleagues or collaborators, how can the people you send an image to be sure that they have received the file without tampering or corruption? And how can you be sure that the same goes for any container image file you receive from others? Singularity supports signing containers which allows a digital signature to be linked to an image file. This signature can be used to verify that an image file has been signed by the holder of a specific key and that the file is unchanged from when it was signed. You can find full details of how to use this functionality in the Singularity documentation on [Signing and Verifying Containers](https://sylabs.io/guides/3.0/user-guide/signNverify.html).
 
 ## Running MPI parallel codes with Singularity containers
 
-Info about running MPI parallel codes from Singularity containers. 
+### MPI overview
 
-More about singularity!
+MPI - [Message Passing Interface](https://en.wikipedia.org/wiki/Message_Passing_Interface) - is a widely used standard for parallel programming used for exchanging messages/data between processes in a parallel application. If you've been involved in developing or working with computational science software, you may already be familiar with MPI and running MPI applications.
+
+If working with an MPI code on a large-scale cluster, a common approach is to compile the code ourselves, within our own user directory on the cluster platform, building against the supported MPI implementation on the cluster. Alternatively, if the code is widely used on the cluster, the platform administrators may build and package the application as a module.
+
+### MPI codes with Singularity containers
+
+When working with Singularity containers, we've already seen that building containers can be impractical without root access. Since we're highly unlikely to have root access on a large institutional, regional or national cluster, building a container directly on the target platform is not an option.
+
+If our target platform uses [OpenMPI](https://www.open-mpi.org/), one of the two widely used source MPI implementations, we can build/install a compatible OpenMPI version on our local build platform and then build our image and associated code on this platform, either interactively in a sandbox or via a defintion file. Singularity directly supports OpenMPI with support integrated into OpenMPI itself. 
+
+If the target platform uses a version of MPI based on [MPICH](https://www.mpich.org/), the other widely used open source MPI implementation, there is [ABI compatibility between MPICH and several other MPI implementations](https://www.mpich.org/abi/). In this case, you can build your code and image on a local platform against MPICH and you should be able to succesfully run containers based on this image on your target cluster platform.
+
+### Building and running a Singularity image for an MPI code
+
+This example makes the assumption that you'll be building a container image on a local platform and then deploying it to a cluster with a different but compatbile MPI implementation. See [Singularity and MPI applications](https://sylabs.io/guides/3.3/user-guide/mpi.html#singularity-and-mpi-applications) in the Singularity documentation for further information on how this works.
+
+We'll build an image from a definition file that will be able to run some MPI benchmarks using the [OSU Micro-Benchmarks](https://mvapich.cse.ohio-state.edu/benchmarks/).
+
+In this example, the target platform is a remote HPC cluster that uses [Intel MPI](https://software.intel.com/content/www/us/en/develop/tools/mpi-library.html). The container will be built on a local system with a recent version of MPICH installed.
+
+Begin by creating a directory and, within that directory, downloading and saving the tarball for version 5.6.2 of the OSU Micro-Benchmarks.
+
+In the same directory, save the following definition file content to a `.def` file, e.g. `osu_benchmarks.def`:
+
+~~~
+Bootstrap: docker
+From: ubuntu:20.04
+
+%files
+    ./osu-micro-benchmarks-5.6.2.tar.gz /root/
+
+%post
+    apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential mpich libmpich-dev
+    cd /root
+    tar zxvf osu-micro-benchmarks-5.6.2.tar.gz
+    cd osu-micro-benchmarks-5.6.2/
+    ./configure --prefix=/usr/local/osu CC=/usr/bin/mpicc CXX=/usr/bin/mpicxx
+    make && make install
+
+%runscript
+    echo "Rank ${PMI_RANK} - About to run: /usr/local/osu/libexec/osu-micro-benchmarks/mpi/$*"
+    exec /usr/local/osu/libexec/osu-micro-benchmarks/mpi/$*
+~~~
+{: .output}
+
+A quick overview of what the above definition file is doing:
+
+ - Building a new image based on the `ubuntu:20.04` docker image
+ - In the `%files` section: Copying the OSU Micro-Benchmarks tar file from the current directory into the `/root` directory in the image
+ - In the `%post` section:
+   - Using Ubuntu's `apt-get` package manager to update the package directory and then install the compiler and other required build tools and MPICH
+   - Extracting the contents of the tar.gz file and then running the configure, build and install steps to build the benchmark code from source
+ - Setting up a runscript that will echo the rank number of the current process and then run the command provided as a command line argument
+
+Note that base path of the the executable to run is hardcoded in the run script so the command line parameter to provide when running a container based on this image is relative to this base path, for example, `startup/osu_hello`, `collective/osu_allgather`, `pt2pt/osu_latency`, `one-sided/osu_put_latency`.
+
+Build an image from this definition file, e.g.:
+
+~~~
+$ sudo singularity build osu_benchmarks.sif osu_benchmarks.def
+~~~
+{: .language-bash}
+
+Assuming the image builds successfully, you can then try running the container locally and also transfer the SIF file you your cluster platform and run it there.
+
+Let's begin with a single-process run of `osu_hello` on the local system to ensure that we can run containers as expected:
+
+~~~
+$ singularity run osu_benchmarks.sif startup/osu_hello
+~~~
+{: .language-bash}
+
+You should see output similar to the following:
+
+~~~
+Rank  - About to run: /usr/local/osu/libexec/osu-micro-benchmarks/mpi/startup/osu_hello
+# OSU MPI Hello World Test v5.6.2
+This is a test with 1 processes
+~~~
+{: .output}
+
+Note that no rank number is shown since we didn't run the container via mpirun and so the ${PMI_RANK} environment variable that we'd normally have set in an MPICH run process is not set.
+
+Assuming this worked, we can try an 2-process MPI run of a point to point test:
+
+~~~
+$ mpirun -np 2 singularity run osu_benchmarks.sif pt2pt/osu_latency
+~~~
+{: .language-bash}
+
+The following shows an example of the output you should expect to see. You should have latency values shown for message sizes up to 4MB.
+
+~~~
+Rank 1 - About to run: /.../mpi/pt2pt/osu_latency
+Rank 0 - About to run: /.../mpi/pt2pt/osu_latency
+# OSU MPI Latency Test v5.6.2
+# Size          Latency (us)
+0                       0.38
+1                       0.34
+...
+~~~
+{: .output}
+
+We now want to try running this on an HPC cluster. Depending on the size and configuration of the HPC cluster you're targetting, it's likely that you'll need to write a submission script for the scheduler on the platform that you're running on. That is beyond the scope of this material but if you're attenting a taught version of this course, some information will be provided at this point in relation to the cluster that you've been provided with access to.
+
+--------------------
+
+_The key thing to note...TBC [information to be added about running singularity as the target of mpirun/mpiexec and some info about using the libs inside the container and the daemon outside]_
+
+--------------------
+
+## Notes
 
 * Paragraphs marked "[EDIT]" contain generic text that may benefit from being edited to provide course participants with specific information related to your course environment.
 
 ## References
 
 \[1\] Gregory M. Kurzer, Containers for Science, Reproducibility and Mobility: Singularity P2. Intel HPC Developer Conference, 2017. Available at: https://www.intel.com/content/dam/www/public/us/en/documents/presentation/hpc-containers-singularity-advanced.pdf
-
-# Singularity: Supplementary Materials
-
-## Writing a more advanced defintion file
-
-Here we provide a more advanced example of a singularity definition file. This example clones the code for the [c-ray](https://github.com/VKoskiv/c-ray) open source ray-tracing application from GitHub and builds it within the container.
-
-> ## Why [c-ray](https://github.com/VKoskiv/c-ray)?
-> We could have chosen any one of a vast number of applications to use for this example but c-ray was selected because it is a lightweight tool that builds quickly while still demonstrating the process of installing multiple dependencies and building the code using CMake. The output of the code also generates something visual that shows you that the code is running correctly within the container.
-{: .callout}
 
