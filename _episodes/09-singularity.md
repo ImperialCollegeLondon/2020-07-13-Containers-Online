@@ -595,6 +595,8 @@ If our target platform uses [OpenMPI](https://www.open-mpi.org/), one of the two
 
 If the target platform uses a version of MPI based on [MPICH](https://www.mpich.org/), the other widely used open source MPI implementation, there is [ABI compatibility between MPICH and several other MPI implementations](https://www.mpich.org/abi/). In this case, you can build your code and image on a local platform against MPICH and you should be able to succesfully run containers based on this image on your target cluster platform.
 
+While this approach does produce a container image with some level of portability, if you're after the best possible performance, it can present some issues. The version of MPI in the container will need to be built and configured to support the hardware on your target platform if the best possible performance is to be achieved. Building on a different platform with different hardware present means that this is not going to be practical. Singularity's [MPI documentation](https://sylabs.io/guides/3.5/user-guide/mpi.html) highlights two different models for working with MPI codes and this is the _[hybrid model](https://sylabs.io/guides/3.5/user-guide/mpi.html#hybrid-model)_. In the following section we'll look at building a Singularity image along with a small MPI code based on the hybrid model.
+
 ### Building and running a Singularity image for an MPI code
 
 This example makes the assumption that you'll be building a container image on a local platform and then deploying it to a cluster with a different but compatbile MPI implementation. See [Singularity and MPI applications](https://sylabs.io/guides/3.3/user-guide/mpi.html#singularity-and-mpi-applications) in the Singularity documentation for further information on how this works.
@@ -693,6 +695,22 @@ We now want to try running this on an HPC cluster. Depending on the size and con
 _The key thing to note...TBC [information to be added about running singularity as the target of mpirun/mpiexec and some info about using the libs inside the container and the daemon outside]_
 
 --------------------
+
+> ## Investigate code performance when building an image on a local system and running on a cluster
+> 
+> If you'd like to get an idea of the differences in performance between the code within your Singularity image and the same code build natively on the target HPC platform, try building the OSU benchmarks locally on the cluster and then running the same benchmark(s) that you ran via the singularity container. Have a look at the outputs to get an idea of whether there is a performance difference and how significant it is.
+> 
+> What do you see?
+> 
+> > ## Discussion
+> > It's likely that you'll find that performance is significantly better with the version of the code built directly on the HPC platform.
+> > 
+> > How big is the performance difference between the two builds of the code?
+> > 
+> {: .solution}
+{: .challenge}
+
+If performance is an issue for you then you are advised to take a look at using the _[bind model](https://sylabs.io/guides/3.5/user-guide/mpi.html#bind-model)_ for building/running MPI applications through Singualarity.
 
 ## Notes
 
