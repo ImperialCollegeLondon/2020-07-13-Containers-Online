@@ -20,6 +20,17 @@ keypoints:
 
 This looks like the Carpentries' formatting of lessons because it is using their stylesheet (which is openly available for such purposes). However the similarity is visual-only: the lesson is not being developed by the Carpentries and has no association with the Carpentries.
 
+> ## Welcome, all
+> Introduce yourself to your neighbour, office mate or [rubber duck](https://rubberduckdebugging.com/)
+> and discuss the following topics:
+> 
+> - What research area you are involved in
+> - Why you have come on this course and what you hope to learn
+> - One thing about you that may surprise people
+> 
+> Write a few sentences on these in the course Etherpad.
+{: .challenge }
+
 ## The fundamental problem: software has dependencies that are difficult to manage
 
 Consider Python: a widely used tool for analysis. Many Python users install the tool using something such as [Anaconda](https://anaconda.org/) and give little thought to the underlying software dependencies allowing them to use [Matplotlib](https://matplotlib.org/) or [Pandas](https://pandas.pydata.org/) on their computer. Indeed, in an ideal world none of us would need to think about fixing software dependencies, but we are far from that world. For example:
@@ -28,7 +39,7 @@ Consider Python: a widely used tool for analysis. Many Python users install the 
   - Not all packages can be installed in the same Python environment at their most up to date versions due to conflicts in the shared dependencies
   - Different versions of Python tools may give slightly different outputs and/or results
 
-All of the above discussion is *just* about one piece of software: Python. Many people use many different pieces of software during their research workflow all of which may have dependency issues. Some software may just depend on the version of the operating system you're running or be more like Python where the languages change over time, and depend on an enormous set of software libraries written by unrelated software development teams.
+All of the above discussion is *just* about one tool: Python. Many people use many different tools and pieces of software during their research workflow all of which may have dependency issues. Some software may just depend on the version of the operating system you're running or be more like Python where the languages change over time, and depend on an enormous set of software libraries written by unrelated software development teams.
 
 What if you wanted to distribute a software tool that automated interaction between R and Python. *Both* of these language environments have independent version and software dependency lineages. As the number of software components such as R and Python increases, this can rapidly lead to a combinatorial explosion in the number of possible configurations, only some of which will work as intended. This situation is sometimes informally termed "dependency hell".
 
@@ -36,9 +47,11 @@ The situation is often mitigated in part by factors such as:
 - an acceptance of inherent software and hardware obsolesce so it's not expected that *all* versions of software need to be supported forever;
 - some inherent synchronisation in the reasons for making software changes (e.g., the shift from 32-bit to 64-bit software), so not all versions will be expected to interact with all other versions.
 
-It's not very practical to have every version of every piece of software installed on any computer that might need to resolve dependencies, as the mostly-redundant space used by the different versions will continue to mount.
+Although we have highlighted the dependency issue above, there are other, related problems that multiple versions of tools and software can cause:
+- Reproducibility: we want to make sure that we (and others) can reproduce our results. What if, a year after we have produced some results on a laptop we need to reproduce them and our old laptop has now been replaced by a new one (perhaps with a different operating system). How can we make sure our software environment is as similar to that on which we performed the original work?
+- Workload: most people use multiple computers for their research (either simultaneously, or due to upgrades or breakages). Installing the software and tools we need on all these systems is a large burden of additional work we could do without. This problem may be even more severe if we have to use shared advanced computing facilities where we may not have administrator access to install software.
 
-Thankfully there are ways to get underneath (a lot of) this mess: containers to the rescue! Containers provide a way to package up software dependencies and access to resources such as files and communications networks in a uniform manner.
+Thankfully there are ways to get underneath (a lot of) this mess: containers to the rescue! Containers provide a way to package up software dependencies and access to resources such as files and communications networks in a uniform manner that allows them to be shared and reused across many different computer resources.
 
 ## Background: virtualisation in computing
 
@@ -84,15 +97,24 @@ The *same* containers can run on:
 
 We should certainly see people using the same containers on macOS and Windows today.
 
+> ## And what do you do?
+> 
+> Talk to your neighbour, office mate or [rubber duck](https://rubberduckdebugging.com/) about your
+> research. How does computing help you do your research? 
+> How do you think containers (or virtualisation) could help you do more or better research?
+> 
+> Write a few sentences on this topic in the course Etherpad.
+{: .challenge }
+
 ## Containers and file systems
 
 One complication with using a virtual environment such as a container (or a VM) is that the file systems (i.e. the directories
 that the container sees) can now potentially come from two different locations:
 
-- Internal file systems: these provide directories that are part of the container itself and are not visible
+- **Internal file systems**: these provide directories that are part of the container itself and are not visible
   on the host outside the container. These directories can have the same location as directories on the host
   but the container will see its internal version of the directories rather than the host versions. 
-- Host file systems: these are directories mapped from the host into the container to allow the container to 
+- **Host file systems**: these are directories mapped from the host into the container to allow the container to 
   access data on the host system. Some container systems (e.g. Singularity) map particular directories into the
   container by default while others (e.g. Docker) do not generally do this. Note that the location (or *path*) to
   the directories in the container is not necessarily the same as that in the host. The command you use to 
@@ -101,27 +123,19 @@ that the container sees) can now potentially come from two different locations:
 This is illustrated in the diagram below:
 
 ```
-Host system:                                                      Singularity container:
--------------                                                     ----------------------
+Host system:                                                      Container:
+------------                                                      ----------
 /                                                                 /
-├── bin                                                           ├── bin
-├── etc                                                           ├── etc
-│   ├── ...                                                       │   ├── ...
-│   ├── group  ─> user's group added to group file in container ─>│   ├── group
-│   └── passwd ──> user info added to passwd file in container ──>│   └── passwd
-├── home                                                          ├── usr
-│   └── jc1000 ───> user home directory made available ──> ─┐     ├── sbin
-├── usr                 in container via bind mount         │     ├── home
-├── sbin                                                    └────────>└── jc1000
-└── ...    
+├── bin                                                           ├── bin                <-- Overwrites host version
+├── etc                                                           ├── etc                <-- Overwrites host version
+├── home                                                          ├── usr                <-- Overwrites host version
+│   └── auser/data ───> mapped to /data in container ──> ─┐       ├── sbin               <-- Overwrites host version
+├── usr                                                   │       ├── var                <-- Overwrites host version
+├── sbin                                                  └───────├── data
+└── ...                                                           └── ...
 ```
 
-> ## And what do you do?
-> 
-> Talk to your neighbour, office mate or [rubber duck](https://rubberduckdebugging.com/) about your
-> research. How does computing help you do your research? 
-> How do you think containers (or virtualisation) could help you do more or better research?
-{: .challenge }
+Although there are many use cases for containers that do not require mapping host directories into the container, a lot of real-world use cases for containers in research do use this feature and we will see it in action throughout this lesson.
 
 ## Docker is a popular container platform
 
