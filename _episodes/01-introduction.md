@@ -126,11 +126,11 @@ This is illustrated in the diagram below:
 Host system:                                                      Container:
 ------------                                                      ----------
 /                                                                 /
-├── bin                                                           ├── bin                <-- Overwrites host version
-├── etc                                                           ├── etc                <-- Overwrites host version
-├── home                                                          ├── usr                <-- Overwrites host version
-│   └── auser/data ───> mapped to /data in container ──> ─┐       ├── sbin               <-- Overwrites host version
-├── usr                                                   │       ├── var                <-- Overwrites host version
+├── bin                                                           ├── bin                <-- Overrides host version
+├── etc                                                           ├── etc                <-- Overrides host version
+├── home                                                          ├── usr                <-- Overrides host version
+│   └── auser/data ───> mapped to /data in container ──> ─┐       ├── sbin               <-- Overrides host version
+├── usr                                                   │       ├── var                <-- Overrides host version
 ├── sbin                                                  └───────├── data
 └── ...                                                           └── ...
 ```
@@ -139,9 +139,13 @@ Although there are many use cases for containers that do not require mapping hos
 
 ## Docker is a popular container platform
 
-Docker is software that manages containers and the resources that containers need. While Docker is a leader in the container space, there are many similar technologies available... the concepts we learn today will allow us to use other container platforms even if their command syntax will be a little different.
+[Docker](https://www.docker.com/) is software that manages containers and the resources that containers need. While Docker is a leader in the container space, there are many similar technologies available and the concepts we learn today will allow us to use other container platforms even if their command syntax will be a little different.
+
+The second part of this course will introduce a different container platform, Singularity. Singularity is widely available on shared advanced computing systems where the Docker approach is not compatible with the multi-user nature of the systems.
 
 ## Docker's terminology
+
+Before we start, we will formalise some of the technical terms used by Docker:
 
 - **Image**: this is the term that Docker uses to describe the template for the virtual hard disk contents (files and folders) from which live instances of containers will be created. The term "container image" may sometimes be used to emphasise that the "image" relates to software containers and not, say, the sense of an "image" when discussing VMs or cute kitten pictures (without loss of generality).
   - If you are interested in more technical details, Docker actually creates images by combining together multiple **Layers**, although you can profitably use Docker without knowing much about layers. As a quick summary, each layer is a given set of files and folders. The combination of layers essentially involves a set-wise union of the files and folders in the layers, except that there is also a way for upper layers to hide files from lower layers (which has the appearance of deleting those files). Layers facilitate efficient storage space use, by allowing container images to share and reuse sets of files and folders, while still allowing individual container images to have their own specific files and folders.
