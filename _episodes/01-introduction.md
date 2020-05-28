@@ -51,7 +51,7 @@ We have avoided the software dependency issue by looking for the lowest common f
 > ## Omitting details and avoiding complexities...
 > Note that this description omits many details and avoids discussing complexities that are not particularly relevant to this introduction session, for example:
 > - Thinking with analogy to movies such as Inception, The Matrix, etc., can the guest computer figure out that it's not actually a physical computer, and that it's running as software inside a host physical computer? Yes, it probably can... but let's not go there within this episode.
-> - Can you run a host as a guest itself within another host? Sometimes... but let's not go there either.
+> - Can you run a host as a guest itself within another host? Sometimes... in fact, we will do exactly this when we move on to look at Singularity containers later in this lesson.
 {: .callout}
 
 ## Motivation for virtualisation
@@ -83,6 +83,38 @@ The *same* containers can run on:
 - The Cloud
 
 We should certainly see people using the same containers on macOS and Windows today.
+
+## Containers and file systems
+
+One complication with using a virtual environment such as a container (or a VM) is that the file systems (i.e. the directories
+that the container sees) can now potentially come from two different locations:
+
+- Internal file systems: these provide directories that are part of the container itself and are not visible
+  on the host outside the container. These directories can have the same location as directories on the host
+  but the container will see its internal version of the directories rather than the host versions. 
+- Host file systems: these are directories mapped from the host into the container to allow the container to 
+  access data on the host system. Some container systems (e.g. Singularity) map particular directories into the
+  container by default while others (e.g. Docker) do not generally do this. Note that the location (or *path*) to
+  the directories in the container is not necessarily the same as that in the host. The command you use to 
+  start the container will usually provide a way to map host directories to directories in the container.
+
+This is illustrated in the diagram below:
+
+```
+Host system:                                                      Singularity container:
+-------------                                                     ----------------------
+/                                                                 /
+├── bin                                                           ├── bin
+├── etc                                                           ├── etc
+│   ├── ...                                                       │   ├── ...
+│   ├── group  ─> user's group added to group file in container ─>│   ├── group
+│   └── passwd ──> user info added to passwd file in container ──>│   └── passwd
+├── home                                                          ├── usr
+│   └── jc1000 ───> user home directory made available ──> ─┐     ├── sbin
+├── usr                 in container via bind mount         │     ├── home
+├── sbin                                                    └────────>└── jc1000
+└── ...    
+```
 
 > ## And what do you do?
 > 
