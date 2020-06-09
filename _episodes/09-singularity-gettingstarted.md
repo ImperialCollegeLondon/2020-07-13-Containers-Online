@@ -10,9 +10,9 @@ objectives:
 keypoints:
 - "Singularity is another container platform and it is often used in cluster/HPC/research environments."
 - "Singularity has a different security model to other container platforms, one of the key reasons that it is well suited to HPC and cluster environments."
+- "The `singularity pull` command can be used to pull images from Singularity Hub."
+- "The `singularity run` command can be used to run a container from an image file."
 ---
-
-***** Add something about terminology - image vs. container *******
 
 This section of the course on Singularity will build on the experience you've gained with Docker and introduce you to another container platform - [Singularity](https://sylabs.io/singularity/) - demonstrating how to set up, use and work with Singularity.
 
@@ -130,7 +130,9 @@ RaawwWWWWWRRRR!! Avocado!
 The above command ran the _hello-world_ container from the image we downloaded from Singularity Hub and the resulting output was shown. 
 
 
-How do we know what command was initiated when we ran the container resulting in this output? We can inspect the image's run script using the `singularity inspect` command:
+How did the container determine what to do when we ran it?! What did running the container actually do to result in the displayed output?
+
+When you run a container from an image without using any additional command line arguments, the container runs the default run script that is embedded within the image. This is a shell script that can be used to run commands, tools or applications stored within the image on container startup. We can inspect the image's run script using the `singularity inspect` command:
 
 ~~~
 $ singularity inspect -r hello-world.sif
@@ -145,4 +147,6 @@ exec /bin/bash /rawr.sh
 ~~~
 {: .output}
 
-This shows us the script within the `hello-world.sif` image configured to run by default when we use the `singularity run` command. 
+This shows us the script within the `hello-world.sif` image configured to run by default when we use the `singularity run` command.
+
+That concludes this introductory Singularity episode. The next episode looks in more detail at running containers.
