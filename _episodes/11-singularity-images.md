@@ -3,7 +3,7 @@ title: "Building Singularity images"
 teaching: 25
 exercises: 15
 questions:
-- "I now know how to run a Singularity image, how do I create one?"
+- "How do I create my own Singularity images?"
 objectives:
 - "Understand the different Singularity container file formats."
 - "Understand how to build and share your own Singularity containers."
@@ -17,13 +17,59 @@ keypoints:
 
 ## Brief recap
 
-So far we've seen how Singularity can be used without any administrative privileges on a computing platform, such as a cluster or remote server, where the software has been pre-installed for you and existing images are available. These existing images may be Singularity image files that are already on the platform you're using or they may be images you obtain from a remote image repository such as Singularity Hub or Docker Hub.
+In the two episodes covering Part I of the Singularity material we've seen how Singularity can be used on a computing platform where you don't have any administrative privileges. The software was pre-installed and it was possible to work with existing images such as Singularity image files already stored on the platform or images obtained from a remote image repository such as Singularity Hub or Docker Hub.
 
-What if you want to create your own images or customise existing images?
+It is clear that between Singularity Hub and Docker Hub there is a huge array of images available but what if you want to create your own images or customise existing images?
 
-In this second part of the lesson we'll look at building Singularity images.
+In this first of two episodes in Part II of the Singularity material, we'll look at building Singularity images.
 
-This section of the lesson will then conclude with a look at running more advanced, parallel applications from a Singularity container.
+To undertake this part of the material you need access to a Singularity install in an environment where you have administrative access. If you are running Linux, you could build Singularity from source code and install it on your system, for further information on this option, see the box below. However, since use of Docker is covered earlier in this course, the option that we'll focus on in this episode is running Singularity via the provided Docker container. This ensures that you can run Singularity on any platform where Docker can be run and, by running via Docker, have the required administrative privileges.
+
+> ## Installing Singularity on your local system (optional) \[Advanced task\]
+>
+> If you are running Linux and would like to run Singularity locally on your system, Singularity provide the free, open source [Singularity Community Edition](https://sylabs.io/singularity/). You will need to install various dependencies on your system and then build Singularity from source code.
+>
+> _A local installation of Singularity will be useful for Part II of the session. However, you can still learn from the material in Part II without having a local Singularity installation on your system. The installation process is an advanced task that is beyond the scope of this session.
+> However, if you have Linux systems knowledge and would like to attempt a local install of Singularity, you can find details in the [INSTALL.md file](https://github.com/sylabs/singularity/blob/master/INSTALL.md) within the Singularity source that explain how to install the prerequisites and build and install the software._
+> 
+> Singularity also provide a Docker container which enables you to use Docker to run Singularity on other platforms that support Docker. The Singularity Docker container can be pulled from [https://quay.io/repository/singularity/singularity](https://quay.io/repository/singularity/singularity). Use of this container is, again, beyond the scope of this course but once you understand the basics of working with Singularity, this is something you may choose to explore if you wish to experiment with Singularity on your local system.
+{: .callout}
+
+## Getting started with the Docker Singularity image
+
+The [Singularity image](https://quay.io/repository/singularity/singularity) is available from [Quay.io](https://quay.io/).
+
+> ## Familiarise yourself with the Docker Singularity image
+> Using your previously acquired Docker knowledge, get the Singularity image for `v3.5.3` and ensure that you can run the image.
+> 
+> Create a directory on your host machine and then bind mount this to "/home/singularity" in the container - this will give you
+> a location in which to store built images so that they are available on the host system once the container exits.
+> 
+> Hint: To be able to build an image using the Docker Singularity container, you'll need to add the `--privileged` switch to your docker command line
+> 
+> > ## Solution: Running the image
+> > You may choose to open a shell within the Docker image so you can work at a command prompt and run the `singularity` command directly.
+> > 
+> > Having a bound directory from the host system will give you somewhere to place created images so that they are accessible on the host system after the container exits.
+> >
+> > Alternatively, you may choose to simply use the `docker run` command to run a new container instance every time you run the `singularity` command.
+> > 
+> > Either option is fine for this section of the material.
+> > 
+> > _Some examples:_
+> > 
+> > To start a shell within the Singularity Docker container where the `singularity` command can be run directly:
+> > ```
+> > docker run -it --entrypoint=/bin/bash --privileged -v $MY_HOME_DIR/singularity:/home/singularity quay.io/singularity/singularity:v3.5.3
+> > ```
+> > 
+> > To run the `singularity` command within the docker container directly from the host system's terminal:
+> > ```
+> > docker run --privileged -v $MY_HOME_DIR/singularity:/home/singularity quay.io/singularity/singularity:v3.5.3 cache list
+> > ```
+> > 
+> {: .solution}
+{: .challenge}
 
 ## Building Singularity images
 
