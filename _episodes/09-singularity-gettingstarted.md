@@ -1,11 +1,9 @@
 ---
-title: "Using Singularity to create and run containers: Getting started"
+title: "Singularity: Getting started"
 teaching: 20
 exercises: 10
 questions:
-- "What is Singularity and why might it be useful to me?"
-- "What is a Singularity container and how do I run one?"
-- "What is a Singularity image?"
+- "What is Singularity and why might I want to use it?"
 objectives:
 - "Understand what Singularity is and when you might want to use it."
 - "Undertake your first run of a simple Singularity container."
@@ -18,23 +16,34 @@ keypoints:
 
 This section of the course on Singularity will build on the experience you've gained with Docker and introduce you to another container platform - [Singularity](https://sylabs.io/singularity/) - demonstrating how to set up, use and work with Singularity.
 
-The Singularity material comprises 4 episodes 
+The Singularity material comprises 4 episodes, split into 2 parts:
+
+*Part I: Basic usage, working with images*
+ 1. **Singularity: Getting started**: This introductory episode
+ 1. **Working with Singularity containers**: Going into a little more detail about Singularity containers and how to work with them
+ 
+ *Part II: Creating images, running parallel codes*
+ <ol start="3">
+   <li><strong>Building Singularity images</strong>: Explaining how to build and share your own Singularity images</li>
+   <li><strong>Running MPI parallel jobs using Singularity containers</strong>: Explaining how to run MPI parallel codes from within Singularity containers</li>
+</ol>
+
 
 > ## Prerequisites _(to be added to the main course setup information??)_
-> There are two sections to this part of the course, both have slightly different requirements:
+> Parts I and II of the Singularity material both have slightly different requirements:
 >
-> **Part I:**
-> - Access a local or remote platform with Singularity pre-installed and accessible to you as a user (i.e. no administrator/root access required).
+> **Part I:** (the first two episodes)
+> - Access to a local or remote platform with Singularity pre-installed and accessible to you as a user (i.e. no administrator/root access required).
 >   - If you are attending a taught version of this material, it is expected that the course organisers will provide access to a platform (e.g. an institutional HPC cluster) that you can use for the first section of this material.
 >
-> **Part II:**
-> - Access to a local or remote Linux-based system on which you have administrator (root) access and can install the Singularity software.
+> **Part II:** (the next two episodes)
+> - Access to a system with Docker installed on which you can run the Singularity Docker container to provide a platform for creating images (we will focus on this option when running the course).
 >
 >      OR
 >
-> - Access to a non-Linux system on which you have administrator (root) access and can install the the VirtualBox virtualisation software under which you can run a Linux virtual machine and install Singularity.
+> - Access to a local or remote Linux-based system on which you have administrator (root) access and can install the Singularity software.
 >
-> If you have a suitable environment set up for Part II, this could also be used for Part I.
+> If you have been provided with access to a platform for Part I, this may also be suitably configured for use in Part II of the Singularity material. The course instructors will highlight this when discussing the prerequisites. 
 {: .prereq}
 
 > ## Work in progress...
@@ -45,25 +54,21 @@ The Singularity material comprises 4 episodes
 
 ## What is Singularity?
 
-[Singularity](https://sylabs.io/singularity/) is another container platform. In some ways it appears similar to docker from a user perspective, but in others, particularly in the system's architecture, it is fundamentally different. These differences mean that Singularity is particularly well-suited to running on distributed, High Performance Computing (HPC) infrastructure, as well as your laptop or desktop! 
+[Singularity](https://sylabs.io/singularity/) is another container platform. In some ways it appears similar to docker from a user perspective, but in others, particularly in the system's architecture, it is fundamentally different. These differences mean that Singularity is particularly well-suited to running on distributed, High Performance Computing (HPC) infrastructure, as well as a Linux laptop or desktop! 
 
 System administrators will not, generally, install Docker on shared computing platforms such as lab desktops, research clusters or HPC platforms because the design of Docker presents potential security issues for shared platforms with multiple users. Singularity, on the other hand, can be run by end-users entirely within "user space", that is, no special administrative privileges need to be assigned to a user in order for them to run and interact with containers on a platform where Singularity has been installed.
 
 ## Getting started with Singularity
-[EDIT]*
-Initially developed within the research community, Singularity is now made available through [Sylabs.io](https://sylabs.io/). For Part I of this lesson we'll be working with Singularity directly on a High Performance Computing (HPC) cluster that has the software pre-installed. You will have been provided with details to access the cluster. 
+Initially developed within the research community, Singularity is open source and is now made available through [Sylabs.io](https://sylabs.io/). Part I of the Singularity material is intended to be undertaken on a remote platform where Singularity has been pre-installed. 
 
-> ## Installing Singularity on your local system (optional) \[Advanced task\]
->
-> If you are running Linux and would like to run Singularity locally on your system, Singularity provide the free, open source [Singularity Community Edition](https://sylabs.io/singularity/). You will need to install various dependencies on your system and then build Singularity from source code.
->
-> _A local installation of Singularity will be useful for Part II of the session. However, you can still learn from the material in Part II without having a local Singularity installation on your system. The installation process is an advanced task that is beyond the scope of this session.
-> However, if you have Linux systems knowledge and would like to attempt a local install of Singularity, you can find details in the [INSTALL.md file](https://github.com/sylabs/singularity/blob/master/INSTALL.md) within the Singularity source that explain how to install the prerequisites and build and install the software._
-> 
-> Singularity also provide a Docker container which enables you to use Docker to run Singularity on other platforms that support Docker. The Singularity Docker container can be pulled from [https://quay.io/repository/singularity/singularity](https://quay.io/repository/singularity/singularity). Use of this container is, again, beyond the scope of this course but once you understand the basics of working with Singularity, this is something you may choose to explore if you wish to experiment with Singularity on your local system.
+[EDIT]*
+_If you're attending a taught version of this course, you will be provided with access details for a remote platform made available to you for use for Part I of the Singularity material. This platform will have the Singularity software pre-installed._
+
+> ## Installing Singularity on your own laptop/desktop
+> If you have a Linux system on which you have administrator access and you would like to install Singularity on this system, some information is provided at the start of [Part II of the Singularity material]({{ page.root }}/11-singularity-images/).
 {: .callout}
 
-Sign in to the HPC cluster, with Singularity installed, that you've been provided with access to. Check that the `singularity` command is available in your terminal:
+Sign in to the remote platform, with Singularity installed, that you've been provided with access to. Check that the `singularity` command is available in your terminal:
 
 ~~~
 $ singularity --version
@@ -77,14 +82,22 @@ singularity version 3.5.3
 
 Depending on the version of Singularity installed on your system, you may see a different version. At the time of writing, `v3.5.3` is the latest release of Singularity.
 
-## Accessing and running a Singularity image
+## Images and containers
 
-If you recall from learning about Docker, Docker images are formed of a set of _layers_ that make up the complete image. When you pull a Docker image from Docker Hub, you see the different layers being downloaded to your system. They are stored in your local Docker repository on your system and you can see details of the available images using the docker command.
+We'll start with a brief note on the terminology used in this section of the course. We refer to both **_images_** and **_containers_**. What is the distinction between these two terms? 
 
-Handling of images is a little different in Singularity. Singularity uses the [Signularity Image Format (SIF)](https://github.com/sylabs/sif) and images are provided as single `SIF` files. Singularity images can be pulled from [Singularity Hub](https://singularity-hub.org/). Singularity is also capable of running containers based on images pulled from [Docker Hub](https://hub.docker.com/), we'll look at this later in the lesson.
+**_Images_** are bundles of files including an operating system, software and potentially data and other application-related files. They may sometimes be referred to as a _disk image_ or _container image_ and they may be stored in different ways, perhaps as a single file, or as a group of files. Either way, we refer to this collection of files as an image.
+
+A **_container_** is a virtual environment that is based on an image. That is, the files, applications, tools, etc that are available within a running container are determined by the image that the container is started from. It may be possible to start multiple container instances from an image. You could, perhaps, consider an image to be a form of template from which running container instances can be started.
+
+## Getting an image and running a Singularity container
+
+If you recall from learning about Docker, Docker images are formed of a set of _layers_ that make up the complete image. When you pull a Docker image from Docker Hub, you see the different layers being downloaded to your system. They are stored in your local Docker repository on your system and you can see details of the available images using the `docker` command.
+
+Singularity images are a little different. Singularity uses the [Signularity Image Format (SIF)](https://github.com/sylabs/sif) and images are provided as single `SIF` files. Singularity images can be pulled from [Singularity Hub](https://singularity-hub.org/), a registry for container images. Singularity is also capable of running containers based on images pulled from [Docker Hub](https://hub.docker.com/), we'll look at this later in the Singularity material.
 
 > ## Singularity Hub
-> Note that in addition to providing a repository that you can pull images from, [Singularity Hub](https://singularity-hub.org/) can also build Singularity images for you from a `recipe` - a configuration file defining the steps to build an image. We'll look at recipes and building images later in this lesson.
+> Note that in addition to providing a repository that you can pull images from, [Singularity Hub](https://singularity-hub.org/) can also build Singularity images for you from a `recipe` - a configuration file defining the steps to build an image. We'll look at recipes and building images later.
 {: .callout}
 
 Let's begin by creating a `test` directory, changing into it and _pulling_ a test _Hello World_ image from Singularity Hub:
@@ -102,7 +115,7 @@ INFO:    Downloading shub image
 ~~~
 {: .output}
 
-What just happened?! We pulled a SIF image from Singularity Hub and asked the `singularity pull` command to store the image file using the name `hello-world.sif`. If you run the `ls` command, you should see this file in your current directory. This is our image and we can now run a container based on this image:
+What just happened?! We pulled a SIF image from Singularity Hub using the `singularity pull` command and directed it to store the image file using the name `hello-world.sif`. If you run the `ls` command, you should see that the `hello-world.sif` file is now in your current directory. This is our image and we can now run a container based on this image:
 
 ~~~
 $ singularity run hello-world.sif
