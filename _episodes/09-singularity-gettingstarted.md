@@ -10,8 +10,8 @@ objectives:
 keypoints:
 - "Singularity is another container platform and it is often used in cluster/HPC/research environments."
 - "Singularity has a different security model to other container platforms, one of the key reasons that it is well suited to HPC and cluster environments."
-- "The `singularity pull` command can be used to pull images from Singularity Hub."
-- "The `singularity run` command can be used to run a container from an image file."
+- "Singularity has its own container image format (SIF)."
+- "The `singularity` command can be used to pull images from Singularity Hub and run a container from an image file."
 ---
 
 This section of the course on Singularity will build on the experience you've gained with Docker and introduce you to another container platform - [Singularity](https://sylabs.io/singularity/) - demonstrating how to set up, use and work with Singularity.
