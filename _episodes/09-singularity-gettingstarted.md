@@ -150,3 +150,7 @@ exec /bin/bash /rawr.sh
 This shows us the script within the `hello-world.sif` image configured to run by default when we use the `singularity run` command.
 
 That concludes this introductory Singularity episode. The next episode looks in more detail at running containers.
+
+## Notes
+
+* Paragraphs marked "[EDIT]" contain generic text that may benefit from being edited to provide course participants with specific information related to your course environment.
