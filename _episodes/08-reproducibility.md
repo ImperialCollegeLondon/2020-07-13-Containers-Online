@@ -1,16 +1,20 @@
 ---
-title: "Using containers to improve reproducibility"
+title: "Containers in research workflows: reproducibility and granularity"
 teaching: 20
 exercises: 0
 questions:
 - "How can I use container images to make my research more reproducible?"
+- "How do I incorporate containers into my research workflow?"
+- "What are container orchestration tools and how can they potentially help me?
 objectives:
 - "Understand how container images can help make research more reproducible."
-- "Understand what practical steps I can take to improve the reproducibility of my research."
+- "Understand what practical steps I can take to improve the reproducibility of my research using containers."
+- "Know that container orchestration tools are and what they can do"
 keypoints:
 - "Container images allow us to encapsulate the computation (and data) we have used in our research."
 - "Using a service such as Docker Hub allows us to easily share computational work we have done."
 - "Using container images along with a DOI service such as Zenodo allows us to capture our work and enables reproducibility."
+- "Tools such as Docker Compose, Docker Swarm and Kubernetes allow us to describe how multiple containers work together."
 ---
 
 Although this workshop is titled "Reproducible computational environments using containers", so far we have mostly covered the mechanics of using Docker with little reference the the reproducibility aspects. In this section, we discuss these aspects in more detail.
@@ -70,3 +74,69 @@ Note that Zenodo is not the only option for archiving and generating persistent 
    - Decide on the appropriate granularity for the images you will use for your computational work - this will be different for each project/area. Take note of accepted practice from contemporary work in the same area. What are the right building blocks for individual images in your work?
    - Document what you have done and why - this can be put in comments in the Dockerfile and the use of the image desccribed in associated documentation and/or publications. Make sure that references are made in both directions so that the image and the documentation are appropriately linked.
    - When you publish work (in whatever way) use an archiving and DOI service such as Zenodo to make sure your image is captured as it was used for the work and that is obtains a persistent DOI to allow it to be cited and referenced properly.
+
+## Container Granularity
+
+As mentioned above, one of the decisions you may need to make when containerising your research workflows
+is what level of *granularity* you wish to employ. The two extremes of this decision could be characterised
+as:
+
+  - Create a single container image with all the tools you require for your research or analysis workflow
+  - Create many container images each running a single command (or step) of the workflow and use them in
+    sequence
+
+Of course, many real applications will sit somewhere between these two extremes.
+
+> ## Positives and negatives
+> What are the advantages and disadvantages of the two approaches to container granularity for research
+> workflows described above? Discuss with your neighbour, office mate or [rubber duck](https://rubberduckdebugging.com/)
+> and write a few bullet points for advantages and disadvantages in the course Etherpad.
+{: .challenge}
+
+**TODO** Add solutions here
+
+### Container Orchestration
+
+Although you can certainly manage research workflows that use multiple containers manually, there are a number of 
+container orchestration tools that you may find useful when managing workflows that use multiple containers. 
+Introducing the use of these orchestration tools is beyond the scope of this lesson so we briefly describe 
+a few options and point to useful resources on using these tools to allow you to explore them yourself. We
+cover:
+
+  - Docker Compose
+  - Kubernetes
+  - Docker Swarm
+
+> ## The Wild West
+> Use of container orchestration tools for research workflows is a relatively new concept and so there
+> is not a huge amount of documentation and experience out there at the moment. You may need to search
+> around for useful information or, better still, contact your
+> [friendly neighbourhood RSE](https://society-rse.org/community/rse-groups/) to discuss what you want to do.
+{: .callout}
+
+**Docker Compose** provides a way of constructing a unified workflow (or service) made up of multiple 
+individual Docker containers. In addition to the individual Dockerfiles for each container, you provide
+a higher-level configuration file which describes the different containers and how they link together
+along with shared storage definitions between the containers. Once this high-level configuration has been
+defined, you can use single commands to start and stop the orchestrated set of containers.
+
+  - [Using Docker Compose for the Simple Deployment of an Integrated Drug Target Screening Platform](https://www.degruyter.com/view/journals/jib/14/2/article-20170016.xml)
+  - [Docker Compose Overview](https://docs.docker.com/compose/)
+
+**Kubernetes** is an open source framework that provides similar functionality to Docker Compose. Its 
+particular strengths are that is platform independent and can be used with many different container 
+technologies and that it is widely available on cloud platforms so once you have implemented your workflow
+in Kubernetes it can be deployed in different locations as required. It has become the de facto standard
+for container orchestration.
+
+  - [What is Kubernetes](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/)
+
+**Docker Swarm** provides a way to scale out to multiple copies of similar containers. This potentially
+allows you to parallelise and scale out your research workflow so that you can run multiple copies and
+increase throughput. This would allow you, for example, to take advantage of multiple cores on a local
+system or run your workflow in the cloud to access more resources. Docker Swarm uses the concept of 
+a manager container and worker containers to implement this distribution.
+
+  - [Docker Swarm Overview](https://docs.docker.com/engine/swarm/)
+
+
