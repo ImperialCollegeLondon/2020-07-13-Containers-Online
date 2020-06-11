@@ -84,12 +84,12 @@ The [Singularity Docker image](https://quay.io/repository/singularity/singularit
 > > 
 > > To run the `singularity` command within the docker container directly from the host system's terminal:
 > > ```
-> > docker run --privileged -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3 cache list
+> > docker run --privileged --rm true -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3 cache list
 > > ```
 > > 
 > > To start a shell within the Singularity Docker container where the `singularity` command can be run directly:
 > > ```
-> > docker run -it --entrypoint=/bin/bash --privileged -v $HOME/singularity:/home/singularity quay.io/singularity/singularity:v3.5.3
+> > docker run -it --entrypoint=/bin/bash --privileged --rm true  -v $HOME/singularity:/home/singularity quay.io/singularity/singularity:v3.5.3
 > > ```
 > > 
 > > To make things easier to read in the remainder of the material, command examples will use the `singularity` command directly, e.g. `singularity cache list`. If you're running a shell in the Docker container, you can enter the commands as they appear. If you're using the container's default run behaviour and running a container instance for each run of the command, you'll need to replace `singularity` with `docker run --privileged -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3` or similar.
@@ -190,7 +190,7 @@ $ singularity build /home/singularity/my_test_image.sif /home/singularity/my_tes
 Recall from the details at the start of this section that if you are running your command from the host system command line, running an instance of a Docker container for each run of the command, your command will look something like this:
 
 ~~~
-$ docker run --privileged -v $HOME/singularity:/home/singularity quay.io/singularity/singularity:v3.5.3 build /home/singularity/my_test_image.sif /home/singularity/my_test_image.def
+$ docker run --privileged --rm true -v $HOME/singularity:/home/singularity quay.io/singularity/singularity:v3.5.3 build /home/singularity/my_test_image.sif /home/singularity/my_test_image.def
 ~~~
 {: .language-bash}
 
