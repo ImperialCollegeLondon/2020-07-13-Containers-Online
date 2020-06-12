@@ -5,7 +5,7 @@ exercises: 0
 questions:
 - "How can I use container images to make my research more reproducible?"
 - "How do I incorporate containers into my research workflow?"
-- "What are container orchestration tools and how can they potentially help me?
+- "What are container orchestration tools and how can they potentially help me?"
 objectives:
 - "Understand how container images can help make research more reproducible."
 - "Understand what practical steps I can take to improve the reproducibility of my research using containers."
