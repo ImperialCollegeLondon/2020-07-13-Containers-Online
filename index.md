@@ -1,15 +1,15 @@
 ---
 layout: lesson
 carpentry: "swc"
-venue: "Collingwood College, University of Durham"
-address: "Collingwood College, University of Durham, South Road, DH1 3LT (training room on 1st floor above reception)"
+venue: 
+address: 
 country: "UK"
 language: "English"
-latlng: "54.762968,-1.576440"
-humandate: "10:30-16:00, 3 February 2020"
-humantime: "10:30 - 16:00"
-startdate: 2020-02-03
-enddate: 2020-02-03
+latlng: 
+humandate: 
+humantime: 
+startdate: 
+enddate:
 instructor: ["Andy Turner"]
 helper: []
 email: ["support@archer.ac.uk"]
@@ -20,12 +20,17 @@ root: .
 
 <h2>Description</h2>
 
-This session aims to introduce the use of Docker containers with the goal of using them to effect reproducible computational environments. Such environments are useful for ensuring reproducible research outputs, for example.
+This course aims to introduce the use of containers with the goal of using them to effect reproducible computational environments. Such environments are useful for ensuring reproducible research outputs and for simplifying the setup of complex software dependencies across different systems. The course will mostly be based around the use of Docker containers but the material will be of use for whatever container technology you plan to, or end up, using. We will also briefly introduce the Singularity container environment which is compatible with Docker and designed for use on multi-user systems (such as HPC resources). On completion of this course attendees should:
+
+  - Understand what containers are and what they are used for
+  - Understand how to manage and create Docker containers
+  - Appreciate decisions that need to be made around containerising research workflows
+  - Understand the differences between Docker and Singularity containers and why Singularity is more suitable for multi-user systems (e.g. HPC)
+  - Understand how to manage and create Singularity containers
+  - Appreciate how containers can be used to enable and improve reproducibility in research
 
 <h2>Registration</h2>
-<p>Please use the <a href="http://archer.ac.uk/training/registration/index.php">ARCHER course registration form</a> to sign up for the workshop.</p>
 
-<p>This course is supported by the <a href="http://www.archer.ac.uk">ARCHER UK national supercomputing service</a> and is free to all academic attendees.</p>
 
 <hr/>
 
@@ -130,8 +135,8 @@ This session aims to introduce the use of Docker containers with the goal of usi
 >
 > - You should have basic familiarity with using a command shell, and the lesson text will at times request that you "open a shell window", with an assumption that you know what this means.
 >   - Under Linux or macOS it is assumed that you will access a `bash` shell (usually the default), using your Terminal application.
->   - Under Windows, Powershell and Git Bash should allow you to use the Unix instructions. We will also try to give command variants for Windows `cmd.exe`.
-> - As an item of setup, it is assumed that you have a directory named `container-playground` that you are able to `cd` to using your command shell, *and* are also able to find using your computer's graphical file browser (e.g., Finder on macOS or Windows Explorer). A simple way to achieve this is to create your `container-playground` directory within your computer's `Desktop` folder. (See the Software Carpentry Shell lesson for more details.)
+>   - Under Windows, Powershell and Git Bash should allow you to use the Unix instructions.
+> - As an item of setup, it is assumed that you have a directory named `container-playground` that you are able to `cd` to using your command shell, *and* are also able to find using your computer's graphical file browser (e.g., Finder on macOS or Windows Explorer). A simple way to achieve this is to create your `container-playground` directory within your computer's `Desktop` folder. (See the [Software Carpentry Shell lesson](https://swcarpentry.github.io/shell-novice/) for more details.)
 > - The lessons will sometimes request that you use a text editor to create or edit files in particular directories. It is assumed that you either have an editor that you know how to use that runs within the working directory of your shell window (e.g. `nano`), or that if you use a graphical editor, that you can use it to read and write files into the working directory of your shell.
 {: .prereq}
 
@@ -143,10 +148,3 @@ This session aims to introduce the use of Docker containers with the goal of usi
 
 {% include links.md %}
 
-{% comment %}
-
-TODO: systematically check for Windows-isms
-
-<!--  LocalWords:  prereq links.md endcomment
- -->
-{% endcomment %}
