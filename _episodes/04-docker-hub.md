@@ -10,7 +10,7 @@ objectives:
 keypoints:
 - "The Docker Hub is an online repository of container images."
 - "Many Docker Hub images are public, and may be officially endorsed."
-- "Each Docker Hub page about an image provides structured information and subheadings"
+- "Each Docker Hub page about an image provides structured information under several subheadings"
 - "Most Docker Hub pages about images contain sections that provide examples of how to use those images."
 ---
 
@@ -23,13 +23,13 @@ The Docker Hub is an online repository of container images, a vast number of whi
 {: .callout}
 
 ### Exploring r-base as an example Docker Hub page
-As an example of a Docker Hub page, let's explore the page for the R statistics language. The most basic form of containerised R is in the "r-base" image (which is endorsed by the Docker team). Open your web browser to <https://hub.docker.com/_/r-base> to see what is on a typical Docker hub software page.
+As an example of a Docker Hub page, let's explore the page for the R statistics language. The most basic form of containerised R is in the "r-base" image (which is endorsed by the Docker team). Open the following link your web browser to see what is on a typical Docker hub software page: <https://hub.docker.com/_/r-base>.
 
-The top-left provides information about the name, short description, popularity (i.e., over a million downloads in the case of this image), and endorsements.
+The top-left of the page provides information about the name, a short description, popularity (i.e., over a million downloads in the case of this image), and endorsements.
 
 The top-right provides the command to pull this image to your computer.
 
-The main body of the page contains many used headings, such as:
+The main body of the page contains a variety of additional information under several headings, such as:
 - Which tags (i.e., image versions) are supported;
 - Summary information about where to get help, which computer architectures are supported, etc.;
 - A longer description of the package;

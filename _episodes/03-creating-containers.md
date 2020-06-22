@@ -1,6 +1,6 @@
 ---
 title: "Creating containers"
-teaching: 25
+teaching: 35
 exercises: 15
 questions:
 - "How do I get Docker to perform computation?"
