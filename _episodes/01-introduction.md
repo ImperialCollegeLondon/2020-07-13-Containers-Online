@@ -74,7 +74,7 @@ We have avoided the software dependency issue by *virtualising* the lowest commo
 
 What features does virtualisation offer?
 - Isolation: the VM is self-contained, so you can create and destroy it without affecting the host computer. Likewise, the software running in the VM can encounter a fatal error, crash, lock-up, etc., without affecting the host computer.
-- Reproducibility: the VM can be "wound-back" to a known-good situation, much as you might revert a document you are editing to the last saved state.
+- Reproducibility: the VM can be tagged at a known-good situation. Enabling you to easily revert to this known state or share it with others, much as you can revert a document you are editing to a known good version. This allows you to more robustly have a reproducible output from the VM.
 - Manageability: the VM is software, so can be saved and restored as you might a document file (albeit a *much* larger file than a typical document!).
 - Migration: the VM is just data, so a complete VM can be transmitted to another physical host and run in the same way from there.
 - Shareability: If you want to share your computational setup with someone else, you can transmit the VM to another person and they can run it on their host - you do not need to send them your actual computer!
