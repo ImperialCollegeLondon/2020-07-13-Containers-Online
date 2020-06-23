@@ -26,11 +26,13 @@ When working with an MPI code on a large-scale cluster, a common approach is to 
 
 We've already seen that building Singularity containers can be impractical without root access. Since we're highly unlikely to have root access on a large institutional, regional or national cluster, building a container directly on the target platform is not normally an option.
 
-If our target platform uses [OpenMPI](https://www.open-mpi.org/), one of the two widely used source MPI implementations, we can build/install a compatible OpenMPI version on our local build platform and then build our image and associated code on this platform, either interactively in a sandbox or via a defintion file. Singularity directly supports OpenMPI with support integrated into OpenMPI itself. 
+If our target platform uses [OpenMPI](https://www.open-mpi.org/), one of the two widely used source MPI implementations, we can build/install a compatible OpenMPI version on our local build platform, or directly within the image as part of the image build process. We can then build our code that requires MPI, either interactively in an image sandbox or via a defintion file.
 
-If the target platform uses a version of MPI based on [MPICH](https://www.mpich.org/), the other widely used open source MPI implementation, there is [ABI compatibility between MPICH and several other MPI implementations](https://www.mpich.org/abi/). In this case, you can build your code and image on a local platform against MPICH and you should be able to succesfully run containers based on this image on your target cluster platform.
+If the target platform uses a version of MPI based on [MPICH](https://www.mpich.org/), the other widely used open source MPI implementation, there is [ABI compatibility between MPICH and several other MPI implementations](https://www.mpich.org/abi/). In this case, you can build MPICH and your code on a local platform, within an image sandbox or as part of the image build process via a definition file, and you should be able to succesfully run containers based on this image on your target cluster platform.
 
-While this approach does produce a container image with some level of portability, if you're after the best possible performance, it can present some issues. The version of MPI in the container will need to be built and configured to support the hardware on your target platform if the best possible performance is to be achieved. Building on a different platform with different hardware present means that this is not going to be practical, especially if the version of MPI available is different (but compatible). Singularity's [MPI documentation](https://sylabs.io/guides/3.5/user-guide/mpi.html) highlights two different models for working with MPI codes and this is the _[hybrid model](https://sylabs.io/guides/3.5/user-guide/mpi.html#hybrid-model)_. In the following section we'll look at building a Singularity image containing a small MPI application based on the hybrid model.
+As described in Singularity's [MPI documentation](https://sylabs.io/guides/3.5/user-guide/mpi.html), support for both OpenMPI and MPICH is provided. Instructions are given for building the relevant MPI version from source via a defintion file and we'll see this used in an example below.
+
+While building a container on a local system that is intended for use on a remote HPC platform does provide some level of portability, if you're after the best possible performance, it can present some issues. The version of MPI in the container will need to be built and configured to support the hardware on your target platform if the best possible performance is to be achieved. Where a platform has specialist hardware with proprietary drivers, building on a different platform with different hardware present means that building with the right driver support for optimal performance is not likely to be possible. This is especially true if the version of MPI available is different (but compatible). Singularity's [MPI documentation](https://sylabs.io/guides/3.5/user-guide/mpi.html) highlights two different models for working with MPI codes. The _[hybrid model](https://sylabs.io/guides/3.5/user-guide/mpi.html#hybrid-model)_ that we'll be looking at here involves using the MPI excutable from the MPI installation on the host system to launch singularity and run the application within the container. The application in the container is linked against and uses the MPI installation within the container which, in turn, communicates with the MPI daemon process running on the host system. In the following section we'll look at building a Singularity image containing a small MPI application that can then be run using the hybrid model.
 
 ### Building and running a Singularity image for an MPI code
 
@@ -38,11 +40,11 @@ While this approach does produce a container image with some level of portabilit
 
 This example makes the assumption that you'll be building a container image on a local platform and then deploying it to a cluster with a different but compatbile MPI implementation. See [Singularity and MPI applications](https://sylabs.io/guides/3.5/user-guide/mpi.html#singularity-and-mpi-applications) in the Singularity documentation for further information on how this works.
 
-We'll build an image from a definition file that will be able to run some MPI benchmarks using the [OSU Micro-Benchmarks](https://mvapich.cse.ohio-state.edu/benchmarks/).
+We'll build an image from a definition file. Containers based on this image will be able to run MPI benchmarks using the [OSU Micro-Benchmarks](https://mvapich.cse.ohio-state.edu/benchmarks/) software.
 
 In this example, the target platform is a remote HPC cluster that uses [Intel MPI](https://software.intel.com/content/www/us/en/develop/tools/mpi-library.html). The container can be built via the Singularity Docker image that we used in the previous episode of the Singularity material.
 
-Begin by creating a directory and, within that directory, downloading and saving the "tarball" for version 5.6.2 of the OSU Micro-Benchmarks from the [OSU Micro-Benchmarks page](https://mvapich.cse.ohio-state.edu/benchmarks/).
+Begin by creating a directory and, within that directory, downloading and saving the "tarballs" for version 5.6.2 of the OSU Micro-Benchmarks from the [OSU Micro-Benchmarks page](https://mvapich.cse.ohio-state.edu/benchmarks/) and for [MPICH version 3.3.2] from the [MPICH downloads page](https://www.mpich.org/downloads/).
 
 In the same directory, save the following definition file content to a `.def` file, e.g. `osu_benchmarks.def`:
 
@@ -52,14 +54,23 @@ From: ubuntu:20.04
 
 %files
     /home/singularity/osu-micro-benchmarks-5.6.3.tar.gz /root/
+    /home/singularity/mpich-3.3.2.tar.gz /root/
+
+%environment
+    export SINGULARITY_MPICH_DIR=/usr
 
 %post
-    apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential mpich libmpich-dev
+    apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential libfabric-dev libibverbs-dev gfortran
+    cd /root
+    tar zxvf mpich-3.3.2.tar.gz && cd mpich-3.3.2
+    echo "Configuring and building MPICH..."
+    ./configure --prefix=/usr --with-device=ch3:nemesis:ofi && make -j2 && make install
     cd /root
     tar zxvf osu-micro-benchmarks-5.6.3.tar.gz
     cd osu-micro-benchmarks-5.6.3/
+    echo "Configuring and building OSU Micro-Benchmarks..."
     ./configure --prefix=/usr/local/osu CC=/usr/bin/mpicc CXX=/usr/bin/mpicxx
-    make && make install
+    make -j2 && make install
 
 %runscript
     echo "Rank ${PMI_RANK} - About to run: /usr/local/osu/libexec/osu-micro-benchmarks/mpi/$*"
@@ -69,12 +80,14 @@ From: ubuntu:20.04
 
 A quick overview of what the above definition file is doing:
 
- - The image is being bootstrapped from the `ubuntu:20.04` Docker image
- - In the `%files` section: The OSU Micro-Benchmarks tar file is copied from the current directory into the `/root` directory in the image
+ - The image is being bootstrapped from the `ubuntu:20.04` Docker image.
+ - In the `%files` section: The OSU Micro-Benchmarks and MPICH tar files are copied from the current directory into the `/root` directory in the image.
+ - In the `%environment` section: Set an environment variable that will be available within all containers run from the generated image.
  - In the `%post` section:
-   - Ubuntu's `apt-get` package manager is used to update the package directory and then install the compiler and other required build tools and MPICH
-   - The OSU Micro-Benchmarks tar.gz file is extracted and the configure, build and install steps are run to build the benchmark code from source
- - In the `%runscript` section: A runscript is set up that will echo the rank number of the current process and then run the command provided as a command line argument
+   - Ubuntu's `apt-get` package manager is used to update the package directory and then install the compilers and other libraries required for the MPICH build.
+   - The MPICH .tar.gz file is extracted and the configure, build and install steps are run. Note the use of the --with-device option to configure MPICH to use the correct driver to support improved communication performance on a high performance cluster.
+   - The OSU Micro-Benchmarks tar.gz file is extracted and the configure, build and install steps are run to build the benchmark code from source.
+ - In the `%runscript` section: A runscript is set up that will echo the rank number of the current process and then run the command provided as a command line argument.
 
 _Note that base path of the the executable to run is hardcoded in the run script_ so the command line parameter to provide when running a container based on this image is relative to this base path, for example, `startup/osu_hello`, `collective/osu_allgather`, `pt2pt/osu_latency`, `one-sided/osu_put_latency`.
 
@@ -175,16 +188,16 @@ You could now try running a larger-scale test. You can also try running a benchm
 > What do you see?
 > 
 > > ## Discussion
-> > It's likely that you'll find that performance is significantly better with the version of the code built directly on the HPC platform.
-> > 
-> > Why might this be?
+> > You may find that performance is significantly better with the version of the code built directly on the HPC platform. Alternatively, performance may be similar between the two versions.
 > > 
 > > How big is the performance difference between the two builds of the code?
+> > 
+> > What might account for any difference in performance between the two builds of the code?
 > > 
 > {: .solution}
 {: .challenge}
 
-If performance is an issue for you then you are advised to take a look at using the _[bind model](https://sylabs.io/guides/3.5/user-guide/mpi.html#bind-model)_ for building/running MPI applications through Singularity.
+If performance is an issue for you with codes that you'd like to run via Singularity, you are advised to take a look at using the _[bind model](https://sylabs.io/guides/3.5/user-guide/mpi.html#bind-model)_ for building/running MPI applications through Singularity.
 
 ## Singularity wrap-up
 
