@@ -18,7 +18,7 @@ keypoints:
 
 ## Singularity's image cache
 
-While singularity doesn't have a local image repository in the same way as Docker, it does cache downloaded image files. As we saw in the previous episode, images are simply `.sif` files stored on your local disk. 
+While Singularity doesn't have a local image repository in the same way as Docker, it does cache downloaded image files. As we saw in the previous episode, images are simply `.sif` files stored on your local disk. 
 
 If you delete a local `.sif` image that you have pulled from a remote image repository and then pull it again, if the image is unchanged from the version you previously pulled, you will be given a copy of the image file from your local cache rather than the image being downloaded again from the remote source. This removes unnecessary network transfers and is particularly useful for large images which may take some time to transfer over the network. To demonstrate this, remove the `hello-world.sif` file stored in your `test` directory and then issue the `pull` command again:
 
@@ -116,7 +116,6 @@ As shown above, we have opened a shell in a new container started from the `hell
 >
 > Q: What do you notice about the output of the above commands entered within the Singularity container shell?
 > 
->
 > Q: Does this differ from what you might see within a Docker container?
 {: .discussion}
 
@@ -141,7 +140,7 @@ Singularity also _binds_ some directories from the host system where you are run
 
 There is a default configuration of which files and directories are bound into the container but ultimate control of how things are set up on the system where you're running Singularity is determined by the system administrator. As a result, this section provides an overview but you may find that things are a little different on the system that you're running on.
 
-One directory that is likely to be acessible within a container that you start is your _home directory_. The mapping of file content and directories from a host system into a Singularity container is illustrated in the example below showing a subset of the directories on the host Linux system and in a Singularity container:
+One directory that is likely to be ac essible within a container that you start is your _home directory_. The mapping of file content and directories from a host system into a Singularity container is illustrated in the example below showing a subset of the directories on the host Linux system and in a Singularity container:
 
 ~~~
 Host system:                                                      Singularity container:
