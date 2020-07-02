@@ -142,7 +142,7 @@ This course aims to introduce the use of containers with the goal of using them 
 
 <h2 id="setup">Getting Started</h2>
 
-<p>To get started, follow the directions on the <a href="setup/">Setup</a> page to ensure you have a Docker Hub account and the Docker software installed.</p>
+<p>To get started, follow the directions on the <a href="setup.html">Setup</a> page to ensure you have a Docker Hub account and the Docker software installed.</p>
 
 <hr/>
 
