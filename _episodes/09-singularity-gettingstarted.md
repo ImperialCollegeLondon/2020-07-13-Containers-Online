@@ -48,14 +48,14 @@ The Singularity material comprises 4 episodes, split into 2 parts:
 {: .prereq}
 
 > ## Work in progress...
-> This section of the course is new material that is under ongoing development. We will introduce singularity and demonstrate how to work with it. As the tools and best practices continue to develop, elements of this material are likely to evolve. We will also aim to add further content to this section of the course and welcome comments/suggestions on how the material can be improved or extended.
+> This section of the course is new material that is under ongoing development. We will introduce Singularity and demonstrate how to work with it. As the tools and best practices continue to develop, elements of this material are likely to evolve. We will also aim to add further content to this section of the course and welcome comments/suggestions on how the material can be improved or extended.
 {: .callout}
 
 # Singularity - Part I
 
 ## What is Singularity?
 
-[Singularity](https://sylabs.io/singularity/) is another container platform. In some ways it appears similar to docker from a user perspective, but in others, particularly in the system's architecture, it is fundamentally different. These differences mean that Singularity is particularly well-suited to running on distributed, High Performance Computing (HPC) infrastructure, as well as a Linux laptop or desktop! 
+[Singularity](https://sylabs.io/singularity/) is another container platform. In some ways it appears similar to Docker from a user perspective, but in others, particularly in the system's architecture, it is fundamentally different. These differences mean that Singularity is particularly well-suited to running on distributed, High Performance Computing (HPC) infrastructure, as well as a Linux laptop or desktop! 
 
 System administrators will not, generally, install Docker on shared computing platforms such as lab desktops, research clusters or HPC platforms because the design of Docker presents potential security issues for shared platforms with multiple users. Singularity, on the other hand, can be run by end-users entirely within "user space", that is, no special administrative privileges need to be assigned to a user in order for them to run and interact with containers on a platform where Singularity has been installed.
 
@@ -81,7 +81,17 @@ singularity version 3.5.3
 ~~~
 {: .output}
 
+
 Depending on the version of Singularity installed on your system, you may see a different version. At the time of writing, `v3.5.3` is the latest release of Singularity.
+
+> ## Loading a module
+> HPC systems often use *modules* to provide access to software on the system so you may need to use the command:
+> ~~~
+> $ module load singularity
+> ~~~
+> {: .language-bash}
+> before you can use the `singularity` command on the system.
+{: .callout}
 
 ## Images and containers
 
