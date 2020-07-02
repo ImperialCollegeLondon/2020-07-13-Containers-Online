@@ -27,7 +27,7 @@ You should setup a free account on the Docker Hub ahead of the workshop:
 
 Please seek help at the start of the lesson if you have not been able to setup a Docker Hub account.
 
-### 2. Install the Docker software on your laptop
+## 2. Install the Docker software on your laptop
 
 Please try to install the appropriate software from the list below depending on the operating system that your laptop is running:
 
