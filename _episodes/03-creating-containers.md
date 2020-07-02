@@ -160,7 +160,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 We will talk more about how you might use these containers that have exited and how to restart a container later in this lesson.
 
-## How do I remove an container that has exited?
+## How do I remove a container that has exited?
 
 To delete an exited container you can run the following command, inserting the `NAME` for the container you wish to remove. It will repeat the `NAME` back to you, if successful.
 ~~~
@@ -214,7 +214,7 @@ Deleted: sha256:af0b15c8625bb1938f1d7b17081031f649fd14e6b233688eea3c5483994a66a3
 
 The reason that there are a few lines of output, is that a given image may have been formed by merging multiple underlying layers. Any layers that are used by multiple Docker images will only be stored once. Now the result of `docker image ls` should no longer include the `hello-world` image.
 
-> ## Removing all images
+> ## Removing all images
 > Removing all images is a little more tricky than removing all containers, you need to combine two commands. The `docker image ls -q` command returns a list of all image IDs. You can use the result of this command combined with `docker image rm` to delete all images in one command:
 > ~~~
 > docker image rm $(docker image ls -q)
@@ -315,7 +315,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ~~~
 {: .output}
 
-> ## Mounting local directories in the container
+> ## Mounting local directories in the container
 > It is likely that you will usually want to mount a local directory from the host system in the container that you start in order to make files from the host system available within the running container. We will discuss making local directories available in containers in more detail later in the course. For now, as a quick example, modify the `docker run` command above so that the container will have the current directory that you are in on the host machine mounted at `/data` in the container:
 > ~~~
 > docker run -t -d -v ${PWD}:/data ubuntu
