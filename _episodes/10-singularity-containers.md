@@ -140,7 +140,7 @@ Singularity also _binds_ some directories from the host system where you are run
 
 There is a default configuration of which files and directories are bound into the container but ultimate control of how things are set up on the system where you're running Singularity is determined by the system administrator. As a result, this section provides an overview but you may find that things are a little different on the system that you're running on.
 
-One directory that is likely to be ac essible within a container that you start is your _home directory_. The mapping of file content and directories from a host system into a Singularity container is illustrated in the example below showing a subset of the directories on the host Linux system and in a Singularity container:
+One directory that is likely to be accessible within a container that you start is your _home directory_. The mapping of file content and directories from a host system into a Singularity container is illustrated in the example below showing a subset of the directories on the host Linux system and in a Singularity container:
 
 ~~~
 Host system:                                                      Singularity container:
