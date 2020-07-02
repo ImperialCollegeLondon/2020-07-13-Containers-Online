@@ -1,5 +1,6 @@
 ---
 title: "Introducing containers"
+start: true
 teaching: 30
 exercises: 10
 questions:

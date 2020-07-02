@@ -1,5 +1,6 @@
 ---
 title: "Singularity: Getting started"
+start: true
 teaching: 20
 exercises: 10
 questions:
