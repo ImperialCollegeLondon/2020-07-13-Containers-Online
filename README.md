@@ -25,10 +25,10 @@ how to write new episodes.
 
 ## Maintainer(s)
 
-* Jeremy Cohen, Imperial College London, UK
 * David Eyers, University of Otago, NZ
 * Sarah Stevens
 * Andy Turner, EPCC, The University of Edinburgh, UK
+* Jeremy Cohen, Imperial College London, UK
 
 ## Authors
 
