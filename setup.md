@@ -90,7 +90,7 @@ There are additional restrictions on signing up for accounts which are not from 
 registered email address does not end in `.ac.uk` then please let the course organisors know before you attempt
 the next step so they can pre-approve your email domain.
 
-### 4.3 Sign up for an account on Cirrus through SAFE
+### 4.3 Sign up for an account on Cirrus through SAFE
 
 1. [Login to SAFE](https://safe.epcc.ed.ac.uk)
 2. Go to the Menu "Login accounts" and select "Request login account"
@@ -117,7 +117,7 @@ Once you have generated your key pair, you need to add the public part to your C
 
 The public SSH key part will now be added to your login account on the Cirrus system.
 
-### 4.5 Log into Cirrus
+### 4.5 Log into Cirrus
 
 You should now be able to log into Cirrus by following the [login instructions in the Cirrus documentation](https://cirrus.readthedocs.io/en/master/user-guide/connecting.html#ssh-clients).
 
