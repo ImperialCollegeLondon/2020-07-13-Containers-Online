@@ -16,7 +16,7 @@ However, these advantages come with a major disadvantage: we need to install the
 
 Now open a web browser window and:
 1. Navigate to the GitHub repository that contains the files for this session, at <https://github.com/ARCHER-CSE/2020-02-03-durham-docker>;
-2. Click the green "Clone or download" button on the right-hand side of the page;
+2. Click the green "Code" button on the right-hand side of the page;
 3. Click "Download ZIP".
 4. Expand the downloaded ZIP file. It should contain one directory named `2020-02-03-durham-docker-gh-pages`.
 
