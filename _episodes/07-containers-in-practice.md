@@ -15,7 +15,7 @@ The website for this lesson is generated mechanically, based on a set of files t
 However, these advantages come with a major disadvantage: we need to install the Jekyll framework to build the website and preview what effect our changes have. Jekyll is written in Ruby, has a large list of dependencies and can be complex to install and maintain. Containers to the rescue!
 
 Now open a web browser window and:
-1. Navigate to the GitHub repository that contains the files for this session, at <https://github.com/ARCHER-CSE/2020-02-03-durham-docker>;
+1. Navigate to the GitHub repository that contains the files for this session, at <{{ site.github.repository_url }}>;
 2. Click the green "Code" button on the right-hand side of the page;
 3. Click "Download ZIP".
 4. Expand the downloaded ZIP file. It should contain one directory named `2020-02-03-durham-docker-gh-pages`.
