@@ -13,11 +13,11 @@ There are four steps to the setup:
    
 These steps are described in more detail below.
 
-.. note::
-
-   The SSH client and Cirrus account are required to run Singularity containers on a remote
-   HPC system. If you are confident, you can attempt to install Singularity on your local
-   system. Instructions for this are given below.
+> ## Note
+> The SSH client and Cirrus account are required to run Singularity containers on a remote
+> HPC system. If you are confident, you can attempt to install Singularity on your local
+> system. Instructions for this are given below.
+{: .callout}
 
 ## 1. Create Docker Hub account
 
