@@ -46,13 +46,15 @@ Please try to install the appropriate software from the list below depending on 
     
 ## 3. SSH client
 
-All students should have an SSH client installed.
+All attendees should have an SSH client installed.
 SSH is a tool that allows us to connect to and use a remote computer as our own.
 Please follow the directions below to install an SSH client for your system.
 
 **Windows**
 
-You should have SSH available in Git Bash after you installed it according to the instructions above.
+Modern versions of Windows have SSH available in Powershell. You can test if it is available by typing `ssh --help` in Powershell. If it is
+installed, you should see some useful output. If it is not installed, you will get an error. If SSH is not available in Powershell, then
+you should install MobaXterm as described below.
 
 An alternative is to install MobaXterm from [http://mobaxterm.mobatek.net](http://mobaxterm.mobatek.net). You will want to get the Home edition (Installer edition). However, if Git Bash works, you do not need this.
 
