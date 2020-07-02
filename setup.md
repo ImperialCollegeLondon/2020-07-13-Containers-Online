@@ -80,7 +80,7 @@ web application):
 If you are already registered on the ARCHER or Tier-2 SAFE you do not need to re-register. Please proceed to the next step.
 
 1. Go to the [SAFE New User Signup Form](https://safe.epcc.ed.ac.uk/signup.jsp)
-2. Fill in your personal details. You can come back later and change them if you wish. Note: you should register using your institutional or company email address - email domains such as gmail.com, outlook.com, etc. are not allowed to be used for access to Cirrus
+2. Fill in your personal details. You can come back later and change them if you wish. _Note: you should register using your institutional or company email address - email domains such as gmail.com, outlook.com, etc. are not allowed to be used for access to Cirrus_
 3. Click “Submit”
 4. You are now registered. A single use login link will be emailed to the email address you provided. You can use this link to login and set your password.
 
@@ -94,7 +94,7 @@ the next step so they can pre-approve your email domain.
 
 1. [Login to SAFE](https://safe.epcc.ed.ac.uk)
 2. Go to the Menu "Login accounts" and select "Request login account"
-3. Choose the `tc012` project “Choose Project for Machine Account” box and click "Next"
+3. In the "Project" dropdown list, choose the `tc012 - Containers for Reproducible Research - Jul 2020` project and click "Next"
 4. On the next page, the Cirrus system should be selected. Click "Next"
 5. Enter the username you would prefer to use on Cirrus. Every username must be unique, so if your chosen name is taken, you will need to choose another
 
