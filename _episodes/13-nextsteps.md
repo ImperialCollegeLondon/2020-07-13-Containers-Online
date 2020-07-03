@@ -1,6 +1,6 @@
 ---
 title: "Bootstrapping your use of Containers"
-teaching: 10
+teaching: 5
 exercises: 60
 questions:
 - "How can I get started using containers in my research?"
