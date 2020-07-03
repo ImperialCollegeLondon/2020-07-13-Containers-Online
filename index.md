@@ -1,19 +1,19 @@
 ---
 layout: lesson
 carpentry: "swc"
-venue: 
+venue: Online
 address: 
 country: "UK"
 language: "English"
 latlng: 
-humandate: 
-humantime: 
-startdate: 
-enddate:
-instructor: ["Andy Turner"]
+humandate: 10:00-16:00 BST, 13 - 14 July 2020
+humantime: 10:00-16:00 BST
+startdate: 2020-07-13
+enddate: 2020-07-14
+instructor: ["Andy Turner", "Jeremy Cohen"]
 helper: []
-email: ["support@archer.ac.uk"]
-collaborative_notes: 
+email: ["support@archer2.ac.uk"]
+collaborative_notes: https://pad.archer2.ac.uk/p/2020-07-13-Containers-Online
 eventbrite: 
 root: .
 ---
@@ -29,11 +29,6 @@ This course aims to introduce the use of containers with the goal of using them 
   - Understand how to manage and create Singularity containers
   - Appreciate how containers can be used to enable and improve reproducibility in research
 
-<h2>Registration</h2>
-
-
-<hr/>
-
 <h2 id="general">General Information</h2>
 
 {% comment %}
@@ -47,11 +42,8 @@ This course aims to introduce the use of containers with the goal of using them 
 {% if page.latlng %}
 <p id="where">
   <strong>Where:</strong>
-  {{page.address}}.
-  Get directions with
-  <a href="//www.openstreetmap.org/?mlat={{page.latlng | replace:',','&mlon='}}&zoom=16">OpenStreetMap</a>
-  or
-  <a href="//maps.google.com/maps?q={{page.latlng}}">Google Maps</a>.
+  This course will be taught online via Blackboard Collaborate. All attendees will
+  be sent the joining link prior to the event.
 </p>
 {% endif %}
 
@@ -77,7 +69,7 @@ This course aims to introduce the use of containers with the goal of using them 
   <strong>Requirements:</strong> Participants must bring a laptop with a
   Mac, Linux, or Windows operating system (not a tablet, Chromebook, etc.) that they have administrative privileges
   on. They should have a few specific software packages installed (listed
-  <a href="#setup">below</a>). They are also required to abide by the <a href="http://archer.ac.uk/training/code-of-conduct/index.php">ARCHER Training Code of Conduct</a>.
+  <a href="#setup">below</a>). They are also required to abide by the <a href="https://www.archer2.ac.uk/training/code-of-conduct/">ARCHER2 Training Code of Conduct</a>.
 </p>
 
 {% comment %}
@@ -89,18 +81,12 @@ This course aims to introduce the use of containers with the goal of using them 
 <p id="accessibility">
   <strong>Accessibility:</strong> We are committed to making this workshop
   accessible to everybody.
-  The workshop organizers have checked that:
 </p>
-<ul>
-  <li>The room is wheelchair / scooter accessible.</li>
-  <li>Accessible restrooms are available.</li>
-</ul>
 <p>
   Materials will be provided in advance of the workshop and
   large-print handouts are available if needed by notifying the
   organizers in advance.  If we can help making learning easier for
-  you (e.g. sign-language interpreters, lactation facilities) please
-  get in touch (using contact details below) and we will
+  you please get in touch (using contact details below) and we will
   attempt to provide them.
 </p>
 
@@ -142,7 +128,9 @@ This course aims to introduce the use of containers with the goal of using them 
 
 <h2 id="setup">Getting Started</h2>
 
-<p>To get started, follow the directions on the <a href="setup.html">Setup</a> page to ensure you have a Docker Hub account and the Docker software installed.</p>
+<p>To get started, follow the directions on the <a href="setup.html">Setup</a> page to ensure you have installed the Docker software, have registered for a Dockerhub account,
+have an SSH client available and have registered a user account on Cirrus (the HPC
+facility we will be using for the Singularity part of the course.</p>
 
 <hr/>
 
