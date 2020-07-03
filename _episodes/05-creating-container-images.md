@@ -97,6 +97,20 @@ Images that you release publicly can be stored on the Docker Hub for free.
 
 Let's "push" to your account on the Docker Hub the image that you configured to output your chosen message, in the previous section.
 
+Ensure that your command line `docker` commands are able to reach the Docker Hub by running the following command:
+~~~
+$ docker login
+~~~
+{: .language-bash}
+~~~
+Authenticating with existing credentials...
+Login Succeeded
+~~~
+{: .output}
+(I wasn't prompted for authentication details, if you are, then you need to use your Docker Hub username and password.)
+
+The `Login Succeeded` message means that your `docker` command line tool is ready to access the Docker Hub.
+
 Note that so far, the image name `my-container` was used locally to your computer. On the Docker Hub, the name if your container must be prefixed by your user name (otherwise there would be many clashes when different users try to share images with the same name!).
 
 You will need to run two commands that are similar to the ones included below, **except** that you need to replace the instance of "aturnerepcc" on each line with your Docker Hub username ("aturnerepcc" is my Docker Hub username!). A potential source of confusion is that you typically use your email address and not your login name to access the Docker Hub, however once authenticated your user ID is shown on the Docker Hub web pages.
