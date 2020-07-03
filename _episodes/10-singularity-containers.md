@@ -214,7 +214,7 @@ We can now run a container from this image as we would with any other singularit
 > > This should put you straight into a Python interactive shell within the running container:
 > > 
 > > ~~~
-> > Python 3.8.2 (default, Mar 31 2020, 15:23:55) 
+> > Python 3.8.2 (default, Apr 23 2020, 14:32:57)
 > > [GCC 8.3.0] on linux
 > > Type "help", "copyright", "credits" or "license" for more information.
 > > >>> 
