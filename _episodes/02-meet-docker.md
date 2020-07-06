@@ -20,6 +20,7 @@ Start the Docker application that you installed in working through the setup ins
 > icon (Windows) and it is usually convenient to do this when the application starts. This will require you to use your Docker Hub
 > username and your password. We will not actually require access to Dockerhub until later in the course but if you can login now,
 > you should do so.
+{: .callout}
 
 > ## Determining your Docker Hub username
 > If you no longer recall your Docker Hub username, e.g., because you have been logging into the Docker Hub using your email address,
