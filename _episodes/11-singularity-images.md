@@ -37,7 +37,7 @@ We'll focus on the first option in this part of the course. If you would like to
 
 > ## Installing Singularity on your local system (optional) \[Advanced task\]
 >
-> If you are running Linux and would like to install Singularity locally on your system, Singularity provide the free, open source [Singularity Community Edition](https://sylabs.io/singularity/). You will need to install various dependencies on your system and then build Singularity from source code.
+> If you are running Linux and would like to install Singularity locally on your system, Singularity provide the free, open source [Singularity Community Edition](https://github.com/hpcng/singularity/releases). You will need to install various dependencies on your system and then build Singularity from source code.
 >
 > _If you are not familiar with building applications from source code, it is strongly recommended that you use the Docker Singularity image, as described below in the "Getting started with the Docker Singularity image" section rather than attempting to build and install Singularity yourself. The installation process is an advanced task that is beyond the scope of this session._
 > 
@@ -64,7 +64,7 @@ The [Singularity Docker image](https://quay.io/repository/singularity/singularit
 > 
 >   This directory should be bind mounted into the Docker container at the location `/home/singularity` every time you run it - this will give you a location in which to store built images so that they are available on the host system once the container exits. (take a look at the `-v` switch)
 > 
-> Hint: To be able to build an image using the Docker Singularity container, you'll need to add the `--privileged` switch to your docker command line.
+> _Hint: To be able to build an image using the Docker Singularity container, you'll need to add the `--privileged` switch to your docker command line._
 > 
 > Questions:
 > 
@@ -89,7 +89,7 @@ The [Singularity Docker image](https://quay.io/repository/singularity/singularit
 > > 
 > > To start a shell within the Singularity Docker container where the `singularity` command can be run directly:
 > > ```
-> > docker run -it --entrypoint=/bin/bash --privileged --rm -v $HOME/singularity:/home/singularity quay.io/singularity/singularity:v3.5.3
+> > docker run -it --entrypoint=/bin/bash --privileged --rm -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3
 > > ```
 > > 
 > > To make things easier to read in the remainder of the material, command examples will use the `singularity` command directly, e.g. `singularity cache list`. If you're running a shell in the Docker container, you can enter the commands as they appear. If you're using the container's default run behaviour and running a container instance for each run of the command, you'll need to replace `singularity` with `docker run --privileged -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3` or similar.
@@ -239,6 +239,8 @@ You should now have a `my_test_image.sif` file in the current directory. Note th
 > However, the image file will be readable by you and you should be able to take a copy of the file under a new name which you will then own. You will then be able to modify the permissions of this copy of the image and delete the original root-owned file since the default permissions should allow this.
 > 
 {: .callout}
+
+Now move your created `.sif` image file to a platform with an installation of Singularity. You could, for example, do this using the command line secure copy command `scp`.
 
 It is recommended that you move the create `.sif` file to a platform with an installation of Singularity, rather than attempting to run the image using the Docker container. However, if you do try to use the Docker container, see the notes below on "_Using singularity run from within the Docker container_" for further information.
 
