@@ -99,7 +99,7 @@ the next step so they can pre-approve your email domain.
 5. Enter the username you would prefer to use on Cirrus. Every username must be unique, so if your chosen name is taken, you will need to choose another
 
 Now you have to wait for the course organiser to accept your request to register. When this has happened, your account will be created on Cirrus.
-Once this has been done, you will be sent an email. You can then pick up your one shot initial password for Cirrus from your SAFE account.
+Once this has been done, you should be sent an email. _If you have not received an email but believe that your account should have been activated, check your account status in SAFE which will also show when the account has been activated._ You can then pick up your one shot initial password for Cirrus from your SAFE account.
 
 ### 4.4 Generate an SSH key pair and upload it to SAFE
 
