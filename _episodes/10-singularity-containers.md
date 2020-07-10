@@ -12,7 +12,7 @@ objectives:
 - "Learn how to run Singularity containers based on Docker images."
 keypoints:
 - "Singularity caches downloaded images so that an image isn't downloaded again when it is requested using the `singularity pull` command."
-- "The `singularity exec` and `singularity shell` provide different options for starting containers."
+- "The `singularity exec` and `singularity shell` commands provide different options for starting containers."
 - "Singularity can start a container from a Docker image which can be pulled directly from Docker Hub."
 ---
 
@@ -92,6 +92,24 @@ Hello World!
 
 Here we see that a container has been started from the `hello-world.sif` image and the `/bin/echo` command has been run within the container, passing the input `Hello World!`. The command has echoed the provided input to the console and the container has terminated.
 
+> ## Basic exercise: Running a different command within the "hello-world" container
+>
+> Can you run a container based on the `hello-world.sif` image that **prints the current date and time**?
+> 
+> > ## Solution
+> >
+> > ~~~
+> > $ singularity exec hello-world.sif /bin/date
+> > ~~~
+> > {: .language-bash}
+> > 
+> > ~~~
+> > Fri Jun 26 15:17:44 BST 2020
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
+
 ### Running a shell within a container
 
 If you want to open an interactive shell within a container, Singularity provides the `singularity shell` command. Again, using the `hello-world.sif` image, and within our `test` directory, we can run a shell within a container from the hello-world image:
@@ -119,6 +137,8 @@ As shown above, we have opened a shell in a new container started from the `hell
 > Q: Does this differ from what you might see within a Docker container?
 {: .discussion}
 
+Use the `exit` command to exit from the container shell.
+
 ### Users, files and directories within a Singularity container
 
 The first thing to note is that when you run `whoami` within the container you should see the username that you are signed in as on the host system when you run the container. For example, if my username is `jc1000`:
@@ -130,7 +150,7 @@ jc1000
 ~~~
 {: .language-bash}
 
-But hang on! I downloaded the `hello-world.sif` image from Singularity Hub. How is it configured with my own user details?!
+But hang on! I downloaded the standard, public version of the `hello-world.sif` image from Singularity Hub. I haven't customised it in any way. How is it configured with my own user details?!
 
 If you have any familiarity with Linux system administration, you may be aware that in Linux, users and their Unix groups are configured in the `/etc/passwd` and `/etc/group` files respectively. In order for the shell within the container to know of my user, the relevant user information needs to be available within these files within the container.
 
@@ -159,6 +179,26 @@ Host system:                                                      Singularity co
 
 ~~~
 {: .output}
+
+> ## Questions and exercises: Files in Singularity containers
+>
+> **Q1:** What do you notice about the ownership of files in a container started from the hello-world image? (e.g. take a look at the ownership of files in the root directory (`/`))
+> 
+> **Exercise 1:** In this container, try editing (for example using the editor `vi` which should be avaiable in the container) the `/rawr.sh` file. What do you notice?
+>
+> _If you're not familiar with `vi` there are many quick reference pages online showing the main commands for using the editor, for example [this one](http://web.mit.edu/merolish/Public/vi-ref.pdf)._
+> 
+> **Exercise 2:** In your home directory within the container shell, try and create a simple text file. Is it possible to do this? If so, why? If not, why not?! If you can successfully create a file, what happens to it when you exit the shell and the container shuts down?
+>
+> > ## Answers
+> >
+> > **A1:** Use the `ls -l` command to see a detailed file listing including file ownership and permission details. You should see that all the files are owned by you. This looks good - you should be ready to edit something in the exercise that follows...
+> >
+> > **A Ex1:** Unfortunately, it's not so easy, depending on how you tried to edit `/rawr.sh` you probably saw an error similar to the following: `Can't open file for writing` or `Read-only file system`
+> > 
+> > **A Ex2:** Within your home directory, you _should_ be able to successfully create a file. Since you're seeing your home directory on the host system which has been bound into the container, when you exit and the container shuts down, the file that you created within the container should still be present when you look at your home directory on the host system.
+> {: .solution}
+{: .challenge}
 
 ## Using Docker images with Singularity
 
@@ -202,7 +242,7 @@ We can now run a container from this image as we would with any other singularit
 >
 > Try running the Python 3.8.2 image. What happens?
 > 
-> Try running some simple Python commands...
+> Try running some simple Python statements...
 > 
 > > ## Running the Python 3.8.2 image
 > >
@@ -219,7 +259,7 @@ We can now run a container from this image as we would with any other singularit
 > > Type "help", "copyright", "credits" or "license" for more information.
 > > >>> 
 > > ~~~
-> > Now try running some simple Python commands:
+> > Now try running some simple Python statements:
 > > ~~~
 > > >>> import math
 > > >>> math.pi
@@ -232,12 +272,12 @@ We can now run a container from this image as we would with any other singularit
 
 In addition to running a container and having it run the default run script, you could also start a container running a shell in case you want to undertake any configuration prior to running Python. This is covered in the following exercise:
 
-> ## Open a shell within the Python container
+> ## Open a shell within a Python container
 >
-> Try to run a shell within a singularity container based on the `python-3.8.2.sif` image. That is, run a container that opens a shell rather than the default Python console as we saw above.
+> Try to run a shell within a singularity container based on the `python-3.8.2.sif` image. That is, run a container that opens a shell rather than the default Python interactive console as we saw above.
 > See if you can find more than one way to achieve this.
 > 
-> Within the shell, try starting the Python interpreter and running some Python commands.
+> Within the shell, try starting the Python interactive console and running some Python commands.
 > 
 > > ## Solution
 > >
@@ -270,6 +310,8 @@ In addition to running a container and having it run the default run script, you
 > > /bin/bash
 > > ~~~
 > > {: .output}
+> > 
+> > You can run the Python console from your container shell simply by running the `python` command.
 > {: .solution}
 {: .challenge}
 

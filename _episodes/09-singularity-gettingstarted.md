@@ -15,7 +15,7 @@ keypoints:
 - "The `singularity` command can be used to pull images from Singularity Hub and run a container from an image file."
 ---
 
-This section of the course on Singularity will build on the experience you've gained with Docker and introduce you to another container platform - [Singularity](https://sylabs.io/singularity/) - demonstrating how to set up, use and work with Singularity.
+This section of the course on Singularity will build on the experience you've gained with Docker and introduce you to another container platform - [Singularity](https://sylabs.io/singularity/) - demonstrating how to set up and use Singularity.
 
 The Singularity material comprises 4 episodes, split into 2 parts:
 
@@ -30,7 +30,7 @@ The Singularity material comprises 4 episodes, split into 2 parts:
 </ol>
 
 
-> ## Prerequisites _(to be added to the main course setup information??)_
+> ## Prerequisites
 > Parts I and II of the Singularity material both have slightly different requirements:
 >
 > **Part I:** (the first two episodes)
@@ -44,7 +44,7 @@ The Singularity material comprises 4 episodes, split into 2 parts:
 >
 > - Access to a local or remote Linux-based system on which you have administrator (root) access and can install the Singularity software.
 >
-> If you have been provided with access to a platform for Part I, this may also be suitably configured for use in Part II of the Singularity material. The course instructors will highlight this when discussing the prerequisites. 
+> **Please note that the version of Singularity used in this part of the course is the latest stable release at the time of writing, _version 3.5.3_.** If you are installing Singularity on your own system for use in the course, you are recommneded to install version 3.5.3.
 {: .prereq}
 
 > ## Work in progress...
@@ -60,9 +60,8 @@ The Singularity material comprises 4 episodes, split into 2 parts:
 System administrators will not, generally, install Docker on shared computing platforms such as lab desktops, research clusters or HPC platforms because the design of Docker presents potential security issues for shared platforms with multiple users. Singularity, on the other hand, can be run by end-users entirely within "user space", that is, no special administrative privileges need to be assigned to a user in order for them to run and interact with containers on a platform where Singularity has been installed.
 
 ## Getting started with Singularity
-Initially developed within the research community, Singularity is open source and is now made available through [Sylabs.io](https://sylabs.io/). Part I of the Singularity material is intended to be undertaken on a remote platform where Singularity has been pre-installed. 
+Initially developed within the research community, Singularity is open source and the [repository](https://github.com/hpcng/singularity) is currently available in the "[The Next Generation of High Performance Computing](https://github.com/hpcng)" GitHub organisation. Part I of the Singularity material is intended to be undertaken on a remote platform where Singularity has been pre-installed. 
 
-[EDIT]*
 _If you're attending a taught version of this course, you will be provided with access details for a remote platform made available to you for use for Part I of the Singularity material. This platform will have the Singularity software pre-installed._
 
 > ## Installing Singularity on your own laptop/desktop
@@ -70,6 +69,15 @@ _If you're attending a taught version of this course, you will be provided with 
 {: .callout}
 
 Sign in to the remote platform, with Singularity installed, that you've been provided with access to. Check that the `singularity` command is available in your terminal:
+
+> ## Loading a module
+> HPC systems often use *modules* to provide access to software on the system so you may need to use the command:
+> ~~~
+> $ module load singularity
+> ~~~
+> {: .language-bash}
+> before you can use the `singularity` command on the system.
+{: .callout}
 
 ~~~
 $ singularity --version
@@ -81,23 +89,13 @@ singularity version 3.5.3
 ~~~
 {: .output}
 
-
 Depending on the version of Singularity installed on your system, you may see a different version. At the time of writing, `v3.5.3` is the latest release of Singularity.
-
-> ## Loading a module
-> HPC systems often use *modules* to provide access to software on the system so you may need to use the command:
-> ~~~
-> $ module load singularity
-> ~~~
-> {: .language-bash}
-> before you can use the `singularity` command on the system.
-{: .callout}
 
 ## Images and containers
 
 We'll start with a brief note on the terminology used in this section of the course. We refer to both **_images_** and **_containers_**. What is the distinction between these two terms? 
 
-**_Images_** are bundles of files including an operating system, software and potentially data and other application-related files. They may sometimes be referred to as a _disk image_ or _container image_ and they may be stored in different ways, perhaps as a single file, or as a group of files. Either way, we refer to this collection of files as an image.
+**_Images_** are bundles of files including an operating system, software and potentially data and other application-related files. They may sometimes be referred to as a _disk image_ or _container image_ and they may be stored in different ways, perhaps as a single file, or as a group of files. Either way, we refer to this file, or collection of files, as an image.
 
 A **_container_** is a virtual environment that is based on an image. That is, the files, applications, tools, etc that are available within a running container are determined by the image that the container is started from. It may be possible to start multiple container instances from an image. You could, perhaps, consider an image to be a form of template from which running container instances can be started.
 
@@ -105,7 +103,7 @@ A **_container_** is a virtual environment that is based on an image. That is, t
 
 If you recall from learning about Docker, Docker images are formed of a set of _layers_ that make up the complete image. When you pull a Docker image from Docker Hub, you see the different layers being downloaded to your system. They are stored in your local Docker repository on your system and you can see details of the available images using the `docker` command.
 
-Singularity images are a little different. Singularity uses the [Signularity Image Format (SIF)](https://github.com/sylabs/sif) and images are provided as single `SIF` files. Singularity images can be pulled from [Singularity Hub](https://singularity-hub.org/), a registry for container images. Singularity is also capable of running containers based on images pulled from [Docker Hub](https://hub.docker.com/), we'll look at this later in the Singularity material.
+Singularity images are a little different. Singularity uses the [Signularity Image Format (SIF)](https://github.com/sylabs/sif) and images are provided as single `SIF` files. Singularity images can be pulled from [Singularity Hub](https://singularity-hub.org/), a registry for container images. Singularity is also capable of running containers based on images pulled from [Docker Hub](https://hub.docker.com/) and some other sources. We'll look at accessing containers from Docker Hub later in the Singularity material.
 
 > ## Singularity Hub
 > Note that in addition to providing a repository that you can pull images from, [Singularity Hub](https://singularity-hub.org/) can also build Singularity images for you from a `recipe` - a configuration file defining the steps to build an image. We'll look at recipes and building images later.
@@ -161,7 +159,3 @@ exec /bin/bash /rawr.sh
 This shows us the script within the `hello-world.sif` image configured to run by default when we use the `singularity run` command.
 
 That concludes this introductory Singularity episode. The next episode looks in more detail at running containers.
-
-## Notes
-
-* Paragraphs marked "[EDIT]" contain generic text that may benefit from being edited to provide course participants with specific information related to your course environment.
