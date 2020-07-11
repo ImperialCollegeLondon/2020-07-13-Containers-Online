@@ -109,7 +109,7 @@ Similarly to Docker and many other modern software tools, Singularity follows th
 There are various approaches to building Singularity images. We highlight two different approaches here and focus on one of them:
 
  - _Building within a sandbox:_ You can build a container interactively within a sandbox environment. This means you get a shell within the container environment and install and configure packages and code as you wish before exiting the sandbox and converting it into a container image.
-- _Building from a [Singularity Definition File](https://sylabs.io/guides/3.5/user-guide/build_a_container.html#creating-writable-sandbox-directories)_: This is Singularity's equivalent to building a Docker container from a Dockerfile and we'll discuss this approach in this section.
+- _Building from a [Singularity Definition File](https://sylabs.io/guides/3.5/user-guide/build_a_container.html#creating-writable-sandbox-directories)_: This is Singularity's equivalent to building a Docker container from a `Dockerfile` and we'll discuss this approach in this section.
 
 You can take a look at Singularity's "[Build a Container](https://sylabs.io/guides/3.5/user-guide/build_a_container.html#creating-writable-sandbox-directories)" documentation for more details on different approaches to building containers.
 
@@ -190,7 +190,7 @@ $ singularity build /home/singularity/my_test_image.sif /home/singularity/my_tes
 Recall from the details at the start of this section that if you are running your command from the host system command line, running an instance of a Docker container for each run of the command, your command will look something like this:
 
 ~~~
-$ docker run --privileged --rm -v $HOME/singularity:/home/singularity quay.io/singularity/singularity:v3.5.3 build /home/singularity/my_test_image.sif /home/singularity/my_test_image.def
+$ docker run --privileged --rm -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3 build /home/singularity/my_test_image.sif /home/singularity/my_test_image.def
 ~~~
 {: .language-bash}
 
