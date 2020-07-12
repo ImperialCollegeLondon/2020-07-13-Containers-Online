@@ -24,8 +24,7 @@ This looks like the Carpentries' formatting of lessons because it is using their
 Some parts of this course are in the early stages of development. Comments or ideas on how to improve the material are more than welcome!
 
 > ## Welcome, all
-> Introduce yourself to your neighbour, office mate or [rubber duck](https://rubberduckdebugging.com/)
-> and discuss the following topics:
+> Introduce yourself and think about the following topics:
 > 
 > - What research area you are involved in
 > - Why you have come on this course and what you hope to learn
@@ -109,11 +108,11 @@ We should certainly see people using the same containers on macOS and Windows to
 
 > ## And what do you do?
 > 
-> Talk to your neighbour, office mate or [rubber duck](https://rubberduckdebugging.com/) about your
-> research. How does computing help you do your research? 
+> Think about your work.
+> How does computing help you do your research? 
 > How do you think containers (or virtualisation) could help you do more or better research?
 > 
-> Write a few sentences on this topic in the course Etherpad.
+> Write a few sentences on this topic in the course Etherpad in the section about yourself that you created earlier.
 {: .challenge }
 
 ## Containers and file systems
