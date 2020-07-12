@@ -13,9 +13,9 @@ objectives:
 keypoints:
 - "Almost all software depends on other software components to function, but these components have independent evolutionary paths."
 - "Projects involving many software components can rapidly run into a combinatorial explosion in the number of software version configurations available, yet only a subset of possible configurations actually works as desired."
-- "Containers collect software components together and can help avoid software dependency problems."
-- "Virtualisation is an old technology that container technology makes more practical."
-- "Docker is just one software platform that can create containers and the resources they use."
+- "Virtualisation is an approach that can  collect software components together and can help avoid software dependency problems."
+- "Containers are a popular type of lightweight virtualisation that are widely used."
+- "Docker and Singularity are two different software platforms that can create and manage containers and the resources they use."
 ---
 ## Disclaimers
 
