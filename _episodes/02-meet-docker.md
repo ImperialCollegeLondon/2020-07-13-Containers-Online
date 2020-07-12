@@ -42,7 +42,7 @@ Docker version 19.03.5, build 633a0ea
 ~~~
 {: .output}
 
-The above command has not actually relied on the part of Docker that runs lightweight virtual machines being operational. Somewhat stretching a physical analogy, you can think of the above Docker commands having been instructions to the cranes on a hypothetical shipping dock, but we haven't actually checked if the container ship we want to interact with is present yet. A command that checks that the virtual machine host is running is the Docker container list command (we cover this command in more detail later in the course).
+The above command has not actually relied on the part of Docker that runs lightweight virtual machines being operational. Somewhat stretching a physical analogy, you can think of the above Docker command having been instructions to the cranes on a hypothetical shipping dock, but we haven't actually checked if the container ship we want to interact with is present yet. A command that checks that the virtual machine host is running is the Docker container list command (we cover this command in more detail later in the course).
 
 Without explaining the details, output on a newly installed system would likely be:
 ~~~
