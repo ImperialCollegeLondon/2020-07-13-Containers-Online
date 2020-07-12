@@ -107,7 +107,9 @@ _Note that base path of the the executable to run is hardcoded in the run script
 > > $ singularity build osu_benchmarks.sif osu_benchmarks.def
 > > ~~~
 > > {: .language-bash}
-> > 
+> >
+> > _Note that if you're running the Singularity Docker container directly from the command line to undertake your build, you'll need to provide the full path to the `.def` file at which it appears within the container_ - for example, if you've bind mounted the directory containing the file to `/home/singularity` within the container, the full path to the `.def` file will be `/home/singularity/osu_benchmarks.def`._
+> >
 > > Assuming the image builds successfully, you can then try running the container locally and also transfer the SIF file to a cluster platform that you have access to (that has Singularity installed) and run it there.
 > > 
 > > Let's begin with a single-process run of `osu_hello` on the local system to ensure that we can run the container as expected:
@@ -136,16 +138,16 @@ Assuming the above tests worked, we can now try undertaking a parallel run of on
 
 This is where things get interesting and we'll begin by looking at how Singularity containers are run within an MPI environment.
 
-If you're familiar with running MPI codes, you'll know that you use `mpirun`, `mpiexec` or a similar MPI executable to start your application. This executable may be run directly on the local system or cluster platform that you're using, or you may run it through a job script submitted to a job scheduler. Your MPI-based application code, which will be linked against the MPI libraries, will make MPI API calls into these MPI libraries which in turn talk to the MPI daemon process running on the host system. This daemon process handles the communication between MPI processes, including talking to the daemons on other nodes to exchange information between processes running on different machines, as necessary.
+If you're familiar with running MPI codes, you'll know that you use `mpirun`, `mpiexec` or a similar MPI executable to start your application. This executable may be run directly on the local system or cluster platform that you're using, or you may need to run it through a job script submitted to a job scheduler. Your MPI-based application code, which will be linked against the MPI libraries, will make MPI API calls into these MPI libraries which in turn talk to the MPI daemon process running on the host system. This daemon process handles the communication between MPI processes, including talking to the daemons on other nodes to exchange information between processes running on different machines, as necessary.
 
 When running code within a Singularity container, we don't use the MPI executables stored within the container (i.e. we DO NOT run `singularity exec mpirun -np <numprocs> /path/to/my/executable`). Instead we use the MPI installation on the host system to run Singularity and start an instance of our executable from within a container for each MPI process. Without Singularity support in an MPI implementation, this results in starting a separate Singularity container instance within each process. This can present some overhead if a large number of processes are being run on a host. Where Singularity support is built into an MPI implementation this can address this potential issue and reduce the overhead of running code from within a container as part of an MPI job.
 
 Ultimately, this means that our running MPI code is linking to the MPI libraries from the MPI install within our container and these are, in turn, communicating with the MPI daemon on the host system which is part of the host system's MPI installation. These two installations of MPI may be different but as long as there is ABI compatibility between the version of MPI installed in your container image and the version on the host system, your job should run successfully.
 
-We can now try running a 2-process MPI run of a point to point benchmark `osu_latency`. If your local system has both MPI and Singularity installed and has multiple cores, you can run this test on that system. Alternatively you can run on a cluster. Note that you may need to submit this command via a job submission script submitted to a job scheduler if you're running on a cluster. That is beyond the scope of this material but if you're attending a taught version of this course, some information will be provided at this point in relation to the cluster that you've been provided with access to.
+We can now try running a 2-process MPI run of a point to point benchmark `osu_latency`. If your local system has both MPI and Singularity installed and has multiple cores, you can run this test on that system. Alternatively you can run on a cluster. Note that you may need to submit this command via a job submission script submitted to a job scheduler if you're running on a cluster. If you're attending a taught version of this course, some information will be provided below in relation to the cluster that you've been provided with access to.
 
 
-> ## Undertake a parallel run of the `osu_latency` benchmark
+> ## Undertake a parallel run of the `osu_latency` benchmark (general example)
 >
 > Move the `osu_benchmarks.sif` Singularity image onto the cluster (or other suitable) platform where you're going to undertake your benchmark run.
 > 
@@ -159,6 +161,45 @@ We can now try running a 2-process MPI run of a point to point benchmark `osu_la
 > > ## Expected output and discussion
 > > 
 > > As you can see in the mpirun command shown above, we have called `mpirun` on the host system and are passing to MPI the `singularity` executable for which the parameters are the image file and any parameters we want to pass to the image's run script, in this case the path/name of the benchmark executable to run.
+> > 
+> > The following shows an example of the output you should expect to see. You should have latency values shown for message sizes up to 4MB.
+> > 
+> >~~~
+> > Rank 1 - About to run: /.../mpi/pt2pt/osu_latency
+> > Rank 0 - About to run: /.../mpi/pt2pt/osu_latency
+> > # OSU MPI Latency Test v5.6.2
+> > # Size          Latency (us)
+> > 0                       0.38
+> > 1                       0.34
+> > ...
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
+
+
+> ## Undertake a parallel run of the `osu_latency` benchmark (taught course cluster example)
+>
+> This version of the exercise for undertaking a parallel run of the osu_latency benchmark with your Singularity container that contains an MPI build is specific to this run of the course.
+>
+> The information provided here is specifically tailored to the HPC platform that you've been given access to for this taught version of the course.
+>
+> Move the `osu_benchmarks.sif` Singularity image onto the cluster where you're going to undertake your benchmark run. You should use `scp` or a similar utility to copy the file.
+>
+> The platform you've been provided with access to uses `Slurm` schedule jobs to run on the platform. You now need to create a `Slurm` job submission script to run the benchmark.
+>
+> Download this [template script]() and edit it to suit your configuration.
+>
+> Submit the modified job submission script to the `Slurm` scheduler using the `sbatch` command.
+> 
+> ~~~
+> $ sbatch my_benchmark_job_script.slurm
+> ~~~
+> {: .language-bash}
+> 
+> > ## Expected output and discussion
+> > 
+> > As you will have seen in the commands using the provided template job submission script, we have called `mpirun` on the host system and are passing to MPI the `singularity` executable for which the parameters are the image file and any parameters we want to pass to the image's run script. In this case, the parameters are the path/name of the benchmark executable to run.
 > > 
 > > The following shows an example of the output you should expect to see. You should have latency values shown for message sizes up to 4MB.
 > > 
@@ -203,4 +244,4 @@ If performance is an issue for you with codes that you'd like to run via Singula
 
 This concludes the 4 episodes of the course covering Singularity. We hope you found this information useful and that it has inspired you to use Singularity to help enhance the way you build/work with research software.
 
-As a new set of material, we appreciate that there are likely to be improvements that can be made to enhance the quality of the material. We welcome your thoughts, suggestions and feedback on improvements that could be made to help others making use of these lessons.
+As a new set of material, we appreciate that there are likely to be improvements that can be made to enhance the quality of this material. We welcome your thoughts, suggestions and feedback on improvements that could be made to help others making use of these lessons.
