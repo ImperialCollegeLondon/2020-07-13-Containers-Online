@@ -89,11 +89,9 @@ Of course, many real applications will sit somewhere between these two extremes.
 
 > ## Positives and negatives
 > What are the advantages and disadvantages of the two approaches to container granularity for research
-> workflows described above? Discuss with your neighbour, office mate or [rubber duck](https://rubberduckdebugging.com/)
-> and write a few bullet points for advantages and disadvantages in the course Etherpad.
+> workflows described above? Think about this
+> and write a few bullet points for advantages and disadvantages for each approach in the course Etherpad.
 {: .challenge}
-
-**TODO** Add solutions here
 
 ### Container Orchestration
 
