@@ -146,15 +146,15 @@ Host system:                                                      Container:
 
 Although there are many use cases for containers that do not require mapping host directories into the container, a lot of real-world use cases for containers in research do use this feature and we will see it in action throughout this lesson.
 
-## Docker is a popular container platform
+## Docker and Singularity
 
 [Docker](https://www.docker.com/) is software that manages containers and the resources that containers need. While Docker is a leader in the container space, there are many similar technologies available and the concepts we learn today will allow us to use other container platforms even if their command syntax will be a little different.
 
-The second part of this course will introduce a different container platform, Singularity. Singularity is widely available on shared high performance computing systems where Docker's design makes is unsuitable for the multi-user nature of these systems.
+The second part of this course will introduce a different container platform, [Singularity](https://sylabs.io/). Singularity is widely available on shared high performance computing systems where Docker's design makes is unsuitable for the multi-user nature of these systems.
 
 ## Docker's terminology
 
-Before we start, we will introduce some of the technical terms used by Docker:
+Before we start the first part of the course, we will introduce some of the technical terms used by Docker:
 
 - **Image**: this is the term that Docker uses to describe the template for the virtual hard disk contents (files and folders) from which live instances of containers will be created. The term "container image" may sometimes be used to emphasise that the "image" relates to software containers and not, say, the sense of an "image" when discussing VMs or cute kitten pictures (without loss of generality).
   - If you are interested in more technical details, Docker actually creates images by combining together multiple **layers**, although you can profitably use Docker without knowing much about layers. As a quick summary, each layer is a given set of files and folders. The combination of layers essentially involves a set-wise union of the files and folders in the layers, except that there is also a way for upper layers to hide files from lower layers (which has the appearance of deleting those files). Layers facilitate efficient storage space use, by allowing container images to share and reuse sets of files and folders, while still allowing individual container images to have their own specific files and folders.
