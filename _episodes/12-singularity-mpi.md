@@ -188,12 +188,12 @@ We can now try running a 2-process MPI run of a point to point benchmark `osu_la
 >
 > The platform you've been provided with access to uses `Slurm` schedule jobs to run on the platform. You now need to create a `Slurm` job submission script to run the benchmark.
 >
-> Download this [template script]() and edit it to suit your configuration.
+> Download this [template script](/files/osu_latency.slurm.template) and edit it to suit your configuration.
 >
 > Submit the modified job submission script to the `Slurm` scheduler using the `sbatch` command.
 > 
 > ~~~
-> $ sbatch my_benchmark_job_script.slurm
+> $ sbatch osu_latency.slurm
 > ~~~
 > {: .language-bash}
 > 
@@ -204,13 +204,19 @@ We can now try running a 2-process MPI run of a point to point benchmark `osu_la
 > > The following shows an example of the output you should expect to see. You should have latency values shown for message sizes up to 4MB.
 > > 
 > >~~~
+> > INFO:    Convert SIF file to sandbox...
+> > INFO:    Convert SIF file to sandbox...
 > > Rank 1 - About to run: /.../mpi/pt2pt/osu_latency
 > > Rank 0 - About to run: /.../mpi/pt2pt/osu_latency
 > > # OSU MPI Latency Test v5.6.2
 > > # Size          Latency (us)
-> > 0                       0.38
-> > 1                       0.34
+> > 0                       1.49
+> > 1                       1.50
+> > 2                       1.50
 > > ...
+> > 4194304               915.44
+> > INFO:    Cleaning up image...
+> > INFO:    Cleaning up image...
 > > ~~~
 > > {: .output}
 > {: .solution}
