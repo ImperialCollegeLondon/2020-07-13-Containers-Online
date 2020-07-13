@@ -188,7 +188,7 @@ We can now try running a 2-process MPI run of a point to point benchmark `osu_la
 >
 > The platform you've been provided with access to uses `Slurm` schedule jobs to run on the platform. You now need to create a `Slurm` job submission script to run the benchmark.
 >
-> Download this [template script](({{site.url}}{{site.baseurl}}/files/osu_latency.slurm.template)) and edit it to suit your configuration.
+> Download this [template script]({{site.url}}{{site.baseurl}}/files/osu_latency.slurm.template) and edit it to suit your configuration.
 >
 > Submit the modified job submission script to the `Slurm` scheduler using the `sbatch` command.
 > 
