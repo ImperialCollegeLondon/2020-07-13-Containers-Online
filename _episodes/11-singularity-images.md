@@ -72,7 +72,7 @@ The [Singularity Docker image](https://quay.io/repository/singularity/singularit
 > - Can you run an interactive shell in the container?
 > 
 > > ## Running the image
-> > Having a bound directory from the host system accessible within your running Singularity container will give you somewhere to place created images so that they are accessible on the host system after the container exits.
+> > Having a bound directory from the host system accessible within your running Singularity container will give you somewhere to place created images so that they are accessible on the host system after the container exits. Begin by changing into the directory that you created above for storing your definiton files and built images (e.g. `$HOME/singularity_data`). 
 > >
 > > You may choose to:
 > >   - open a shell within the Docker image so you can work at a command prompt and run the `singularity` command directly
@@ -84,15 +84,15 @@ The [Singularity Docker image](https://quay.io/repository/singularity/singularit
 > > 
 > > To run the `singularity` command within the docker container directly from the host system's terminal:
 > > ```
-> > docker run --privileged --rm -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3 cache list
+> > docker run --privileged --rm -v ${PWD}:/home/singularity quay.io/singularity/singularity:v3.5.3 cache list
 > > ```
 > > 
 > > To start a shell within the Singularity Docker container where the `singularity` command can be run directly:
 > > ```
-> > docker run -it --entrypoint=/bin/bash --privileged --rm -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3
+> > docker run -it --entrypoint=/bin/bash --privileged --rm -v ${PWD}:/home/singularity quay.io/singularity/singularity:v3.5.3
 > > ```
 > > 
-> > To make things easier to read in the remainder of the material, command examples will use the `singularity` command directly, e.g. `singularity cache list`. If you're running a shell in the Docker container, you can enter the commands as they appear. If you're using the container's default run behaviour and running a container instance for each run of the command, you'll need to replace `singularity` with `docker run --privileged -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3` or similar.
+> > To make things easier to read in the remainder of the material, command examples will use the `singularity` command directly, e.g. `singularity cache list`. If you're running a shell in the Docker container, you can enter the commands as they appear. If you're using the container's default run behaviour and running a container instance for each run of the command, you'll need to replace `singularity` with `docker run --privileged -v ${PWD}:/home/singularity quay.io/singularity/singularity:v3.5.3` or similar.
 > {: .solution}
 {: .challenge}
 
@@ -190,7 +190,7 @@ $ singularity build /home/singularity/my_test_image.sif /home/singularity/my_tes
 Recall from the details at the start of this section that if you are running your command from the host system command line, running an instance of a Docker container for each run of the command, your command will look something like this:
 
 ~~~
-$ docker run --privileged --rm -v $HOME/singularity_data:/home/singularity quay.io/singularity/singularity:v3.5.3 build /home/singularity/my_test_image.sif /home/singularity/my_test_image.def
+$ docker run --privileged --rm -v ${PWD}:/home/singularity quay.io/singularity/singularity:v3.5.3 build /home/singularity/my_test_image.sif /home/singularity/my_test_image.def
 ~~~
 {: .language-bash}
 
@@ -241,6 +241,23 @@ You should now have a `my_test_image.sif` file in the current directory. Note th
 {: .callout}
 
 Now move your created `.sif` image file to a platform with an installation of Singularity. You could, for example, do this using the command line secure copy command `scp`.
+
+> ## Cluster platform configuration for running Singularity containers
+>
+> On the cluster platform that we're using for the course, it is necesary to setup a shared temporary storage space for Singularity to use because it is not possible for it to use the standard `/tmp` directory on this platform.
+>
+> First create a directory in the `/lustre/home/shared` directory. It is recommended that you create a directory named `$USER-singularity`. We then need to set Singularity's temporary directory environment variable to point to this location. Run the following commands:
+>
+> ~~~
+> mkdir /lustre/home/shared/$USER-singularity
+> export TMPDIR=/lustre/home/shared/$USER-singularity
+> export SINGULARITY_TMPDIR=$TMPDIR
+> ~~~
+> {: .language-bash}
+>
+> When running Singularity containers on this platform, you'll need to set `SINGULARITY_TMPDIR` in each shell session that you open. However, you could add these commands to your `~/.bashrc` or `~/.bash_profile` so that the values are set by default in each shell that you open.
+> 
+{: .callout}
 
 It is recommended that you move the create `.sif` file to a platform with an installation of Singularity, rather than attempting to run the image using the Docker container. However, if you do try to use the Docker container, see the notes below on "_Using singularity run from within the Docker container_" for further information.
 
